@@ -1,26 +1,374 @@
+@config "../../tailwind.config.js";
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─── THEME (Tailwind v4) ─────────────────────────────────────────────────── */
+@theme {
+  --color-brand-bg:      #17192D;
+  --color-brand-bg-deep: #0F1120;
+  --color-brand-accent:  #E9704D;
+  --color-brand-blue:    #3B61AB;
+
+  --font-display: 'Fussion', 'Eurostile', Arial, sans-serif;
+  --font-sans:    'Eurostile', Arial, sans-serif;
+  --font-mono:    'Courier New', Courier, monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── FONT FACES ─────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Fussion';
+  src: url('/fonts/Fussion.woff') format('woff');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Eurostile';
+  src: url('/fonts/Eurostile_Extd.woff') format('woff'),
+       url('/fonts/Eurostile_Extd.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Eurostile';
+  src: url('/fonts/Eurostile_Extd_Medium.woff') format('woff'),
+       url('/fonts/Eurostile_Extd_Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Eurostile';
+  src: url('/fonts/Eurostile_Extd_Black.woff') format('woff'),
+       url('/fonts/Eurostile_Extd_Black.otf') format('opentype');
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── RESET ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
+/* ─── TYPOGRAPHY HIERARCHY ───────────────────────────────────────────────── */
+/*
+  Numbers (large):  font-display → Fussion
+  Headings/Titles:  font-sans font-bold (700) → Eurostile Bold
+  Body text:        font-sans font-medium (500) → Eurostile Medium
+  Micro uppercase:  font-sans font-normal (400) → Eurostile
+*/
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #17192D;
+  color: #FFFFFF;
+  font-family: 'Eurostile', Arial, sans-serif;
+  font-weight: 500;                  /* body = Eurostile Medium */
+  letter-spacing: 0.05em;            /* +1px over default at ~16px */
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings use Eurostile Bold */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Eurostile', Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* Large display numbers use Fussion */
+.font-display {
+  font-family: 'Fussion', 'Eurostile', Arial, sans-serif !important;
+}
+
+/* Micro labels — Eurostile Light (400) with wide tracking */
+.text-micro {
+  font-family: 'Eurostile', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 0.625rem;               /* 10px */
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+/* ─── CLIP-PATH UTILITIES ─────────────────────────────────────────────────── */
+/*
+  Beveled corner system.
+  clip-card:    30px bevel Top-Left + Bottom-Right   (for Cards)
+  clip-btn-tr:  20px bevel Top-Right only            (for CTA buttons)
+  clip-btn-bl:  20px bevel Bottom-Left only          (for Hero secondary button)
+*/
+.clip-card {
+  clip-path: polygon(
+    40px 0%,
+    100% 0%,
+    100% calc(100% - 40px),
+    calc(100% - 40px) 100%,
+    0% 100%,
+    0% 40px
+  );
+}
+
+/* Clip-card BORDER wrapper — use on parent, 1px padding gives the border color */
+.clip-card-border {
+  clip-path: polygon(
+    40px 0%,
+    100% 0%,
+    100% calc(100% - 40px),
+    calc(100% - 40px) 100%,
+    0% 100%,
+    0% 40px
+  );
+  padding: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.clip-card-border > * {
+  clip-path: polygon(
+    9px 0%,
+    100% 0%,
+    100% calc(100% - 9px),
+    calc(100% - 9px) 100%,
+    0% 100%,
+    0% 9px
+  );
+  background: #0F1120;
+}
+
+.clip-btn-tr {
+  clip-path: polygon(
+    0% 0%,
+    calc(100% - 20px) 0%,
+    100% 20px,
+    100% 100%,
+    0% 100%
+  );
+}
+
+.clip-btn-bl {
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 100%,
+    20px 100%,
+    0% calc(100% - 20px)
+  );
+}
+
+/* ─── GRAIN TEXTURE ──────────────────────────────────────────────────────── */
+.grain-overlay {
+  position: fixed;
+  top: -8%; left: -8%;
+  width: 116%; height: 116%;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  animation: grain 0.8s steps(2) infinite;
+  will-change: transform;
+}
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10%       { transform: translate(-2%, -3%); }
+  30%       { transform: translate(3%, 2%); }
+  50%       { transform: translate(-1%, 4%); }
+  70%       { transform: translate(4%, -1%); }
+  90%       { transform: translate(-3%, 2%); }
+}
+
+/* ─── ANIMATED BACKGROUND BLOBS ──────────────────────────────────────────── */
+.anim-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.anim-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  will-change: transform;
+  mix-blend-mode: screen;
+}
+.anim-blob-1 {
+  width: 75vw; height: 75vw;
+  background: radial-gradient(circle, rgba(59,97,171,0.55) 0%, transparent 70%);
+  top: -20vw; left: -15vw;
+  animation: blobFloat1 20s ease-in-out infinite alternate;
+  opacity: 0.22;
+}
+.anim-blob-2 {
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(233,112,77,0.45) 0%, transparent 70%);
+  bottom: -15vw; right: -10vw;
+  animation: blobFloat2 25s ease-in-out infinite alternate;
+  opacity: 0.14;
+}
+.anim-blob-3 {
+  width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(59,97,171,0.35) 0%, transparent 70%);
+  top: 35%; left: 25%;
+  animation: blobFloat3 18s ease-in-out infinite alternate;
+  opacity: 0.12;
+}
+.anim-blob-4 {
+  width: 35vw; height: 35vw;
+  background: radial-gradient(circle, rgba(233,112,77,0.3) 0%, transparent 70%);
+  top: 55%; left: 55%;
+  animation: blobFloat4 22s ease-in-out infinite alternate;
+  opacity: 0.10;
+}
+/* LERP cursor glow — position set via GSAP */
+.anim-cursor {
+  position: fixed;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(233,112,77,0.18) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(24px);
+  will-change: transform;
+  transform: translate(-50%, -50%);
+}
+@keyframes blobFloat1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(8vw, 6vw) scale(1.12); }
+  100% { transform: translate(4vw, 12vw) scale(0.94); }
+}
+@keyframes blobFloat2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-7vw, -9vw) scale(1.18); }
+  100% { transform: translate(-12vw, -4vw) scale(0.88); }
+}
+@keyframes blobFloat3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(6vw, -7vw) scale(1.22); }
+  100% { transform: translate(-5vw, 5vw) scale(0.82); }
+}
+@keyframes blobFloat4 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-4vw, 5vw) scale(1.15); }
+  100% { transform: translate(7vw, -6vw) scale(0.9); }
+}
+
+/* ─── HERO ────────────────────────────────────────────────────────────────── */
+.hero-thermal-bg {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 50%, rgba(233,112,77,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 30%, rgba(59,97,171,0.10) 0%, transparent 70%);
+  animation: thermalPulse 8s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes thermalPulse {
+  0%   { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+
+/* ─── GLASS CARD ─────────────────────────────────────────────────────────── */
+.glass-card {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(10, 12, 28, 0.70);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* ─── SVG COUNTER STROKE ANIMATION ──────────────────────────────────────── */
+.stroke-traditional {
+  stroke-dasharray: 816;
+  stroke-dashoffset: 816;
+  transition: stroke-dashoffset 3.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.stroke-fftm {
+  stroke-dasharray: 816;
+  stroke-dashoffset: 816;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.stroke-animate {
+  stroke-dashoffset: 0 !important;
+}
+
+/* ─── COUNTER GRADIENT TEXT ──────────────────────────────────────────────── */
+.counter-gradient {
+  background: linear-gradient(90deg, #E9704D 0%, #3B61AB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── SHIMMER BUTTON ─────────────────────────────────────────────────────── */
+/* The .btn-shimmer-layer is a div inside the button, moved via JS */
+.btn-shimmer-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.btn-shimmer-layer.active { opacity: 1; }
+.btn-shimmer-band {
+  position: absolute;
+  top: -20%;
+  width: 60%;
+  height: 140%;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(233, 112, 77, 0.55) 45%,
+    rgba(59, 97, 171, 0.45) 55%,
+    transparent 80%
+  );
+  filter: blur(4px);
+  transform: translateX(-100%);
+  will-change: transform;
+}
+
+/* ─── DRAG CURSOR ────────────────────────────────────────────────────────── */
+.drag-cursor {
+  position: absolute;
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: rgba(233, 112, 77, 0.15);
+  border: 1px solid rgba(233, 112, 77, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform, opacity;
+}
+.drag-cursor.visible { opacity: 1; }
+.drag-cursor span {
+  font-family: 'Eurostile', Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(233, 112, 77, 0.9);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* ─── SCROLLBAR HIDE ─────────────────────────────────────────────────────── */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ─── WORD REVEAL ────────────────────────────────────────────────────────── */
+.word-clip { display: inline-block; overflow: hidden; vertical-align: bottom; }
+
+/* ─── FOCUS ──────────────────────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid #E9704D; outline-offset: 3px; }
+
+/* ─── NAVBAR SAFE AREA ───────────────────────────────────────────────────── */
+.navbar-safe {
+  padding-left: max(1.5rem, env(safe-area-inset-left));
+  padding-right: max(1.5rem, env(safe-area-inset-right));
 }
