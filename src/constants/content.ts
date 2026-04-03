@@ -107,12 +107,14 @@ export const SECTORS = {
   h2: 'FFTM funziona nel tuo settore',
   body: 'La tecnologia FFTM è stata applicata con successo in diversi settori industriali, su materiali che spaziano dai metalli ai polimeri, dai compositi ai tessuti tecnici.',
   items: [
-    { label: 'Automotive', size: 'clamp(2.8rem, 7vw, 6rem)' },
-    { label: 'Biomedicale', size: 'clamp(2.2rem, 5.5vw, 5rem)' },
-    { label: 'Defence & Aerospace', size: 'clamp(1.8rem, 4.5vw, 4rem)' },
-    { label: 'Manufacturing', size: 'clamp(1.5rem, 3.8vw, 3.2rem)' },
-    { label: 'Additive Manufacturing/3D Printing', size: 'clamp(1.1rem, 2.8vw, 2.4rem)' },
-    { label: 'Ricerca e Università', size: 'clamp(0.95rem, 2.2vw, 1.9rem)' },
+    { label: 'Automotive' },
+    { label: 'Biomedicale'},
+    { label: 'Defence' },
+    { label: 'Aerospace' },
+    { label: 'Manufacturing'},
+    { label: 'Additive Manufacturing' },
+    { label: '3D Printing' },
+    { label: 'Ricerca e Università' },
   ],
 }
 

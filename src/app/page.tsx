@@ -8,19 +8,21 @@ import Section5About from '@/components/sections/Section5About'
 import CTAFinal from '@/components/sections/CTAFinal'
 import Footer from '@/components/layout/Footer'
 import AnimatedBackground from '@/components/ui/AnimatedBackground'
-import BorealisBackground from '@/components/ui/BorealisBackground'
+
+
 
 export default function Home() {
   return (
     <>
       {/* Ambient background — fixed, z-0 */}
       <AnimatedBackground />
-      <BorealisBackground />
+
 
       {/* Page content — z-10+ */}
       <main className="relative z-10 min-h-screen overflow-x-clip">
         <Navbar />
         <Hero />
+   
         <Section1WhyFFTM />
         <Section2HowToUse />
         <Section3Sectors />

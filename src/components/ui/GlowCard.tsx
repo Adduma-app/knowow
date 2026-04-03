@@ -17,8 +17,8 @@ export function GlowCard({
   className = '',
   style,
   glowRGB = '233,112,77',
-  glowSize = 240,
-  glowAlpha = 0.13,
+  glowSize = 440,
+  glowAlpha = 0.33,
 }: GlowCardProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const glowRef = useRef<HTMLDivElement>(null)

@@ -76,7 +76,6 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="flex items-center gap-3 mb-8"
         >
-          <Image src="/images/decoro.svg" alt="" width={18} height={18} className="opacity-50" aria-hidden="true" />
           <span className="text-micro text-[#E9704D]">{HERO.tag}</span>
         </motion.div>
 
@@ -86,7 +85,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.9 }}
-          className="text-white/60 max-w-xl text-sm leading-relaxed mt-8 font-medium"
+          className=" max-w-xl text-sm leading-relaxed mt-8 font-medium"
         >
           {HERO.subtitle}
         </motion.p>
@@ -101,48 +100,27 @@ export default function Hero() {
           {/* Primary — clip Top-Right */}
           <a
             href="#fftm"
-            className="clip-btn-tr relative inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#E9704D] text-white transition-all duration-300 hover:bg-[#E9704D]/85 overflow-hidden"
+            className="clip-btn-bl relative inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#E9704D] text-white transition-all duration-300 hover:bg-[#E9704D]/85 overflow-hidden"
             aria-label="Scopri la tecnologia FFTM"
           >
             {HERO.ctaPrimary}
           </a>
           {/* Secondary — clip Bottom-Left */}
-          <a
-            href="#contatti"
-            className="clip-btn-bl relative inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold border border-white/30 text-white transition-all duration-300 hover:border-white hover:bg-white/5 overflow-hidden"
-            aria-label="Richiedi una demo di FFTM"
-          >
-            {HERO.ctaSecondary}
-          </a>
+           {/* Secondary — clip Bottom-Left con bordo uniforme */}
+           <span className="clip-btn-tr relative inline-block bg-white/30 p-[1px]">
+            <a
+              href="#contatti"
+              className="clip-btn-tr relative inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#0a0a0a] text-white transition-all duration-300 hover:bg-white/5 overflow-hidden"
+              aria-label="Richiedi una demo di FFTM"
+            >
+              {HERO.ctaSecondary}
+            </a>
+          </span>
         </motion.div>
       </div>
 
       {/* Stat bar */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.4 }}
-        className="relative z-[60] border-t border-white/[0.08] shrink-0"
-      >
-        <div className="flex flex-col sm:flex-row justify-center divide-y sm:divide-y-0 sm:divide-x divide-white/[0.08] max-w-3xl mx-auto">
-          {HERO.stats.map((s) => (
-            <div key={s.label} className="flex-1 px-8 py-5 text-center">
-              <div className="font-display text-2xl font-black text-white">{s.value}</div>
-              <div className="text-micro text-white/35 mt-1">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8 }}
-        className="absolute bottom-3 left-1/2 -translate-x-1/2 animate-bounce z-[60]"
-        aria-hidden="true"
-      >
-        <ChevronDown className="w-5 h-5 text-white/20" />
-      </motion.div>
+   
     </section>
   )
 }

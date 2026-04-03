@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import SmoothScroll from '@/components/ui/SmoothScroll'
+import CustomCursor from '@/components/ui/CustomCursor'
 
 export const metadata: Metadata = {
   title: 'KnoWow | Fast Fatigue Testing Technology — beyond ordinary engineering',
@@ -59,6 +61,7 @@ const jsonLd = {
   ],
 }
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -73,9 +76,10 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans min-h-full">
-        {/* Grain overlay — z-50, above thermal bg (z-0), below content (z-10+) */}
-        {/* <div className="grain-overlay" aria-hidden="true" /> */}
-        {children}
+      <CustomCursor />
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   )

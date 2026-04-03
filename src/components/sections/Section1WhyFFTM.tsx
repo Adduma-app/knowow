@@ -7,11 +7,11 @@ import { WHY_FFTM } from '@/constants/content'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { staggerContainer, fadeInUp } from '@/lib/animations'
 
-// SVG circle dimensions
-const R   = 130
-const CX  = 150
-const CY  = 150
-const CIRC = 2 * Math.PI * R   // ≈ 816
+// SVG viewBox is always 300×300 — we scale via CSS width
+const R    = 130
+const CX   = 150
+const CY   = 150
+const CIRC = 2 * Math.PI * R
 
 // ─── Circle: Traditional method ───────────────────────────────────────────────
 function CircleTraditional({ trigger }: { trigger: boolean }) {
@@ -26,16 +26,24 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
   return (
     <div className="flex flex-col items-center gap-5">
       {/* Info box — above circle */}
-      <div className="text-center max-w-[200px]">
-        <span className="text-micro text-white/30 block mb-2">[01] METODO TRADIZIONALE</span>
-        <p className="text-xs text-white/40 leading-relaxed font-medium">
-          25 provini per test. ~500 ore totali, ~20 giorni lavorativi.
+      <div className="text-center   max-w-[200px]">
+        <span className="text-micro text-white block mb-2">[01] METODO TRADIZIONALE</span>
+        <p className="text-xs text-white leading-relaxed font-medium">
+          25 provini per test. 500 ore totali, ~20 giorni lavorativi.
         </p>
       </div>
 
-      {/* SVG circle */}
-      <div className="relative" style={{ width: 300, height: 300 }}>
-        <svg width="300" height="300" viewBox="0 0 300 300" fill="none" aria-hidden="true">
+      {/* SVG circle — responsive via CSS */}
+      <div
+        className="relative w-[60vw] max-w-[420px]  min-w-[220px] md:w-[28vw] lg:w-[24vw]"
+        style={{ aspectRatio: '1 / 1' }}
+      >
+        <svg
+          viewBox="0 0 300 300"
+          fill="none"
+          aria-hidden="true"
+          className="w-full h-full"
+        >
           {/* Background track */}
           <circle cx={CX} cy={CY} r={R} stroke="rgba(255,255,255,0.05)" strokeWidth="1.5" fill="none" />
           {/* Animated stroke — white, slow (3.8s) */}
@@ -58,7 +66,7 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
             fontFamily="Fussion, Eurostile, Arial"
             fontWeight="900"
           >
-            ~500
+            500
           </text>
           {/* Unit */}
           <text
@@ -77,7 +85,7 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
 
       {/* Info box — below circle */}
       <div className="text-center max-w-[220px]">
-        <p className="text-xs text-white/30 leading-relaxed font-medium">
+        <p className="text-xs text-white leading-relaxed font-medium">
           Costi elevati di energia e manodopera. Ritardi nel time-to-market.
         </p>
       </div>
@@ -101,21 +109,27 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
       {/* Info box — above circle */}
       <div className="text-center max-w-[200px]">
         <span className="text-micro text-[#E9704D]/60 block mb-2">[02] CON FFTM</span>
-        <p className="text-xs text-white/60 leading-relaxed font-medium">
+        <p className="text-xs text-white leading-relaxed font-medium">
           Curve a fatica in 1–2 giorni lavorativi. Spesso meno di 24 ore.
         </p>
       </div>
 
-      {/* SVG circle */}
-      <div className="relative" style={{ width: 300, height: 300 }}>
-        <svg width="300" height="300" viewBox="0 0 300 300" fill="none" aria-hidden="true">
+      {/* SVG circle — responsive via CSS */}
+      <div
+        className="relative w-[60vw] min-w-[220px] md:w-[28vw] lg:w-[30vw]"
+        style={{ aspectRatio: '1 / 1' }}
+      >
+        <svg
+          viewBox="0 0 300 300"
+          fill="none"
+          aria-hidden="true"
+          className="w-full h-full"
+        >
           <defs>
-            {/* Gradient for the animated stroke */}
             <linearGradient id="fftmStrokeGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="300" y2="300">
               <stop offset="0%"   stopColor="#E9704D" />
               <stop offset="100%" stopColor="#3B61AB" />
             </linearGradient>
-            {/* Gradient for the counter number */}
             <linearGradient id="numGrad" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%"   stopColor="#E9704D" />
               <stop offset="100%" stopColor="#3B61AB" />
@@ -136,8 +150,8 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
             style={{ transformOrigin: '50% 50%', transform: 'rotate(-90deg)' }}
           />
           {/* −90% badge */}
-          <rect x="195" y="42" width="70" height="22" rx="0" fill="#E9704D" />
-          <text x="230" y="57" textAnchor="middle" dominantBaseline="middle"
+          <rect x="195" y="42" width="70" height="18" rx="0" fill="#E9704D" />
+          <text x="230" y="52" textAnchor="middle" dominantBaseline="middle"
             fill="white" fontSize="10" fontFamily="Eurostile, Arial" fontWeight="900" letterSpacing="1">
             −90%
           </text>
@@ -170,7 +184,7 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
 
       {/* Info box — below circle */}
       <div className="text-center max-w-[220px]">
-        <p className="text-xs text-white/60 leading-relaxed font-medium">
+        <p className="text-xs text-white leading-relaxed font-medium">
           Un solo sistema integrato: IR + DIC + ML. Validato da pubblicazioni peer-reviewed.
         </p>
       </div>
@@ -186,7 +200,7 @@ function BenefitNum({ num, isActive }: { num: string; isActive: boolean }) {
     <span
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="select-none pointer-events-auto leading-none font-display font-black transition-all duration-500 block"
+      className="select-none pointer-events-auto leading-none font-display transition-all duration-500 block"
       style={{
         fontSize: 'clamp(8rem, 20vw, 30rem)',
         WebkitTextFillColor: on ? 'transparent' : 'rgba(255,255,255,0.03)',
@@ -239,21 +253,13 @@ function BenefitsSticky() {
         >
           {active.title}
         </motion.h3>
-        <motion.p
-          key={`p-${activeIndex}`}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.08 }}
-          className="text-white/50 text-sm leading-relaxed font-medium"
-        >
-          {active.text}
-        </motion.p>
-        <div className="flex gap-3 mt-8">
+   
+        {/* <div className="flex gap-3 mt-8">
           {WHY_FFTM.benefits.map((_, i) => (
             <button
               key={i}
               onClick={() => cardRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-              className="h-px transition-all duration-300 focus:outline-none"
+              className="h-px transition-all duration-300 focus:outline-none p-[1px]"
               style={{
                 width: i === activeIndex ? 32 : 14,
                 backgroundColor: i === activeIndex ? '#E9704D' : 'rgba(255,255,255,0.18)',
@@ -261,10 +267,10 @@ function BenefitsSticky() {
               aria-label={`Benefit ${i + 1}`}
             />
           ))}
-        </div>
+        </div> */}
       </div>
 
-      {/* Right scrollable cards — 90vh height, 50px gap */}
+      {/* Right scrollable cards */}
       <div className="flex-1 py-8 pr-6 md:pr-16 lg:pr-24">
         {WHY_FFTM.benefits.map((b, i) => (
           <div
@@ -277,13 +283,11 @@ function BenefitsSticky() {
             }}
           >
             <GlowCard className="glass-card clip-card w-full relative overflow-hidden">
-              {/* Decorative number */}
               <div className="absolute -bottom-[8%] -right-[5%] overflow-hidden pointer-events-none">
                 <BenefitNum num={b.num} isActive={activeIndex === i} />
               </div>
-              {/* Content */}
               <div className="relative z-10 p-8 md:p-20 min-h-[50vh]">
-                <p className="text-sm lg:text-2xl text-white/55 leading-relaxed max-w-lg font-medium">
+                <p className="text-sm lg:text-2xl text-white leading-relaxed max-w-lg font-medium">
                   {b.text}
                 </p>
               </div>
@@ -324,7 +328,7 @@ export default function Section1WhyFFTM() {
           >
             {WHY_FFTM.h2Line1}<br />{WHY_FFTM.h2Line2}
           </motion.h2>
-          <motion.p variants={fadeInUp} className="text-white/50 max-w-xl mx-auto mt-5 text-sm font-medium">
+          <motion.p variants={fadeInUp} className="text-white max-w-xl mx-auto mt-5 text-sm font-medium">
             {WHY_FFTM.body}
           </motion.p>
         </motion.div>

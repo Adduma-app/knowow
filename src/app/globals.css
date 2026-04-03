@@ -1,7 +1,9 @@
+
 @config "../../tailwind.config.js";
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
-/* ─── THEME (Tailwind v4) ─────────────────────────────────────────────────── */
+
 @theme {
   --color-brand-bg:      #17192D;
   --color-brand-bg-deep: #0F1120;
@@ -88,30 +90,40 @@ h1, h2, h3, h4, h5, h6 {
 /* Micro labels — Eurostile Light (400) with wide tracking */
 .text-micro {
   font-family: 'Eurostile', Arial, sans-serif;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 0.625rem;               /* 10px */
   letter-spacing: 0.25em;
   text-transform: uppercase;
 }
 
 /* ─── CLIP-PATH UTILITIES ─────────────────────────────────────────────────── */
-/*
-  Beveled corner system.
-  clip-card:    30px bevel Top-Left + Bottom-Right   (for Cards)
-  clip-btn-tr:  20px bevel Top-Right only            (for CTA buttons)
-  clip-btn-bl:  20px bevel Bottom-Left only          (for Hero secondary button)
-*/
+
 .clip-card {
   clip-path: polygon(
-    40px 0%,
-    100% 0%,
-    100% calc(100% - 40px),
-    calc(100% - 40px) 100%,
-    0% 100%,
-    0% 40px
+    40px 0%,                        /* top-left: bevel 40px ↘ */
+    100% 0%,                        /* top-right: dritto */
+    100% calc(100% - 40px),         /* bottom-right: inizio bevel */
+    calc(100% - 40px) 100%,         /* bottom-right: bevel 40px ↗ */
+    16px 100%,                      /* bottom-left: inizio bevel piccolo */
+    0% calc(100% - 16px),           /* bottom-left: bevel 16px ↗ */
+    0% 40px                         /* torna al top-left */
   );
 }
 
+
+.clip-card-footer {
+  clip-path: polygon(
+    80px 0%,                         /* top-left: bevel grande ↘ (accentuato) */
+    100% 0%,                         /* top-right: dritto */
+    100% calc(100% - 40px),          /* bottom-right: inizio bevel */
+    calc(100% - 40px) 100%,          /* bottom-right: bevel 40px ↗ */
+    40px 100%,                       /* bottom-left: inizio bevel */
+    0% calc(100% - 40px),            /* bottom-left: bevel 40px ↗ */
+    0% 80px                          /* torna al top-left */
+  );
+}
+
+/* Clip-card BORDER wrapper — use on parent, 1px padding gives the border color */
 /* Clip-card BORDER wrapper — use on parent, 1px padding gives the border color */
 .clip-card-border {
   clip-path: polygon(
@@ -119,7 +131,8 @@ h1, h2, h3, h4, h5, h6 {
     100% 0%,
     100% calc(100% - 40px),
     calc(100% - 40px) 100%,
-    0% 100%,
+    16px 100%,
+    0% calc(100% - 16px),
     0% 40px
   );
   padding: 1px;
@@ -127,21 +140,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 .clip-card-border > * {
   clip-path: polygon(
-    9px 0%,
+    39px 0%,
     100% 0%,
-    100% calc(100% - 9px),
-    calc(100% - 9px) 100%,
-    0% 100%,
-    0% 9px
+    100% calc(100% - 39px),
+    calc(100% - 39px) 100%,
+    15px 100%,
+    0% calc(100% - 15px),
+    0% 39px
   );
   background: #0F1120;
 }
 
+
 .clip-btn-tr {
   clip-path: polygon(
     0% 0%,
-    calc(100% - 20px) 0%,
-    100% 20px,
+    calc(100% - 10px) 0%,
+    100% 10px,
     100% 100%,
     0% 100%
   );
@@ -152,8 +167,8 @@ h1, h2, h3, h4, h5, h6 {
     0% 0%,
     100% 0%,
     100% 100%,
-    20px 100%,
-    0% calc(100% - 20px)
+    10px 100%,
+    0% calc(100% - 10px)
   );
 }
 
@@ -181,7 +196,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ─── ANIMATED BACKGROUND BLOBS ──────────────────────────────────────────── */
-.anim-bg {
+/* .anim-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -223,7 +238,7 @@ h1, h2, h3, h4, h5, h6 {
   animation: blobFloat4 22s ease-in-out infinite alternate;
   opacity: 0.10;
 }
-/* LERP cursor glow — position set via GSAP */
+
 .anim-cursor {
   position: fixed;
   width: 420px; height: 420px;
@@ -254,7 +269,7 @@ h1, h2, h3, h4, h5, h6 {
   0%   { transform: translate(0, 0) scale(1); }
   50%  { transform: translate(-4vw, 5vw) scale(1.15); }
   100% { transform: translate(7vw, -6vw) scale(0.9); }
-}
+} */
 
 /* ─── HERO ────────────────────────────────────────────────────────────────── */
 .hero-thermal-bg {
@@ -275,8 +290,7 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   background: rgba(10, 12, 28, 0.70);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+
 }
 
 /* ─── SVG COUNTER STROKE ANIMATION ──────────────────────────────────────── */
@@ -371,4 +385,169 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-safe {
   padding-left: max(1.5rem, env(safe-area-inset-left));
   padding-right: max(1.5rem, env(safe-area-inset-right));
+}
+
+
+
+
+
+
+/* ---    background da codepn ------ */
+
+.anim-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: #17192D;
+  filter: url(#goo-filter);
+}
+
+.anim-blob {
+  position: absolute;
+  border-radius: 50%;
+  /* Colori pieni funzionano meglio col goo filter */
+}
+
+.anim-blob-1 {
+  width: 340px;
+  height: 340px;
+  background: #6366f1;
+  top: 20%;
+  left: 15%;
+  animation: blob-move-1 18s ease-in-out infinite alternate;
+}
+
+.anim-blob-2 {
+  width: 280px;
+  height: 280px;
+  background: #06b6d4;
+  top: 50%;
+  right: 20%;
+  animation: blob-move-2 22s ease-in-out infinite alternate;
+}
+
+.anim-blob-3 {
+  width: 220px;
+  height: 220px;
+  background: #8b5cf6;
+  bottom: 15%;
+  left: 40%;
+  animation: blob-move-3 20s ease-in-out infinite alternate;
+}
+
+.anim-blob-4 {
+  width: 300px;
+  height: 300px;
+  background: #ec4899;
+  top: 35%;
+  left: 55%;
+  animation: blob-move-4 25s ease-in-out infinite alternate;
+}
+
+/* Movimenti sinusoidali organici */
+@keyframes blob-move-1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(120px, -80px) scale(1.1); }
+  66%  { transform: translate(-60px, 100px) scale(0.9); }
+  100% { transform: translate(80px, 40px) scale(1.05); }
+}
+
+@keyframes blob-move-2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(-100px, 60px) scale(0.95); }
+  66%  { transform: translate(80px, -120px) scale(1.1); }
+  100% { transform: translate(-40px, -60px) scale(1); }
+}
+
+@keyframes blob-move-3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(70px, 90px) scale(1.15); }
+  66%  { transform: translate(-110px, -40px) scale(0.9); }
+  100% { transform: translate(50px, -80px) scale(1.05); }
+}
+
+@keyframes blob-move-4 {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(-80px, -100px) scale(1.05); }
+  66%  { transform: translate(100px, 70px) scale(0.95); }
+  100% { transform: translate(-50px, 50px) scale(1.1); }
+}
+
+.anim-cursor {
+  position: fixed;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(233,112,77,0.18) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(24px);
+  will-change: transform;
+  transform: translate(-50%, -50%);
+}
+
+/* ─── GLOBAL BUTTON STYLE ────────────────────────────────────────────────── */
+@layer base {
+  button,
+  [role="button"],
+  a[role="button"],
+  .btn,
+  .clip-btn-bl a,
+  .clip-btn-tr a {
+    padding: 15px 20px; /* 12px 24px — modifica a piacere */
+  }
+}
+
+
+/* ── Custom Cursor ── */
+*,
+*::before,
+*::after {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  margin-top: -6px;
+  background-color: #E9704D;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 1;
+  filter: blur(0px);
+  transition:
+    width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    margin 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.3s ease,
+    filter 0.35s ease,
+    background-color 0.35s ease;
+  will-change: transform;
+}
+
+.custom-cursor.cursor-hover {
+  width: 48px;
+  height: 48px;
+  margin-left: -24px;
+  margin-top: -24px;
+  background-color: rgba(233, 112, 77, 0.35);
+  filter: blur(10px);
+}
+
+/* Nascondi il cursore custom su dispositivi touch */
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    cursor: auto !important;
+  }
 }

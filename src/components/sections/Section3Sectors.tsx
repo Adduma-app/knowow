@@ -3,14 +3,8 @@
 import { useEffect, useRef } from 'react'
 import { SECTORS } from '@/constants/content'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import ElementiSettori from '../ui/ElementiSettori'
 
-/**
- * Section3Sectors — static layout with scroll-driven shift and gradient sweep.
- *
- * First 3 items aligned left, shift further left on scroll.
- * Last 3 items aligned right, shift further right on scroll.
- * Gradient sweep on viewport enter.
- */
 export default function Section3Sectors() {
   const sectionRef = useRef<HTMLElement>(null)
   const itemRefs   = useRef<(HTMLDivElement | null)[]>([])
@@ -33,7 +27,10 @@ export default function Section3Sectors() {
           const isFirstHalf = i < half
           const label       = el.querySelector<HTMLElement>('.sector-label')
 
-          // Scroll-driven shift: primi 3 → sinistra, ultimi 3 → destra
+          // Indice locale all'interno del gruppo (0–3 per ciascun gruppo)
+          const localIndex = isFirstHalf ? i : i - half
+
+          // Scroll-driven shift: primi 4 → sinistra, ultimi 4 → destra
           gsap.fromTo(
             el,
             { x: '0%' },
@@ -67,7 +64,7 @@ export default function Section3Sectors() {
               gsap.to(label, {
                 backgroundPosition: '0% 0',
                 duration: 2.4,
-                delay: i * 0.3,
+                delay: localIndex * 0.25,
                 ease: 'power2.inOut',
                 onComplete: () => {
                   label.style.backgroundImage      = 'none'
@@ -95,9 +92,12 @@ export default function Section3Sectors() {
     <section
       id="settori"
       ref={sectionRef}
-      className="py-24 md:py-32 px-6 md:px-16 lg:px-24 overflow-hidden"
+      className="relative py-24 md:py-32 px-6 md:px-16 lg:px-24 overflow-hidden"
     >
-      <div className="mx-auto">
+     
+
+      {/* ── Contenuto in primo piano ── */}
+      <div className="relative z-10 mx-auto pointer-events-none">
         <SectionHeading
           label={SECTORS.label}
           h2={SECTORS.h2}
@@ -105,14 +105,20 @@ export default function Section3Sectors() {
           className="mb-16"
         />
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col relative h-[90vh]"> 
+
+           {/* ── Canvas particelle come sfondo ── */}
+            <div className="absolute inset-0 z-0 pointer-events-auto">
+              <ElementiSettori />
+            </div>
+            
           {SECTORS.items.map((sector, i) => {
             const isFirstHalf = i < half
 
             return (
               <div key={sector.label}>
                 {/* Spacer tra i due gruppi */}
-                {i === half && <div className="h-[20vh]" />}
+                {i === half && <div className="h-[40vh]" />}
 
                 <div
                   ref={(el) => { itemRefs.current[i] = el }}
@@ -124,8 +130,7 @@ export default function Section3Sectors() {
                     paddingRight: isFirstHalf ? 0 : 'clamp(1rem, 4vw, 3rem)',
                   }}
                 >
-                  <div className="group px-2 relative overflow-hidden" >
-                    {/* Hover glow */}
+                  <div className="group px-2 relative overflow-hidden pointer-events-auto">
                     <div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                       style={{ background: 'radial-gradient(ellipse 60% 70% at 50% 50%, rgba(59,97,171,0.1) 0%, transparent 70%)' }}
@@ -133,9 +138,9 @@ export default function Section3Sectors() {
                     />
 
                     <span
-                      className="sector-label font-display uppercase leading-tight"
+                      className="sector-label font-display lowercase"
                       style={{
-                        fontSize: 'clamp(2rem, 4.5vw, 4rem)',
+                        fontSize: 'clamp(2rem, 4.5vw, 3rem)',
                         letterSpacing: '0.06em',
                         color: '#FFFFFF',
                         WebkitTextFillColor: '#FFFFFF',

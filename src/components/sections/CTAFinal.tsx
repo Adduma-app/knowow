@@ -10,69 +10,6 @@ interface FormState {
   nome: string; email: string; azienda: string; messaggio: string
 }
 
-// ─── Shimmer Button ────────────────────────────────────────────────────────────
-function ShimmerButton({
-  children,
-  type = 'button',
-  variant = 'primary',
-  onClick,
-}: {
-  children: React.ReactNode
-  type?: 'button' | 'submit'
-  variant?: 'primary' | 'ghost'
-  onClick?: () => void
-}) {
-  const btnRef   = useRef<HTMLButtonElement>(null)
-  const bandRef  = useRef<HTMLDivElement>(null)
-  const layerRef = useRef<HTMLDivElement>(null)
-
-  const onMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!btnRef.current || !bandRef.current) return
-    const rect = btnRef.current.getBoundingClientRect()
-    const x    = e.clientX - rect.left
-    bandRef.current.style.left = `${x - 80}px`
-  }
-
-  const onMouseEnter = () => {
-    layerRef.current?.classList.add('active')
-  }
-
-  const onMouseLeave = () => {
-    layerRef.current?.classList.remove('active')
-    // Settle to dark blue
-    if (btnRef.current) {
-      btnRef.current.style.background =
-        variant === 'primary' ? '#0F1120' : 'transparent'
-    }
-  }
-
-  const base =
-    'relative inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold transition-all duration-400 overflow-hidden w-full sm:w-auto'
-
-  const variantClass =
-    variant === 'primary'
-      ? 'bg-[#E9704D] text-white clip-btn-tr'
-      : 'border border-white/25 text-white clip-btn-bl hover:border-white/50'
-
-  return (
-    <button
-      ref={btnRef}
-      type={type}
-      onClick={onClick}
-      onMouseMove={onMouseMove}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      className={`${base} ${variantClass}`}
-    >
-      {/* Shimmer layer */}
-      <div ref={layerRef} className="btn-shimmer-layer">
-        <div ref={bandRef} className="btn-shimmer-band" />
-      </div>
-      <span className="relative z-10">{children}</span>
-    </button>
-  )
-}
-
 // ─── CTA Section ──────────────────────────────────────────────────────────────
 export default function CTAFinal() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -114,25 +51,19 @@ export default function CTAFinal() {
     <section
       id="contatti"
       ref={sectionRef}
-      className="relative py-24 md:py-32 px-6 md:px-16 lg:px-24  overflow-hidden"
+      className="relative py-24  px-6 md:px-16 lg:px-24   mt-[5%]"
     >
 
        {/* Logo header */}
        <motion.div variants={fadeInUp} className="">
                   <Image
-                    src="/images/logo.png"
+                    src="/images/logo_footer_knowow.webp"
                     alt="KnoWow"
                     width={160}
                     height={42}
-                    className="w-full h-auto absolute  top-[5%] left-0"
+                    className="w-full h-auto absolute  -top-[8%] left-0 object-cover"
                   />
                 </motion.div>
-      {/* Subtle glow */}
-      {/* <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 80% 50% at 50% 100%, rgba(59,97,171,0.12) 0%, transparent 70%)' }}
-        aria-hidden="true"
-      /> */}
 
       <motion.div
         variants={staggerContainer}
@@ -157,12 +88,9 @@ export default function CTAFinal() {
            
             {/* Form box — full-width, opaque, clip TR */}
             <div
-              className="clip-btn-tr w-full"
-              style={{ background: '#0A0C1C', border: '1px solid rgba(255,255,255,0.06)' }}
+              className="clip-card-footer w-full bg-[#0F1120] "
             >
               <div className="p-10 md:p-16">
-
-              
 
                 {/* Heading */}
                 <motion.h2
@@ -205,16 +133,21 @@ export default function CTAFinal() {
                   </div>
 
                   <div className="md:col-span-2 flex flex-col sm:flex-row gap-4 pt-4">
-                    <ShimmerButton type="submit" variant="primary">
-                      {CTA.ctaPrimary}
-                    </ShimmerButton>
-                    <ShimmerButton
-                      type="button"
-                      variant="ghost"
-                      onClick={() => { window.location.href = 'mailto:info@knowow.tech' }}
+                    <button
+                      type="submit"
+                      className="inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#E9704D] text-white clip-btn-tr hover:bg-[#d4603f] transition-colors w-full sm:w-auto"
                     >
-                      {CTA.ctaSecondary}
-                    </ShimmerButton>
+                      {CTA.ctaPrimary}
+                    </button>
+                    <span className="clip-btn-bl inline-block w-full sm:w-auto" style={{ padding: '1px', background: 'rgba(255,255,255,0.25)' }}>
+                      <button
+                        type="button"
+                        onClick={() => { window.location.href = 'mailto:info@knowow.tech' }}
+                        className="inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold text-white clip-btn-bl bg-[#0A0C1C] hover:bg-white/5 transition-colors w-full"
+                      >
+                        {CTA.ctaSecondary}
+                      </button>
+                    </span>
                   </div>
                 </motion.form>
 

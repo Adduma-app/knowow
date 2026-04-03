@@ -66,14 +66,16 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* CTA */}
-        <a
-          href="#contatti"
-          className="hidden md:inline-flex border border-[#E9704D] text-[#E9704D] text-xs uppercase tracking-widest px-5 py-2 hover:bg-[#E9704D] hover:text-white transition-all"
-          aria-label="Richiedi una demo di FFTM"
-        >
-          Richiedi una demo
-        </a>
+          {/* CTA */}
+          <span className="hidden md:inline-block clip-btn-bl-border clip-btn-bl !bg-[#E9704D]/80">
+          <a
+            href="#contatti"
+            className="relative clip-btn-bl inline-flex items-center justify-center text-[#E9704D] text-xs uppercase tracking-widest  bg-[#17192D] hover:bg-[#E9704D] hover:text-white transition-all"
+            aria-label="Richiedi una demo di FFTM"
+          >
+            Richiedi una demo
+          </a>
+        </span>
 
         {/* Mobile hamburger */}
         <button

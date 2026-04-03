@@ -10,10 +10,7 @@ import { ECOSYSTEM } from '@/constants/content'
  * The wrapper is pinned for the entire scroll distance of all panels.
  * Inside, a slides container moves upward via scrub (smooth vertical slide).
  * The favicon is centred and rotates continuously with scroll progress.
- *
- * Layout alternates per panel:
- *   Even (0, 2): text top-left  + icon centre
- *   Odd  (1, 3): text bottom-right + icon centre
+ * Slides scroll OVER the fixed centred favicon.
  */
 export default function Section4Ecosystem() {
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -30,7 +27,8 @@ export default function Section4Ecosystem() {
 
       ctx = gsap.context(() => {
         const panelCount  = ECOSYSTEM.services.length
-        const totalScroll = (panelCount - 1) * window.innerHeight
+        const panelHeight = window.innerHeight * 0.6  // 60vh come le slide
+        const totalScroll = (panelCount - 1) * panelHeight
 
         // ── Pin the whole section ──────────────────────────────────────
         ScrollTrigger.create({
@@ -65,9 +63,6 @@ export default function Section4Ecosystem() {
             scrub: 1,
           },
         })
-
-        // Text is always visible — the sliding panels (clipped by overflow:hidden
-        // on the wrapper) create the natural entrance/exit effect. No extra animation needed.
       }, wrapperRef)
     }
 
@@ -80,7 +75,7 @@ export default function Section4Ecosystem() {
       {/* Section header — outside the pinned area so it scrolls normally */}
       <div
         id="servizi"
-        className="pt-24 md:pt-32 pb-16 px-6 md:px-16 lg:px-24 "
+        className="pt-24 md:pt-32 pb-16 px-6 md:px-16 lg:px-24"
       >
         <div className="max-w-6xl mx-auto">
           <span className="text-micro text-[#E9704D] block mb-4">{ECOSYSTEM.h2line1}</span>
@@ -92,7 +87,7 @@ export default function Section4Ecosystem() {
             <span className="text-[#E9704D]">{ECOSYSTEM.h2accent}</span>
             <span className="text-white">{ECOSYSTEM.h2line2b}</span>
           </h2>
-          <p className="text-white/50 text-sm leading-relaxed mt-6 max-w-2xl font-medium">
+          <p className=" text-sm leading-relaxed mt-6 max-w-2xl font-medium">
             {ECOSYSTEM.body}
           </p>
         </div>
@@ -102,53 +97,45 @@ export default function Section4Ecosystem() {
       <div
         ref={wrapperRef}
         className="relative h-[100vh]"
-        style={{  overflow: 'hidden' }}
+        style={{ overflow: 'hidden' }}
       >
-        {/* Rotating favicon — always centred */}
+        {/* Favicon — centrato e fisso, Z sotto le slide */}
         <div
           ref={faviconRef}
-          className="absolute top-1/2 left-1/2 z-0 pointer-events-none"
-          style={{ transform: 'translate(-50%, -50%)' }}
+          className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none"
           aria-hidden="true"
         >
           <div className="relative">
             {/* Ambient glow ring */}
             <div
-              className="absolute inset-0 rounded-full blur-3xl opacity-30"
-              style={{
-                background: 'radial-gradient(circle, rgba(59,97,171,0.6) 0%, rgba(233,112,77,0.3) 50%, transparent 70%)',
-                transform: 'scale(2.5)',
-              }}
+              className="absolute -inset-16 rounded-full blur-3xl opacity-25"
+              style={{ background: 'radial-gradient(circle, rgba(233,112,77,0.35), transparent 70%)' }}
             />
             <Image
               src="/favicon.webp"
               alt=""
-              width={120}
-              height={120}
-              className="relative z-10 opacity-30"
-              style={{
-                width: 'clamp(80px, 10vw, 140px)',
-                height: 'auto',
-              }}
+              width={400}
+              height={400}
+              className="relative object-contain w-[45vw]  h-auto"
             />
           </div>
         </div>
 
-        {/* Slides container — scrolls upward */}
+        {/* Slides container — scrolls upward OVER the favicon */}
         <div
           ref={slidesRef}
-          className="absolute inset-0 "
+          className="absolute inset-0 z-10"
           style={{ willChange: 'transform' }}
         >
-        {ECOSYSTEM.services.map((service, i) => {
+          {ECOSYSTEM.services.map((service, i) => {
             const isEven = i % 2 === 0
 
             return (
               <div
                 key={service.num}
-                className="eco-panel relative flex items-center justify-center h-[50vh]"
+                className="eco-panel relative flex items-center justify-center h-[60vh]"
               >
-                {/* Text block */}
+                {/* Text block — posizionato ai lati per non coprire la favicon */}
                 <div
                   className={`eco-text absolute z-10 max-w-xs ${
                     isEven
@@ -162,19 +149,19 @@ export default function Section4Ecosystem() {
                   >
                     {service.title}
                   </h3>
-                  <p className="text-micro text-[#E9704D]/60 ">{service.subtitle}</p>
-                  <p className="text-sm text-white/50 leading-relaxed font-medium">{service.text}</p>
+                  <p className="tracking-widest uppercase text-xs text-[#E9704D]">{service.subtitle}</p>
+                  <p className="text-sm text-white leading-relaxed font-medium">{service.text}</p>
                 </div>
 
-                {/* Large background number */}
+                {/* Large background number — semi-trasparente */}
                 <span
-                  className="absolute font-display font-black text-white/[0.03] select-none pointer-events-none leading-none"
+                  className="absolute font-display font-black text-white/[0.03] select-none pointer-events-none leading-none z-10"
                   style={{
                     fontSize: 'clamp(14rem, 36vw, 40rem)',
                     letterSpacing: '-0.05em',
                     bottom: 0,
-                    left:   isEven ? 0    : 'auto',
-                    right:  isEven ? 'auto' : 0,
+                    left:  isEven ? 0    : 'auto',
+                    right: isEven ? 'auto' : 0,
                   }}
                   aria-hidden="true"
                 >

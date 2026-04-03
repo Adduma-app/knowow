@@ -14,9 +14,9 @@ export default function Section5About() {
     <section
       id="chi-siamo"
       ref={sectionRef}
-      className="py-24 md:py-32 px-6 md:px-16 lg:px-24  relative overflow-hidden"
+      className="pb-24  px-6 md:px-16 lg:px-24  relative overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className=" mx-auto relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
 
           {/* Left — text */}
@@ -37,7 +37,7 @@ export default function Section5About() {
               <br />
               {ABOUT.h2line2}
             </motion.h2>
-            <motion.p variants={fadeInUp} className="text-white/60 text-sm md:text-base leading-relaxed">
+            <motion.p variants={fadeInUp} className="text-white text-sm md:text-base leading-relaxed">
               {ABOUT.body}
             </motion.p>
             <motion.div variants={fadeInUp} className="flex gap-8 mt-8">
@@ -50,7 +50,7 @@ export default function Section5About() {
               </a>
               <a
                 href="#"
-                className="text-xs uppercase tracking-widest text-white/40 hover:text-white transition-colors"
+                className="text-xs uppercase tracking-widest text-white hover:text-white transition-colors"
                 aria-label="Leggi le pubblicazioni scientifiche e brevetti"
               >
                 {ABOUT.linkPubs}
@@ -69,7 +69,7 @@ export default function Section5About() {
             <span
               className="font-display font-black leading-none select-none"
               style={{
-                fontSize: 'clamp(7rem, 18vw, 14rem)',
+                fontSize: 'clamp(7rem, 18vw, 24rem)',
                 letterSpacing: '-0.05em',
                 WebkitTextFillColor: 'transparent',
                 WebkitTextStroke: '2px transparent',
@@ -84,10 +84,10 @@ export default function Section5About() {
             </span>
 
             {/* Label below */}
-            <p className="text-xs uppercase tracking-[0.3em] text-white/30 mt-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-white mt-4">
               Anni di ricerca scientifica
             </p>
-            <p className="text-[10px] uppercase tracking-widest text-white/20 mt-2">
+            <p className="text-[10px] uppercase tracking-widest text-white mt-2">
               Università di Messina — Spin-off accademico
             </p>
           </motion.div>

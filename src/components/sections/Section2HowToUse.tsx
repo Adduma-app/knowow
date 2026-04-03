@@ -10,6 +10,8 @@ import { staggerContainer } from '@/lib/animations'
 const CARD_W   = 380  // px
 const CARD_GAP = 20   // px
 
+
+
 export default function Section2HowToUse() {
   const sectionRef = useRef<HTMLElement>(null)
   const isVisible  = useInView(sectionRef, { once: true, amount: 0.15 })
@@ -44,38 +46,56 @@ export default function Section2HowToUse() {
           className="flex justify-center px-6 md:px-16 lg:px-24 select-none"
           style={{ gap: CARD_GAP }}
         >
-          {cards.map((card, i) => (
-            <div
-              key={`${card.num}-${i}`}
-              style={{ width: CARD_W, flexShrink: 0 }}
-            >
-              <GlowCard
-                className={`glass-card  clip-card border-l-2 ${card.borderColor}`}
-                style={{ minHeight: 400, padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+          {cards.map((card, i) => {
+            const accentColor = '#0F1120'
+
+            return (
+              <div
+                key={`${card.num}-${i}`}
+                style={{ width: CARD_W, flexShrink: 0 }}
               >
-                {/* Mode badge */}
-                <div className="h-full">
-                  <span className="text-micro text-white/25 border border-white/10 px-2 py-1 inline-block mb-5">
-                    {card.mode}
-                  </span>
-                  <h3 className="font-sans font-bold uppercase text-white text-lg leading-tight mb-4" style={{ letterSpacing: '-0.01em' }}>
-                    {card.title}
-                  </h3>
-                  <p className="text-sm text-white/50 leading-relaxed font-medium">{card.text}</p>
-                </div>
-                {/* CTA */}
-                <div className="pt-5 border-t border-white/[0.07]">
-                  <a
-                    href="#contatti"
-                    className="text-micro text-[#E9704D] hover:text-white transition-colors"
-                    aria-label={card.title}
+                {/* Wrapper bordo sinistro — segue il clip-path */}
+                <div
+                  className="clip-card h-full"
+                  style={{ paddingLeft: '2px', background: accentColor }}
+                >
+                 <GlowCard
+                    className="glass-card clip-card h-[100%] flex flex-col justify-start  p-10 "
                   >
-                    {card.cta}
-                  </a>
+                    {/* Contenuto — cresce per occupare tutto lo spazio */}
+                    <div className="flex-1 min-h-[300px]">
+                      <span className="text-micro text-white
+                      
+                      
+                      px-2 py-1 inline-block mb-5">
+                        {card.mode}
+                      </span>
+                      <h3
+                        className="font-sans font-bold uppercase text-white text-lg leading-tight mb-4"
+                        style={{ letterSpacing: '-0.01em' }}
+                      >
+                        {card.title}
+                      </h3>
+                      <p className="text-sm text-white/50 leading-relaxed font-medium">
+                        {card.text}
+                      </p>
+                    </div>
+                    {/* CTA — sempre ancorato in basso */}
+                    <div className="pt-5 mt-auto border-t border-white/[0.07]">
+                      <a
+                        href="#contatti"
+                        className="text-micro text-[#E9704D] hover:text-white transition-colors"
+                        aria-label={card.title}
+                      >
+                        {card.cta}
+                      </a>
+                    </div>
+                  </GlowCard>
+
                 </div>
-              </GlowCard>
-            </div>
-          ))}
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>
