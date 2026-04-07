@@ -100,17 +100,17 @@ export default function Hero() {
           {/* Primary — clip Top-Right */}
           <a
             href="#fftm"
-            className="clip-btn-bl relative inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#E9704D] text-white transition-all duration-300 hover:bg-[#E9704D]/85 overflow-hidden"
+            className="clip-btn-bl relative md:inline-flex items-center w-full md:w-auto justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#E9704D] text-white transition-all duration-300 hover:bg-[#E9704D]/85 overflow-hidden"
             aria-label="Scopri la tecnologia FFTM"
           >
             {HERO.ctaPrimary}
           </a>
           {/* Secondary — clip Bottom-Left */}
            {/* Secondary — clip Bottom-Left con bordo uniforme */}
-           <span className="clip-btn-tr relative inline-block bg-white/30 p-[1px]">
+           <span className="clip-btn-tr relative md:inline-block bg-white/30 p-[1px] w-full md:w-auto">
             <a
               href="#contatti"
-              className="clip-btn-tr relative inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#0a0a0a] text-white transition-all duration-300 hover:bg-white/5 overflow-hidden"
+              className="clip-btn-tr relative inline-flex items-center justify-center px-8 py-4 text-xs uppercase w-full tracking-widest font-bold bg-[#0a0a0a] text-white transition-all duration-300 hover:bg-white/5 overflow-hidden"
               aria-label="Richiedi una demo di FFTM"
             >
               {HERO.ctaSecondary}

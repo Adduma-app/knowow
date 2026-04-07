@@ -46,7 +46,7 @@ export default function Navbar() {
             alt="KnoWow"
             width={120}
             height={32}
-            className="h-8 w-auto"
+            className="h-6 w-auto"
             priority
           />
         </a>

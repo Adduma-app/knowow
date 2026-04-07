@@ -123,6 +123,21 @@ h1, h2, h3, h4, h5, h6 {
   );
 }
 
+@media only screen and (max-width: 768px) {
+
+  .clip-card-footer {
+    clip-path: polygon(
+      40px 0%,                         /* top-left: bevel grande ↘ (accentuato) */
+      100% 0%,                         /* top-right: dritto */
+      100% calc(100% - 20px),          /* bottom-right: inizio bevel */
+      calc(100% - 20px) 100%,          /* bottom-right: bevel 40px ↗ */
+      20px 100%,                       /* bottom-left: inizio bevel */
+      0% calc(100% - 20px),            /* bottom-left: bevel 40px ↗ */
+      0% 40px                          /* torna al top-left */
+    );
+  }
+}
+
 /* Clip-card BORDER wrapper — use on parent, 1px padding gives the border color */
 /* Clip-card BORDER wrapper — use on parent, 1px padding gives the border color */
 .clip-card-border {

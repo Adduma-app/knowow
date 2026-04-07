@@ -61,7 +61,7 @@ export default function CTAFinal() {
                     alt="KnoWow"
                     width={160}
                     height={42}
-                    className="w-full h-auto absolute  -top-[8%] left-0 object-cover"
+                    className="w-full h-auto absolute top-[6%]  md:-top-[8%] left-0 object-cover"
                   />
                 </motion.div>
 
@@ -90,7 +90,7 @@ export default function CTAFinal() {
             <div
               className="clip-card-footer w-full bg-[#0F1120] "
             >
-              <div className="p-10 md:p-16">
+              <div className="p-8 md:p-16">
 
                 {/* Heading */}
                 <motion.h2

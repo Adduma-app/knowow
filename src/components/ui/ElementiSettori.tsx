@@ -40,7 +40,7 @@ export default function ElementiSettori() {
     const points: { x: number; y: number }[] = []
     const cx = w * 0.50
     const cy = h * 0.50
-    const s = Math.min(w, h) * 0.0040
+    const s = Math.min(w, h) * (w < 768 ? 0.0028 : 0.0040)
 
     // Fusoliera
     for (let i = 0; i < Math.floor(count * 0.19); i++) {
@@ -216,7 +216,7 @@ export default function ElementiSettori() {
     const points: { x: number; y: number }[] = []
     const cx = w * 0.5
     const cy = h * 0.5
-    const s = Math.min(w, h) * 0.0040
+    const s = Math.min(w, h) * (w < 768 ? 0.0028 : 0.0040)
 
     const helixHeight = 240 * s
     const helixRadius = 50 * s
@@ -292,7 +292,7 @@ export default function ElementiSettori() {
     const points: { x: number; y: number }[] = []
     const cx = w * 0.5
     const cy = h * 0.5
-    const s = Math.min(w, h) * 0.0040
+    const s = Math.min(w, h) * (w < 768 ? 0.0028 : 0.0040)
 
     const cubeSize = 160 * s
 
@@ -687,7 +687,7 @@ export default function ElementiSettori() {
     <section className="relative w-full h-full overflow-hidden ">
       <canvas
         ref={canvasRef}
-        className="absolute bottom-0 lefto-0 inset-0 w-full h-full"
+        className="absolute bottom-0 left-0 inset-0 w-auto h-full"
       />
     </section>
   )

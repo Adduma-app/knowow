@@ -92,7 +92,7 @@ export default function Section3Sectors() {
     <section
       id="settori"
       ref={sectionRef}
-      className="relative py-24 md:py-32 px-6 md:px-16 lg:px-24 overflow-hidden"
+      className="relative py-24 md:py-32 px-4 md:px-16 lg:px-24 overflow-hidden"
     >
      
 
@@ -105,7 +105,7 @@ export default function Section3Sectors() {
           className="mb-16"
         />
 
-        <div className="flex flex-col relative h-[90vh]"> 
+        <div className="flex flex-col relative h-auto md:h-[100vh] w-full"> 
 
            {/* ── Canvas particelle come sfondo ── */}
             <div className="absolute inset-0 z-0 pointer-events-auto">
@@ -118,7 +118,7 @@ export default function Section3Sectors() {
             return (
               <div key={sector.label}>
                 {/* Spacer tra i due gruppi */}
-                {i === half && <div className="h-[40vh]" />}
+                {i === half && <div className="h-[50vh]" />}
 
                 <div
                   ref={(el) => { itemRefs.current[i] = el }}
@@ -140,7 +140,7 @@ export default function Section3Sectors() {
                     <span
                       className="sector-label font-display lowercase"
                       style={{
-                        fontSize: 'clamp(2rem, 4.5vw, 3rem)',
+                        fontSize: 'clamp(1.2rem, 3vw, 3rem)',
                         letterSpacing: '0.06em',
                         color: '#FFFFFF',
                         WebkitTextFillColor: '#FFFFFF',

@@ -43,7 +43,7 @@ export default function Section2HowToUse() {
       {/* Slider — scroll nativo orizzontale */}
       <div className="overflow-x-auto scrollbar-hide">
         <div
-          className="flex justify-center px-6 md:px-16 lg:px-24 select-none"
+          className="flex px-6 md:px-16 lg:px-24 select-none"
           style={{ gap: CARD_GAP }}
         >
           {cards.map((card, i) => {

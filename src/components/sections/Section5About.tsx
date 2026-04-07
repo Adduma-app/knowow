@@ -40,10 +40,10 @@ export default function Section5About() {
             <motion.p variants={fadeInUp} className="text-white text-sm md:text-base leading-relaxed">
               {ABOUT.body}
             </motion.p>
-            <motion.div variants={fadeInUp} className="flex gap-8 mt-8">
+            <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-8 mt-8">
               <a
                 href="#"
-                className="text-xs uppercase tracking-widest text-[#E9704D] hover:text-white transition-colors"
+                className="text-xs uppercase tracking-widest text-[#E9704D] hover:text-white transition-colors "
                 aria-label="Scopri chi siamo"
               >
                 {ABOUT.linkAbout}

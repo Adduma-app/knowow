@@ -1,21 +1,13 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Image from 'next/image'
 import { ECOSYSTEM } from '@/constants/content'
 
-/**
- * Section4Ecosystem — GSAP Sticky Scroll Slider
- *
- * The wrapper is pinned for the entire scroll distance of all panels.
- * Inside, a slides container moves upward via scrub (smooth vertical slide).
- * The favicon is centred and rotates continuously with scroll progress.
- * Slides scroll OVER the fixed centred favicon.
- */
 export default function Section4Ecosystem() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const slidesRef  = useRef<HTMLDivElement>(null)
-  const faviconRef = useRef<HTMLDivElement>(null)
+  const shapeRef   = useRef<HTMLDivElement>(null)
+  const svgRef     = useRef<SVGSVGElement>(null)
 
   useEffect(() => {
     let ctx: { revert: () => void } | null = null
@@ -27,7 +19,7 @@ export default function Section4Ecosystem() {
 
       ctx = gsap.context(() => {
         const panelCount  = ECOSYSTEM.services.length
-        const panelHeight = window.innerHeight * 0.6  // 60vh come le slide
+        const panelHeight = window.innerHeight * 0.6
         const totalScroll = (panelCount - 1) * panelHeight
 
         // ── Pin the whole section ──────────────────────────────────────
@@ -52,8 +44,8 @@ export default function Section4Ecosystem() {
           },
         })
 
-        // ── Rotate the favicon with scroll progress ────────────────────
-        gsap.to(faviconRef.current, {
+        // ── Rotate the shape with scroll ───────────────────────────────
+        gsap.to(shapeRef.current, {
           rotation: 720,
           ease: 'none',
           scrollTrigger: {
@@ -63,12 +55,59 @@ export default function Section4Ecosystem() {
             scrub: 1,
           },
         })
+
+        // ── Gradient morph: solid blue → blue/orange/violet gradient ───
+        ScrollTrigger.create({
+          trigger: wrapperRef.current,
+          start: 'top top',
+          end: `+=${totalScroll}`,
+          scrub: 1,
+          onUpdate: (self) => {
+            const p = self.progress // 0 → 1
+            const svg = svgRef.current
+            if (!svg) return
+
+            const stop1 = svg.querySelector('#grad-stop1') as SVGStopElement
+            const stop2 = svg.querySelector('#grad-stop2') as SVGStopElement
+            const stop3 = svg.querySelector('#grad-stop3') as SVGStopElement
+
+            if (stop1) {
+              // Resta blu #2864EB → #2864EB
+              stop1.setAttribute('stop-color', `rgb(40,100,235)`)
+            }
+
+            if (stop2) {
+              // blu #2864EB → arancio #F5734B
+              const r = Math.round(40 + (245 - 40) * p)
+              const g = Math.round(100 + (115 - 100) * p)
+              const b = Math.round(235 + (75 - 235) * p)
+              stop2.setAttribute('stop-color', `rgb(${r},${g},${b})`)
+            }
+
+            if (stop3) {
+              // Resta blu #2864EB → #2864EB
+              stop3.setAttribute('stop-color', `rgb(40,100,235)`)
+            }
+          },
+        })
+
+        // ── Subtle pulsing ─────────────────────────────────────────────
+        gsap.to(shapeRef.current, {
+          scale: 1.06,
+          duration: 4,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        })
+
       }, wrapperRef)
     }
 
     init()
     return () => ctx?.revert()
   }, [])
+
+  const logoPath = 'M392.6526864,253.7275366h-93.2539829l-1.673731-.0097594c-21.475482-.1236186-41.7538153-10.5043295-54.17586-27.6710521l-90.4758171-129.9329285H29.0820588c-4.3602949,8.3494765-5.207742,9.9722427-9.568037,18.3217192l93.7768499,134.6725881h85.4367317c27.3652586,0,53.1364877,13.1783955,68.8897289,35.1825098l85.2529304,122.4312302h123.9926684c4.3602827-8.3495258,5.2077066-9.9722619,9.5679893-18.3217877l-93.778234-134.6725196Z'
 
   return (
     <>
@@ -81,17 +120,19 @@ export default function Section4Ecosystem() {
           <span className="text-micro text-[#E9704D] block mb-4">{ECOSYSTEM.h2line1}</span>
           <h2
             className="font-sans font-bold uppercase leading-none"
-            style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'clamp(2rem, 6vw, 5rem)', letterSpacing: '-0.02em' }}
           >
             <span className="text-white">{ECOSYSTEM.h2line2a}</span>
             <span className="text-[#E9704D]">{ECOSYSTEM.h2accent}</span>
             <span className="text-white">{ECOSYSTEM.h2line2b}</span>
           </h2>
-          <p className=" text-sm leading-relaxed mt-6 max-w-2xl font-medium">
+          <p className="text-sm leading-relaxed mt-6 max-w-2xl font-medium">
             {ECOSYSTEM.body}
           </p>
         </div>
       </div>
+
+      
 
       {/* Sticky wrapper — pinned by GSAP */}
       <div
@@ -99,29 +140,47 @@ export default function Section4Ecosystem() {
         className="relative h-[100vh]"
         style={{ overflow: 'hidden' }}
       >
-        {/* Favicon — centrato e fisso, Z sotto le slide */}
+        {/* SVG Logo shape — posizionato in basso, sotto le slide */}
         <div
-          ref={faviconRef}
-          className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none"
+          ref={shapeRef}
+          className="absolute z-0 flex items-center justify-center pointer-events-none"
           aria-hidden="true"
+          style={{
+            left: '50%',
+            bottom: '8%',
+            transform: 'translateX(-50%)',
+          }}
         >
-          <div className="relative">
-            {/* Ambient glow ring */}
-            <div
-              className="absolute -inset-16 rounded-full blur-3xl opacity-25"
-              style={{ background: 'radial-gradient(circle, rgba(233,112,77,0.35), transparent 70%)' }}
-            />
-            <Image
-              src="/favicon.webp"
-              alt=""
-              width={400}
-              height={400}
-              className="relative object-contain w-[45vw]  h-auto"
-            />
+          <div className="relative w-[50vw] ">
+            <svg
+              ref={svgRef}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 500 500"
+              className="w-full h-full svgDettaglio"
+              style={{ opacity: 0.65 }}
+            >
+              <defs>
+                <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop id="grad-stop1" offset="0%"   stopColor="#2864EB" />
+                  <stop id="grad-stop2" offset="50%"  stopColor="#2864EB" />
+                  <stop id="grad-stop3" offset="100%" stopColor="#2864EB" />
+                </linearGradient>
+                <filter id="soft-edges" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
+                  <feComposite in="blur" in2="blur" operator="over" />
+                </filter>
+              </defs>
+              <path
+                d={logoPath}
+                fill="url(#logo-gradient)"
+                stroke="none"
+                filter="url(#soft-edges)"
+              />
+            </svg>
           </div>
         </div>
 
-        {/* Slides container — scrolls upward OVER the favicon */}
+        {/* Slides container — scrolls upward OVER the shape */}
         <div
           ref={slidesRef}
           className="absolute inset-0 z-10"
@@ -135,9 +194,8 @@ export default function Section4Ecosystem() {
                 key={service.num}
                 className="eco-panel relative flex items-center justify-center h-[60vh]"
               >
-                {/* Text block — posizionato ai lati per non coprire la favicon */}
                 <div
-                  className={`eco-text absolute z-10 max-w-xs ${
+                  className={`eco-text absolute z-20 max-w-xs ${
                     isEven
                       ? 'top-14 right-6 md:right-16 lg:right-24 text-right'
                       : 'top-14 left-6 md:left-16 lg:left-24'
@@ -153,15 +211,22 @@ export default function Section4Ecosystem() {
                   <p className="text-sm text-white leading-relaxed font-medium">{service.text}</p>
                 </div>
 
-                {/* Large background number — semi-trasparente */}
+                {/* I numeri ora usano mix-blend-mode per essere "illuminati" dall'SVG */}
                 <span
-                  className="absolute font-display font-black text-white/[0.03] select-none pointer-events-none leading-none z-10"
+                  className="absolute font-display font-black select-none pointer-events-none leading-none z-30 text-white/10"
                   style={{
                     fontSize: 'clamp(14rem, 36vw, 40rem)',
                     letterSpacing: '-0.05em',
                     bottom: 0,
                     left:  isEven ? 0    : 'auto',
                     right: isEven ? 'auto' : 0,
+                    
+                    /* EFFETTO GLASS ILLUMINATO */
+    color: 'rgba(255, 255, 255, 0.08)', // Bianco molto tenue di base
+    mixBlendMode: 'overlay',             // Fondamentale: reagisce ai colori sottostanti
+    backdropFilter: 'blur(4px)',         // Opzionale: aggiunge l'effetto "glass" fisico
+    WebkitBackdropFilter: 'blur(4px)',
+                 
                   }}
                   aria-hidden="true"
                 >
@@ -172,6 +237,7 @@ export default function Section4Ecosystem() {
           })}
         </div>
       </div>
+
     </>
   )
 }

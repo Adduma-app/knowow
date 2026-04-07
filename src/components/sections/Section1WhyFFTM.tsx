@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
+import Link from 'next/link'
 import { useCountUp } from '@/hooks/useCountUp'
 import { WHY_FFTM } from '@/constants/content'
 import { GlowCard } from '@/components/ui/GlowCard'
@@ -239,55 +240,25 @@ function BenefitsSticky() {
   const active = WHY_FFTM.benefits[activeIndex]
 
   return (
-    <div className="flex items-start">
-      {/* Left sticky */}
-      <div className="sticky top-0 h-screen w-[42%] flex flex-col justify-center pl-6 md:pl-16 lg:pl-24 pr-8 shrink-0">
-        <span className="text-micro text-[#E9704D] block mb-3">Perché FFTM</span>
-        <motion.h3
-          key={activeIndex}
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="font-sans font-bold uppercase text-white leading-tight mb-4"
-          style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', letterSpacing: '-0.01em' }}
-        >
-          {active.title}
-        </motion.h3>
-   
-        {/* <div className="flex gap-3 mt-8">
-          {WHY_FFTM.benefits.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => cardRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-              className="h-px transition-all duration-300 focus:outline-none p-[1px]"
-              style={{
-                width: i === activeIndex ? 32 : 14,
-                backgroundColor: i === activeIndex ? '#E9704D' : 'rgba(255,255,255,0.18)',
-              }}
-              aria-label={`Benefit ${i + 1}`}
-            />
-          ))}
-        </div> */}
-      </div>
-
-      {/* Right scrollable cards */}
-      <div className="flex-1 py-8 pr-6 md:pr-16 lg:pr-24">
-        {WHY_FFTM.benefits.map((b, i) => (
-          <div
-            key={b.num}
-            ref={(el) => { cardRefs.current[i] = el }}
-            className="flex items-center"
-            style={{
-              minHeight: '90vh',
-              marginBottom: i < WHY_FFTM.benefits.length - 1 ? '50px' : '0',
-            }}
-          >
+    <>
+      {/* ── Mobile: vertical stack with title above each card ── */}
+      <div className="md:hidden flex flex-col gap-12 px-6 py-10">
+        <span className="text-micro text-[#E9704D] block">Perché FFTM</span>
+        {WHY_FFTM.benefits.map((b) => (
+          <div key={b.num} className="flex flex-col gap-4">
+            {/* Title above card */}
+            <h3
+              className="font-sans font-bold uppercase text-white leading-tight"
+              style={{ fontSize: 'clamp(1.2rem, 5vw, 1.6rem)', letterSpacing: '-0.01em' }}
+            >
+              {b.title}
+            </h3>
             <GlowCard className="glass-card clip-card w-full relative overflow-hidden">
               <div className="absolute -bottom-[8%] -right-[5%] overflow-hidden pointer-events-none">
-                <BenefitNum num={b.num} isActive={activeIndex === i} />
+                <BenefitNum num={b.num} isActive={false} />
               </div>
-              <div className="relative z-10 p-8 md:p-20 min-h-[50vh]">
-                <p className="text-sm lg:text-2xl text-white leading-relaxed max-w-lg font-medium">
+              <div className="relative z-10 p-6 min-h-[220px]">
+                <p className="text-sm text-white leading-relaxed font-medium">
                   {b.text}
                 </p>
               </div>
@@ -295,7 +266,78 @@ function BenefitsSticky() {
           </div>
         ))}
       </div>
-    </div>
+
+      {/* ── Desktop: sticky left panel + scrollable cards ── */}
+      <div className="hidden md:flex items-start">
+        {/* Left sticky */}
+        <div className="sticky top-0 h-screen w-[42%] flex flex-col justify-center pl-16 lg:pl-24 pr-8 shrink-0">
+          <span className="text-micro text-[#E9704D] block mb-3">Perché FFTM</span>
+          <motion.h3
+            key={activeIndex}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="font-sans font-bold uppercase text-white leading-tight mb-4"
+            style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', letterSpacing: '-0.01em' }}
+          >
+            {active.title}
+          </motion.h3>
+          {/* CTA link — shown only when benefit #03 (methods) is active */}
+          {activeIndex === 2 && (
+            <motion.div
+              key="cta-link"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.15 }}
+            >
+              <Link
+                href="/tecnologia"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#E9704D] hover:text-white transition-colors duration-300 group"
+              >
+                Scopri IR, DIC e i metodi termografici
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Link>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Right scrollable cards */}
+        <div className="flex-1 py-8 pr-16 lg:pr-24">
+          {WHY_FFTM.benefits.map((b, i) => (
+            <div
+              key={b.num}
+              ref={(el) => { cardRefs.current[i] = el }}
+              className="flex items-center"
+              style={{
+                minHeight: '90vh',
+                marginBottom: i < WHY_FFTM.benefits.length - 1 ? '50px' : '0',
+              }}
+            >
+              <GlowCard className="glass-card clip-card w-full relative overflow-hidden">
+                <div className="absolute -bottom-[8%] -right-[5%] overflow-hidden pointer-events-none">
+                  <BenefitNum num={b.num} isActive={activeIndex === i} />
+                </div>
+                <div className="relative z-10 p-8 md:p-20 min-h-[50vh] flex flex-col justify-center">
+                  <p className="text-sm lg:text-2xl text-white leading-relaxed max-w-lg font-medium mb-8">
+                    {b.text}
+                  </p>
+                  {/* Link to technology page — only on benefit 03 */}
+                  {b.num === '03' && (
+                    <Link
+                      href="/tecnologia"
+                      className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#E9704D] hover:text-white transition-colors duration-300 group w-fit border-b border-[#E9704D]/30 pb-1 hover:border-white/50"
+                    >
+                      Esplora IR, DIC, STM e RTM
+                      <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </Link>
+                  )}
+                </div>
+              </GlowCard>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   )
 }
 
