@@ -37,7 +37,8 @@ export default function Footer() {
 
           {/* Col 2 — Navigation */}
           <div>
-            <p className="text-xs uppercase tracking-widest text-white/40 mb-4">
+            {/* TODO decommenta quando crei altre pagine */}
+            {/* <p className="text-xs uppercase tracking-widest text-white/40 mb-4">
               Navigazione
             </p>
             <ul className="flex flex-col gap-3">
@@ -51,7 +52,7 @@ export default function Footer() {
                   </a>
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </div>
 
           {/* Col 3 — Contacts */}
@@ -82,10 +83,12 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/[0.05] mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-white/25">
           <span>KnoWow s.r.l. — Tutti i diritti riservati</span>
-          <div className="flex gap-6">
+
+          {/* TODO_crea pagine e decommenta */}
+          {/* <div className="flex gap-6">
             <a href="#" className="hover:text-white/50 transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white/50 transition-colors">Cookie Policy</a>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

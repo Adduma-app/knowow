@@ -40,7 +40,7 @@ export default function Navbar() {
         style={{ paddingLeft: 'max(1.5rem, env(safe-area-inset-left))', paddingRight: 'max(1.5rem, env(safe-area-inset-right))' }}
       >
         {/* Logo */}
-        <a href="#" aria-label="KnoWow — torna all'inizio della pagina" className="flex items-center">
+        <a href="/" aria-label="KnoWow — torna all'inizio della pagina" className="flex items-center">
           <Image
             src="/images/logo.png"
             alt="KnoWow"

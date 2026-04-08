@@ -14,11 +14,11 @@ const TABLE_ROWS = [
   { serie: '5', provini: '22', r2: '79.92%', giorni: '45', warning: false },
 ]
 
-// ─── Fade-in block wrapper ────────────────────────────────────────────────────
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function FadeBlock({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref    = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.25 })
+  const inView = useInView(ref, { once: true, amount: 0.2 })
   return (
     <motion.div
       ref={ref}
@@ -31,33 +31,137 @@ function FadeBlock({ children, delay = 0 }: { children: React.ReactNode; delay?:
   )
 }
 
-// ─── Accent heading ───────────────────────────────────────────────────────────
-
-function AccentHeading({ children }: { children: React.ReactNode }) {
+function BlockHeading({ children, accent = '#E9704D' }: { children: React.ReactNode; accent?: string }) {
   return (
-    <h3
-      className="font-sans font-bold uppercase text-white mb-5 leading-tight"
-      style={{ fontSize: 'clamp(1rem, 1.8vw, 1.35rem)', letterSpacing: '-0.01em' }}
-    >
-      {children}
-    </h3>
+    <div className="flex items-center gap-3 mb-5">
+      <div className="w-px shrink-0 mt-1 rounded-full" style={{ height: 36, background: accent }} aria-hidden="true" />
+      <h3
+        className="font-sans font-bold uppercase text-white leading-tight"
+        style={{ fontSize: 'clamp(1rem, 1.6vw, 1.25rem)', letterSpacing: '-0.01em' }}
+      >
+        {children}
+      </h3>
+    </div>
   )
 }
 
-// ─── Body text ────────────────────────────────────────────────────────────────
-
 function Body({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`text-sm md:text-base text-white/52 leading-relaxed font-medium ${className}`}>
+    <p className={`text-sm md:text-base text-white/50 leading-relaxed font-medium ${className}`}>
       {children}
     </p>
   )
 }
 
-// ─── Inline highlight ─────────────────────────────────────────────────────────
-
 function Hi({ children }: { children: React.ReactNode }) {
-  return <span className="text-white/80 font-bold">{children}</span>
+  return <span className="text-white/85 font-bold">{children}</span>
+}
+
+// ─── Visual comparison card ───────────────────────────────────────────────────
+
+function CompareCard() {
+  const cols = [
+    {
+      label: 'Metodo tradizionale',
+      badge: '⚠ Insufficiente',
+      num: '5',
+      unit: 'provini',
+      accent: '#E9704D',
+      glowRGB: '233,112,77',
+      items: [
+        '~11 giorni di macchina',
+        'R² apparentemente ottimo',
+        'Distribuzione non stimabile',
+        'Curva S-N inaffidabile',
+      ],
+      textDim: true,
+    },
+    {
+      label: 'Standard statistico',
+      badge: '✓ Affidabile',
+      num: '20+',
+      unit: 'provini',
+      accent: '#3B61AB',
+      glowRGB: '59,97,171',
+      items: [
+        '~45 giorni di macchina',
+        'Curva P-S-N completa',
+        'Bande di sopravvivenza 5/50/95%',
+        'Base per decisioni di progetto',
+      ],
+      textDim: false,
+    },
+  ]
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-8">
+      {cols.map((col) => (
+        <GlowCard
+          key={col.label}
+          className="glass-card clip-card relative overflow-hidden"
+          glowRGB={col.glowRGB}
+          glowSize={320}
+          glowAlpha={0.14}
+        >
+            {/* Large decorative number behind */}
+            <div
+              className="absolute -bottom-[8%] -right-[4%] overflow-hidden pointer-events-none select-none"
+              aria-hidden="true"
+            >
+              <span
+                className="font-display font-black block leading-none"
+                style={{
+                  fontSize: 'clamp(6rem,12vw,10rem)',
+                  WebkitTextFillColor: col.textDim
+                    ? 'rgba(255,255,255,0.04)'
+                    : `rgba(${col.glowRGB},0.08)`,
+                }}
+              >
+                {col.num}
+              </span>
+            </div>
+
+            <div className="relative z-10 p-6 md:p-8">
+              {/* Header */}
+              <div className="flex items-center gap-2 mb-5">
+                <span className="text-micro" style={{ color: col.accent }}>{col.label}</span>
+                <span
+                  className="text-micro px-1.5 py-0.5"
+                  style={{ color: col.accent, border: `1px solid ${col.accent}44` }}
+                >
+                  {col.badge}
+                </span>
+              </div>
+
+              {/* Number + unit */}
+              <div className="mb-6">
+                <span
+                  className="font-display font-black leading-none"
+                  style={{
+                    fontSize: 'clamp(2.8rem,5vw,4rem)',
+                    color: col.textDim ? 'rgba(255,255,255,0.22)' : col.accent,
+                    letterSpacing: '-0.03em',
+                  }}
+                >
+                  {col.num}
+                </span>
+                <span className="text-sm text-white/40 ml-2">{col.unit}</span>
+              </div>
+
+              {/* Bullet list */}
+              <div className="flex flex-col gap-2">
+                {col.items.map((t) => (
+                  <div key={t} className="flex items-center gap-3">
+                    <div className="w-4 h-px shrink-0" style={{ background: `${col.accent}55` }} />
+                    <span className="text-xs text-white/55 font-medium">{t}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+        </GlowCard>
+      ))}
+    </div>
+  )
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -65,11 +169,11 @@ function Hi({ children }: { children: React.ReactNode }) {
 export default function SectionPerche() {
   return (
     <section className="px-6 md:px-16 lg:px-24 py-24 md:py-36">
-      <div className="max-w-4xl mx-auto">
+      <div>
 
-        {/* ── Section label ── */}
+        {/* ── Header ── */}
         <FadeBlock>
-          <span className="text-[10px] uppercase tracking-[0.35em] text-[#E9704D] block mb-5">
+          <span className="text-micro text-[#E9704D] block mb-5">
             Perché conta farlo bene
           </span>
           <h2
@@ -82,100 +186,89 @@ export default function SectionPerche() {
           </h2>
         </FadeBlock>
 
-        {/* ── Opening paragraph ── */}
-        <FadeBlock delay={0.05}>
-          <div className="mb-14 pb-14 border-b border-white/[0.07]">
+        {/* ── Blocco 1: 5 provini ── */}
+        <FadeBlock>
+          <div className="mb-16 pb-16 border-b border-white/[0.06]">
+            <BlockHeading accent="#E9704D">
+              Il problema più comune: cinque provini non sono abbastanza
+            </BlockHeading>
+
             <Body>
-              Più occasioni di confronto tecnico con ingegneri di alto livello abbiamo e più risulta
-              chiaro che la materia è pressoché sconosciuta. Lo studio della fatica è
-              un&apos;attività core di R&D estremamente verticale, che si colloca
-              all&apos;intersezione tra progettazione, ingegneria meccanica e ingegneria dei
-              materiali.
+              Uno degli errori più diffusi è lavorare con curve di Wöhler derivate da appena
+              5 provini. <Hi>La differenza rispetto a 20+ provini non è quantitativa: è qualitativa.</Hi>{' '}
+              Con 5 provini non si stima una distribuzione — si fitta una curva su un campione
+              troppo piccolo. Come stimare le precipitazioni annuali di una città misurando
+              solo 5 giorni d&apos;estate.
             </Body>
-            <Body className="mt-4">
-              Ciò che spesso accade è che la non padronanza della tematica, unita a vincoli di
-              budget e di tempistiche, porta a progettare con{' '}
-              <Hi>margini di sicurezza eccessivi e inefficienti</Hi>, a discapito di prestazioni e
-              costi di produzione — oppure a condurre campagne approssimative che nel migliore dei
-              casi sono inutili, ma che spesso finiscono per essere dannose poiché restituiscono{' '}
-              <Hi>dati fuorvianti</Hi> che orientano le scelte progettuali nella direzione sbagliata.
+
+            {/* ── Wöhler chart video — full-bleed ── */}
+            <div
+              className="-mx-6 md:-mx-16 lg:-mx-24 my-12 relative overflow-hidden"
+              style={{ height: '100vh' }}
+            >
+              <video
+                src="/media/knowow-chart.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 w-full h-full"
+                style={{
+                  objectFit: 'cover',
+                  WebkitMaskImage:
+                    'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
+                  maskImage:
+                    'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
+                }}
+              />
+              {/* Label overlay */}
+              <div className="absolute bottom-12 left-6 md:left-16 lg:left-24 z-10">
+                <span
+                  className="text-micro block mb-1"
+                  style={{ color: '#E9704D' }}
+                >
+                  Metodo tradizionale
+                </span>
+                <span className="text-micro text-white/40 block">
+                  Costruzione curva di Wöhler — standard statistico
+                </span>
+              </div>
+            </div>
+
+            <CompareCard />
+
+            <Body>
+              Con 20+ provini è possibile costruire una <Hi>curva P-S-N</Hi>{' '}
+              (Probability-Stress-Number of Cycles): la famiglia di curve isoaffidabilità al
+              5%, 50%, 95% su cui si fondano le decisioni di progetto robuste.
             </Body>
           </div>
         </FadeBlock>
 
-        {/* ── 5 specimens problem ── */}
+        {/* ── Blocco 2: tabella + ASTM ── */}
         <FadeBlock>
-          <div className="mb-14 pb-14 border-b border-white/[0.07]">
-            <div className="flex items-start gap-4 mb-6">
-              <div
-                className="w-px shrink-0 mt-1"
-                style={{ height: 'calc(100% + 0px)', background: '#E9704D', minHeight: 40 }}
-                aria-hidden="true"
-              />
-              <AccentHeading>
-                Il problema più comune: cinque provini non sono abbastanza
-              </AccentHeading>
-            </div>
-
-            <Body>
-              Uno degli errori più diffusi è lavorare con curve di Wöhler (curve S-N) derivate da
-              appena 5 provini. Tali curve non possono in alcun modo essere messe sullo stesso
-              piano di quelle ottenute con 20 o più provini.{' '}
-              <Hi>La differenza non è quantitativa: è qualitativa.</Hi>
-            </Body>
-            <Body className="mt-4">
-              Con 20 o più provini è possibile costruire in modo affidabile una{' '}
-              <Hi>curva P-S-N</Hi> (Probability-Stress-Number of Cycles): una famiglia di curve
-              isoaffidabilità che esprime, a diversi livelli di probabilità di sopravvivenza, il
-              legame tra ampiezza di tensione e vita a fatica. Le curve più rilevanti sono quella
-              al 95% — al di sotto della quale sopravvive il 95% della popolazione di componenti
-              — la mediana al 50%, e quella al 5%, al di sotto della quale sopravvive solo 1
-              componente su 20.{' '}
-              <Hi>È in quella banda che si decide se un progetto è robusto oppure no.</Hi>
-            </Body>
-            <Body className="mt-4">
-              Quella banda ha senso ed è affidabile solo se i dati sottostanti sono sufficienti a
-              stimare la distribuzione reale del fenomeno. Con 5 provini non si stima una
-              distribuzione, si fitta una curva su un campione troppo piccolo per essere
-              affidabile. È come stimare le precipitazioni annuali di una città misurando solo
-              5 giorni d&apos;estate: la curva è perfetta, ma non hai mai visto una settimana di
-              febbraio.
-            </Body>
-          </div>
-        </FadeBlock>
-
-        {/* ── Data exercise + table ── */}
-        <FadeBlock>
-          <div className="mb-14 pb-14 border-b border-white/[0.07]">
-            <div className="flex items-start gap-4 mb-6">
-              <div
-                className="w-px shrink-0 mt-1"
-                style={{ height: 40, background: '#3B61AB' }}
-                aria-hidden="true"
-              />
-              <AccentHeading>Un esercizio su dati reali</AccentHeading>
-            </div>
+          <div className="mb-16 pb-16 border-b border-white/[0.06]">
+            <BlockHeading accent="#3B61AB">Un esercizio su dati reali</BlockHeading>
 
             <Body className="mb-8">
-              Di seguito un esercizio basato su dati reali di una ghisa sferoidale pubblicati da{' '}
-              <Hi>Kohout &amp; Věchet</Hi> (Int. J. Fatigue, 2001). Con questi dati costruiamo
-              cinque serie di curve variando il numero di provini.
+              Dati reali di una ghisa sferoidale pubblicati da{' '}
+              <Hi>Kohout &amp; Věchet</Hi> (Int. J. Fatigue, 2001). La Serie 1 ha il
+              miglior R² — ed è la peggiore.
             </Body>
 
-            {/* Table */}
             <GlowCard
               className="glass-card clip-card overflow-hidden mb-8"
               glowRGB="59,97,171"
               glowSize={400}
-              glowAlpha={0.15}
+              glowAlpha={0.12}
             >
               <table className="w-full" style={{ borderCollapse: 'collapse' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-                    {['Serie', 'Provini', 'R²', 'Giorni di test'].map((h) => (
+                    {['Serie', 'Provini', 'R²', 'Giorni'].map((h) => (
                       <th
                         key={h}
-                        className="text-left font-sans font-bold uppercase text-white/35 py-4 px-6"
+                        className="text-left font-sans font-bold uppercase text-white/30 py-4 px-6"
                         style={{ fontSize: 10, letterSpacing: '0.25em' }}
                       >
                         {h}
@@ -188,13 +281,8 @@ export default function SectionPerche() {
                     <tr
                       key={row.serie}
                       style={{
-                        borderBottom:
-                          i < TABLE_ROWS.length - 1
-                            ? '1px solid rgba(255,255,255,0.04)'
-                            : 'none',
-                        background: row.warning
-                          ? 'rgba(233,112,77,0.06)'
-                          : 'transparent',
+                        borderBottom: i < TABLE_ROWS.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                        background: row.warning ? 'rgba(233,112,77,0.06)' : 'transparent',
                       }}
                     >
                       <td className="py-4 px-6">
@@ -208,13 +296,9 @@ export default function SectionPerche() {
                           {row.warning && (
                             <span
                               className="text-[9px] uppercase tracking-[0.2em] font-bold px-2 py-0.5"
-                              style={{
-                                color: '#E9704D',
-                                border: '1px solid rgba(233,112,77,0.35)',
-                                borderRadius: 2,
-                              }}
+                              style={{ color: '#E9704D', border: '1px solid rgba(233,112,77,0.35)', borderRadius: 2 }}
                             >
-                              R² più alto ≠ migliore
+                              R² alto ≠ migliore
                             </span>
                           )}
                         </div>
@@ -231,9 +315,7 @@ export default function SectionPerche() {
                         <span
                           className="font-mono text-sm"
                           style={{
-                            color: row.warning
-                              ? 'rgba(233,112,77,0.9)'
-                              : 'rgba(255,255,255,0.55)',
+                            color: row.warning ? 'rgba(233,112,77,0.9)' : 'rgba(255,255,255,0.55)',
                             fontWeight: row.warning ? 700 : 400,
                           }}
                         >
@@ -241,10 +323,7 @@ export default function SectionPerche() {
                         </span>
                       </td>
                       <td className="py-4 px-6">
-                        <span
-                          className="font-mono text-sm"
-                          style={{ color: 'rgba(255,255,255,0.55)' }}
-                        >
+                        <span className="font-mono text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
                           {row.giorni}
                         </span>
                       </td>
@@ -254,144 +333,37 @@ export default function SectionPerche() {
               </table>
             </GlowCard>
 
-            <Body>
-              La Serie 1 ha il miglior R² e la campagna più breve. Eppure è la peggiore — e la
-              tabella è costruita apposta per mostrare perché{' '}
-              <Hi>l&apos;R² è una metrica ingannevole in questo contesto</Hi>.
-            </Body>
-            <Body className="mt-4">
-              Con pochi provini il modello si adatta perfettamente ai dati che ha, ma quei dati
-              non rappresentano la distribuzione reale del fenomeno. All&apos;aumentare dei
-              provini, la stima dei parametri della distribuzione sottostante converge verso valori
-              stabili. Quella convergenza è la &quot;verità ingegneristica&quot;. Le curve derivate
-              da campioni piccoli non sono sbagliate in modo sistematico, ma si discostano
-              stocasticamente da essa con{' '}
-              <Hi>alta varianza</Hi> — e il loro R² elevato maschera esattamente questo problema,
-              perché misura quanto bene il modello si adatta ai pochi punti disponibili, non quanto
-              bene rappresenta la distribuzione reale.
-            </Body>
-          </div>
-        </FadeBlock>
-
-        {/* ── Norma e pratica ── */}
-        <FadeBlock>
-          <div className="mb-14 pb-14 border-b border-white/[0.07]">
-            <div className="flex items-start gap-4 mb-6">
-              <div
-                className="w-px shrink-0 mt-1"
-                style={{ height: 40, background: '#E9704D' }}
-                aria-hidden="true"
-              />
-              <AccentHeading>Cosa dice la norma, e cosa suggerisce la pratica</AccentHeading>
-            </div>
-
             {/* ASTM callout */}
             <div
-              className="flex items-start gap-4 mb-6 py-4 px-5"
-              style={{ border: '1px solid rgba(59,97,171,0.3)', borderLeft: '3px solid #3B61AB' }}
+              className="flex items-center gap-4 py-4 px-5"
+              style={{ border: '1px solid rgba(59,97,171,0.25)', borderLeft: '3px solid #3B61AB' }}
             >
               <div>
-                <p
-                  className="text-[10px] uppercase tracking-[0.25em] text-[#3B61AB] font-bold mb-1"
-                >
+                <p className="text-[10px] uppercase tracking-[0.25em] font-bold mb-1.5" style={{ color: '#3B61AB' }}>
                   ASTM E739
                 </p>
-                <p className="text-sm text-white/60 leading-relaxed font-medium">
-                  Raccomanda un minimo di{' '}
-                  <Hi>12–24 provini</Hi> per campagne con finalità statistiche. Sotto quella soglia
-                  si può fare caratterizzazione orientativa, non affidabilità di progetto.
+                <p className="text-sm text-white/55 leading-relaxed font-medium">
+                  Raccomanda un minimo di <Hi>12–24 provini</Hi> per campagne con finalità
+                  statistiche. Sotto quella soglia: caratterizzazione orientativa, non
+                  affidabilità di progetto.
                 </p>
               </div>
             </div>
-
-            <Body>
-              Eppure in molte aziende si lavora ancora sistematicamente con 5 o 6 provini,
-              trattando i risultati come se fossero equivalenti a quelli di una campagna
-              statistica.
-            </Body>
-            <Body className="mt-4">
-              Il range di ASTM E739 è volutamente ampio per restituire un quadro di minima e
-              massima affidabilità del dato. La letteratura sulla caratterizzazione a fatica e
-              diversi decenni di applicazioni industriali indicano{' '}
-              <Hi>20 provini come soglia pratica</Hi> sotto la quale la stima delle curve di
-              sopravvivenza diventa troppo incerta per supportare decisioni di progetto affidabili.
-              Non è una regola normativa, ma una soglia ingegneristica ben fondata.
-            </Body>
-            <Body className="mt-4">
-              Questo vale a maggior ragione per <Hi>additive manufacturing e compositi</Hi>, dove
-              la dispersione intrinseca del materiale è significativamente più alta e la distanza
-              tra la curva al 95% e quella al 5% si allarga in modo sostanziale.
-            </Body>
-
-            {/* Aphorism */}
-            <div className="mt-8 pt-8 border-t border-white/[0.06]">
-              <p
-                className="font-sans font-bold uppercase text-center leading-tight"
-                style={{
-                  fontSize: 'clamp(1.1rem, 2.2vw, 1.7rem)',
-                  letterSpacing: '-0.01em',
-                }}
-              >
-                <span className="text-white/30">Pochi dati producono</span>
-                <span className="text-white"> un&apos;alta illusione di precisione.</span>
-                <br />
-                <span className="text-white/30">Molti dati producono</span>
-                <span className="text-white"> vera affidabilità.</span>
-              </p>
-            </div>
           </div>
         </FadeBlock>
 
-        {/* ── Costi e tempo ── */}
+        {/* ── Aforisma ── */}
         <FadeBlock>
-          <div className="mb-14 pb-14 border-b border-white/[0.07]">
-            <div className="flex items-start gap-4 mb-6">
-              <div
-                className="w-px shrink-0 mt-1"
-                style={{ height: 40, background: '#E9704D' }}
-                aria-hidden="true"
-              />
-              <AccentHeading>Il problema è di tempo e di costi</AccentHeading>
-            </div>
-            <Body>
-              Passare da 5 a 22 provini significa passare da{' '}
-              <Hi>11 a 45 giorni di macchina</Hi> a 20 Hz. Quadruplicare il tempo, quadruplicare
-              i costi. Questo è un vincolo reale che, complice una conoscenza non approfondita del
-              tema, spinge molte aziende a lavorare con campioni insufficienti.
-            </Body>
-          </div>
-        </FadeBlock>
-
-        {/* ── KnoWow solution — final highlight block ── */}
-        <FadeBlock>
-          <GlowCard
-            className="clip-card p-8 md:p-12"
-            glowRGB="233,112,77"
-            glowSize={500}
-            glowAlpha={0.2}
-            style={{
-              background: 'rgba(233,112,77,0.04)',
-              border: '1px solid rgba(233,112,77,0.15)',
-            }}
+          <p
+            className="font-sans font-bold uppercase text-center leading-tight"
+            style={{ fontSize: 'clamp(1.1rem, 2.2vw, 1.7rem)', letterSpacing: '-0.01em' }}
           >
-            <span className="text-[10px] uppercase tracking-[0.3em] text-[#E9704D] block mb-5">
-              La risposta di KnoWow
-            </span>
-            <p
-              className="font-sans font-bold uppercase text-white leading-tight mb-6"
-              style={{ fontSize: 'clamp(1rem, 1.8vw, 1.4rem)', letterSpacing: '-0.01em' }}
-            >
-              Ed è esattamente questo il problema che KnoWow ha affrontato.
-            </p>
-            <Body>
-              KnoWow ha sviluppato una tecnologia di testing accelerato capace di ridurre i tempi
-              di derivazione di una curva P-S-N affidabile da{' '}
-              <Hi>4–6 settimane a meno di 48 ore</Hi>. La base statistica rimane equivalente a
-              quella di una campagna con 20–24 provini: lo stesso contenuto informativo, in una
-              frazione del tempo, senza sacrificare la robustezza su cui si fondano le decisioni
-              di progetto.
-            </Body>
-          </GlowCard>
+            <span className="text-white/28">Pochi dati producono</span>
+            <span className="text-white"> un&apos;alta illusione di precisione.</span>
+            <br />
+            <span className="text-white/28">Molti dati producono</span>
+            <span className="text-white"> vera affidabilità.</span>
+          </p>
         </FadeBlock>
 
       </div>

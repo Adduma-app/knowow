@@ -59,10 +59,6 @@ const INF: [number, number, number, number][] = [
 
 // ─── Pure helpers ──────────────────────────────────────────────────────────────
 
-function bez(t: number, a: number, b: number, c: number, d: number): number {
-  const u = 1 - t
-  return u*u*u*a + 3*u*u*t*b + 3*u*t*t*c + t*t*t*d
-}
 
 function inferno(t: number): [number, number, number] {
   t = Math.max(0, Math.min(1, t))
@@ -131,39 +127,28 @@ export default function ThermalChart() {
     // Assign to a const so TypeScript keeps the non-null type inside closures
     const ctx = ctxOrNull
 
-    // ── 1. Build specimen boundary arrays ──────────────────────
-    const leftXN  = new Float32Array(H).fill(0)
-    const rightXN = new Float32Array(H).fill(1)
-    const N_BEZ   = 10000
+    // Offscreen canvas — pixel data is written here, then composited with a
+    // smooth bezier clip path so the specimen boundary is anti-aliased.
+    const offCanvas = document.createElement('canvas')
+    offCanvas.width  = W
+    offCanvas.height = H
+    const offCtx = offCanvas.getContext('2d')!
 
-    for (const [p0, p1, p2, p3] of SEG_LEFT) {
-      for (let i = 0; i <= N_BEZ; i++) {
-        const t  = i / N_BEZ
-        const yn = bez(t, p0[1], p1[1], p2[1], p3[1])
-        const xn = bez(t, p0[0], p1[0], p2[0], p3[0])
-        const py = Math.round(yn * (H - 1))
-        if (py >= 0 && py < H) leftXN[py] = Math.max(leftXN[py], xn)
-      }
-    }
-    for (const [p0, p1, p2, p3] of SEG_RIGHT) {
-      for (let i = 0; i <= N_BEZ; i++) {
-        const t  = i / N_BEZ
-        const yn = bez(t, p0[1], p1[1], p2[1], p3[1])
-        const xn = bez(t, p0[0], p1[0], p2[0], p3[0])
-        const py = Math.round(yn * (H - 1))
-        if (py >= 0 && py < H) rightXN[py] = Math.min(rightXN[py], xn)
-      }
-    }
-    // Fill sampling gaps via linear interpolation
-    for (let py = 1; py < H - 1; py++) {
-      if (leftXN[py]  === 0 && leftXN[py-1]  > 0 && leftXN[py+1]  > 0)
-        leftXN[py]  = (leftXN[py-1]  + leftXN[py+1])  / 2
-      if (rightXN[py] === 1 && rightXN[py-1] < 1 && rightXN[py+1] < 1)
-        rightXN[py] = (rightXN[py-1] + rightXN[py+1]) / 2
+    // Pre-build the specimen clip path (normalised → pixel coords)
+    function buildSpecimenPath() {
+      ctx.beginPath()
+      ctx.moveTo(SEG_LEFT[0][0][0] * W, SEG_LEFT[0][0][1] * H)
+      for (const [, p1, p2, p3] of SEG_LEFT)
+        ctx.bezierCurveTo(p1[0]*W, p1[1]*H, p2[0]*W, p2[1]*H, p3[0]*W, p3[1]*H)
+      // bridge top-left → top-right
+      ctx.lineTo(SEG_RIGHT[0][0][0] * W, SEG_RIGHT[0][0][1] * H)
+      for (const [, p1, p2, p3] of SEG_RIGHT)
+        ctx.bezierCurveTo(p1[0]*W, p1[1]*H, p2[0]*W, p2[1]*H, p3[0]*W, p3[1]*H)
+      ctx.closePath()
     }
 
-    // ── 2. Precompute per-pixel mask + mm coordinates ──────────
-    const mask   = new Uint8Array(W * H)
+
+    // ── 2. Precompute per-pixel mm coordinates ────────────────
     const mmXArr = new Float32Array(W * H)
     const mmYArr = new Float32Array(W * H)
 
@@ -174,13 +159,6 @@ export default function ThermalChart() {
         const idx = y * W + x
         mmXArr[idx] = mmX
         mmYArr[idx] = mmY
-
-        const xn = (mmX - (CX_MM - HALF_W)) / (2 * HALF_W)
-        const yn = 1 - mmY / Y_MAX
-        if (xn >= 0 && xn <= 1 && yn >= 0 && yn <= 1) {
-          const py = Math.min(H - 1, Math.max(0, Math.round(yn * (H - 1))))
-          mask[idx] = xn >= leftXN[py] && xn <= rightXN[py] ? 1 : 0
-        }
       }
     }
 
@@ -200,7 +178,9 @@ export default function ThermalChart() {
     cbCtx.putImageData(cbImg, 0, 0)
 
     // ── 4. Animation loop ──────────────────────────────────────
-    const imgData = ctx.createImageData(W, H)
+    // All pixels are written (including outside the specimen) — the bezier
+    // clip path applied during compositing produces smooth anti-aliased edges.
+    const imgData = offCtx.createImageData(W, H)
     const px      = imgData.data
     let startMs: number | null = null
 
@@ -215,15 +195,9 @@ export default function ThermalChart() {
         badgeRef.current.textContent = 'N = ' + Math.round(phase * N_MAX).toLocaleString('en-US')
       }
 
+      // Fill every pixel with temperature colour (mask applied via clip path below)
       for (let i = 0; i < W * H; i++) {
         const off = i * 4
-        if (!mask[i]) {
-          px[off]     = 0
-          px[off + 1] = 0
-          px[off + 2] = 0
-          px[off + 3] = 0
-          continue
-        }
         const temp = temperature(mmXArr[i], mmYArr[i], phase, nt)
         const frac = (temp - T_MIN) / (T_MAX - T_MIN)
         const [r, g, b] = inferno(frac)
@@ -233,7 +207,16 @@ export default function ThermalChart() {
         px[off + 3] = 255
       }
 
-      ctx.putImageData(imgData, 0, 0)
+      // Write to offscreen, then composite onto main canvas with smooth clip
+      offCtx.putImageData(imgData, 0, 0)
+
+      ctx.clearRect(0, 0, W, H)
+      ctx.save()
+      buildSpecimenPath()
+      ctx.clip()
+      ctx.drawImage(offCanvas, 0, 0)
+      ctx.restore()
+
       rafRef.current = requestAnimationFrame(render)
     }
 
@@ -253,17 +236,17 @@ export default function ThermalChart() {
         fontSize: 10,
         letterSpacing: '0.05em',
         color: 'rgba(180,210,255,0.45)',
-        background: 'rgba(2, 5, 18, 0.82)',
-        backdropFilter: 'blur(76px)',
-        WebkitBackdropFilter: 'blur(69px)',
-        padding: 5,
+        background: 'rgba(0, 1, 5, 0.97)',
+        backdropFilter: 'blur(120px)',
+        WebkitBackdropFilter: 'blur(120px)',
+        padding: 10,
         WebkitMaskImage:
-          'linear-gradient(to right, transparent 0px, black 22px, black calc(100% - 22px), transparent 100%), ' +
-          'linear-gradient(to bottom, transparent 0px, black 22px, black calc(100% - 22px), transparent 100%)',
+          'linear-gradient(to right, transparent 0px, black 50px, black calc(100% - 50px), transparent 100%), ' +
+          'linear-gradient(to bottom, transparent 0px, black 50px, black calc(100% - 50px), transparent 100%)',
         WebkitMaskComposite: 'source-in',
         maskImage:
-          'linear-gradient(to right, transparent 0px, black 22px, black calc(100% - 22px), transparent 100%), ' +
-          'linear-gradient(to bottom, transparent 0px, black 22px, black calc(100% - 22px), transparent 100%)',
+          'linear-gradient(to right, transparent 0px, black 50px, black calc(100% - 50px), transparent 100%), ' +
+          'linear-gradient(to bottom, transparent 0px, black 50px, black calc(100% - 50px), transparent 100%)',
         maskComposite: 'intersect',
       }}
     >

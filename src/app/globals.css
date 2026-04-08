@@ -18,7 +18,7 @@
 /* ─── FONT FACES ─────────────────────────────────────────────────────────── */
 @font-face {
   font-family: 'Fussion';
-  src: url('/fonts/Fussion.woff') format('woff');
+  src: url('/fonts/Fussion_accented.woff') format('woff');
   font-weight: 400 900;
   font-style: normal;
   font-display: swap;

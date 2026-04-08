@@ -9,28 +9,8 @@ export default function CustomCursor() {
     const cursor = cursorRef.current
     if (!cursor) return
 
-    let mouseX = 0
-    let mouseY = 0
-    let cursorX = 0
-    let cursorY = 0
-
     const onMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX
-      mouseY = e.clientY
-    }
-
-    // Smooth follow con requestAnimationFrame
-    const animate = () => {
-      const dx = mouseX - cursorX
-      const dy = mouseY - cursorY
-      cursorX += dx * 0.15
-      cursorY += dy * 0.15
-
-      if (cursor) {
-        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`
-      }
-
-      requestAnimationFrame(animate)
+      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`
     }
 
     // Hover detection su link, pulsanti e elementi cliccabili
@@ -73,8 +53,6 @@ export default function CustomCursor() {
     document.addEventListener('mouseout', onMouseOut)
     document.documentElement.addEventListener('mouseleave', onMouseLeave)
     document.documentElement.addEventListener('mouseenter', onMouseEnter)
-
-    requestAnimationFrame(animate)
 
     return () => {
       document.removeEventListener('mousemove', onMouseMove)

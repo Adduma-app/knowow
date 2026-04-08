@@ -291,7 +291,7 @@ function BenefitsSticky() {
               transition={{ duration: 0.4, delay: 0.15 }}
             >
               <Link
-                href="/tecnologia"
+                href="/technology"
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#E9704D] hover:text-white transition-colors duration-300 group"
               >
                 Scopri IR, DIC e i metodi termografici
@@ -321,16 +321,7 @@ function BenefitsSticky() {
                   <p className="text-sm lg:text-2xl text-white leading-relaxed max-w-lg font-medium mb-8">
                     {b.text}
                   </p>
-                  {/* Link to technology page — only on benefit 03 */}
-                  {b.num === '03' && (
-                    <Link
-                      href="/tecnologia"
-                      className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#E9704D] hover:text-white transition-colors duration-300 group w-fit border-b border-[#E9704D]/30 pb-1 hover:border-white/50"
-                    >
-                      Esplora IR, DIC, STM e RTM
-                      <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                    </Link>
-                  )}
+                  
                 </div>
               </GlowCard>
             </div>
