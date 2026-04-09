@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
 import { CTA } from '@/constants/content'
 import { staggerContainer, fadeInUp } from '@/lib/animations'
+import { SiteButton } from '@/components/ui/Button'
 
 interface FormState {
   nome: string; email: string; azienda: string; messaggio: string
@@ -156,22 +157,12 @@ export default function CTAFinal() {
                     {sendError && (
                       <p className="w-full text-red-400/80 text-xs mb-2">{sendError}</p>
                     )}
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#E9704D] text-white clip-btn-tr hover:bg-[#d4603f] transition-colors w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed"
-                    >
+                    <SiteButton type="submit" variant="primary" clip="tr" disabled={loading}>
                       {loading ? 'Invio in corso…' : CTA.ctaPrimary}
-                    </button>
-                    <span className="clip-btn-bl inline-block w-full sm:w-auto" style={{ padding: '1px', background: 'rgba(255,255,255,0.25)' }}>
-                      <button
-                        type="button"
-                        onClick={() => { window.location.href = 'mailto:info@knowow.tech' }}
-                        className="inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold text-white clip-btn-bl bg-[#0A0C1C] hover:bg-white/5 transition-colors w-full"
-                      >
-                        {CTA.ctaSecondary}
-                      </button>
-                    </span>
+                    </SiteButton>
+                    <SiteButton href="mailto:info@knowow.tech" variant="ghost" clip="bl">
+                      {CTA.ctaSecondary}
+                    </SiteButton>
                   </div>
                 </motion.form>
 

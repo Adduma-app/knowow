@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { NAV_LINKS } from '@/constants/content'
+import { SiteButton } from '@/components/ui/Button'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -67,15 +68,11 @@ export default function Navbar() {
         </div>
 
           {/* CTA */}
-          <span className="hidden md:inline-block clip-btn-bl-border clip-btn-bl !bg-[#E9704D]/80">
-          <a
-            href="#contatti"
-            className="relative clip-btn-bl inline-flex items-center justify-center text-[#E9704D] text-xs uppercase tracking-widest  bg-[#17192D] hover:bg-[#E9704D] hover:text-white transition-all"
-            aria-label="Richiedi una demo di FFTM"
-          >
-            Richiedi una demo
-          </a>
-        </span>
+          <span className="hidden md:inline-block">
+            <SiteButton href="#contatti" variant="primary" clip="bl" aria-label="Richiedi una demo di FFTM">
+              Richiedi una demo
+            </SiteButton>
+          </span>
 
         {/* Mobile hamburger */}
         <button

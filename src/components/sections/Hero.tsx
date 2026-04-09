@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { HERO } from '@/constants/content'
 import { staggerContainer, wordReveal } from '@/lib/animations'
+import { SiteButton } from '@/components/ui/Button'
 
 // ─── Staggered H1 ─────────────────────────────────────────────────────────────
 function StaggeredH1({ line1, line2 }: { line1: string; line2: string }) {
@@ -65,29 +66,27 @@ export default function Hero() {
     <section
       className="relative min-h-screen flex flex-col overflow-hidden"
       aria-label="Hero — Fast Fatigue Testing Technology"
-      style={{
-        WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
-        maskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
-      }}
     >
-      {/* Video background */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
-        src="/videohero.mp4"
-      />
-
-      {/* Overlay leggero per leggibilità del testo */}
+      {/* Layer background — video + overlay + sfumatura in basso.
+          La maskImage è applicata SOLO a questo div, non al contenuto. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 z-[1] pointer-events-none"
-        style={{ background: 'rgba(4, 5, 14, 0.55)' }}
-      />
-
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+          maskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+        }}
+      >
+        <video
+          autoPlay muted loop playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/videohero.mp4"
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'rgba(4, 5, 14, 0.55)' }}
+        />
+      </div>
 
       <div ref={thermalRef} className="hero-thermal-bg" aria-hidden="true" />
 
@@ -120,25 +119,12 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 1.1 }}
           className="flex flex-wrap justify-center gap-4 mt-10"
         >
-          {/* Primary — clip Top-Right */}
-          <a
-            href="#fftm"
-            className="clip-btn-bl relative md:inline-flex items-center w-full md:w-auto justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#E9704D] text-white transition-all duration-300 hover:bg-[#E9704D]/85 overflow-hidden"
-            aria-label="Scopri la tecnologia FFTM"
-          >
+          <SiteButton href="#fftm"     variant="primary" clip="bl" aria-label="Scopri la tecnologia FFTM">
             {HERO.ctaPrimary}
-          </a>
-          {/* Secondary — clip Bottom-Left */}
-           {/* Secondary — clip Bottom-Left con bordo uniforme */}
-           <span className="clip-btn-tr relative md:inline-block bg-white/30 p-[1px] w-full md:w-auto">
-            <a
-              href="#contatti"
-              className="clip-btn-tr relative inline-flex items-center justify-center px-8 py-4 text-xs uppercase w-full tracking-widest font-bold bg-[#0a0a0a] text-white transition-all duration-300 hover:bg-white/5 overflow-hidden"
-              aria-label="Richiedi una demo di FFTM"
-            >
-              {HERO.ctaSecondary}
-            </a>
-          </span>
+          </SiteButton>
+          <SiteButton href="#contatti" variant="ghost"   clip="tr" aria-label="Richiedi una demo di FFTM">
+            {HERO.ctaSecondary}
+          </SiteButton>
         </motion.div>
       </div>
 

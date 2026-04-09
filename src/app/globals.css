@@ -187,6 +187,25 @@ h1, h2, h3, h4, h5, h6 {
   );
 }
 
+/* ─── SITE BUTTON hover ──────────────────────────────────────────────────── */
+/* Primary (arancione): hover → sfondo nero, testo arancione, bordo arancione */
+.site-btn-primary {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.site-btn-primary:hover {
+  background-color: #000 !important;
+  color: #E9704D !important;
+}
+
+/* Ghost (bordo bianco): hover → sfondo nero, testo bianco, bordo bianco */
+.site-btn-ghost {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.site-btn-ghost:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
 /* ─── GRAIN TEXTURE ──────────────────────────────────────────────────────── */
 .grain-overlay {
   position: fixed;
