@@ -17,6 +17,8 @@ export default function CTAFinal() {
   const [form, setForm]           = useState<FormState>({ nome: '', email: '', azienda: '', messaggio: '' })
   const [errors, setErrors]       = useState<Partial<FormState>>({})
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading]     = useState(false)
+  const [sendError, setSendError] = useState<string | null>(null)
 
   const validate = (): boolean => {
     const e: Partial<FormState> = {}
@@ -28,9 +30,27 @@ export default function CTAFinal() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (ev: React.FormEvent) => {
+  const handleSubmit = async (ev: React.FormEvent) => {
     ev.preventDefault()
-    if (validate()) setSubmitted(true)
+    if (!validate()) return
+
+    setLoading(true)
+    setSendError(null)
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      if (!res.ok) throw new Error('Errore invio')
+      setSubmitted(true)
+    } catch {
+      setSendError('Qualcosa è andato storto. Riprova o scrivici direttamente.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -73,7 +93,7 @@ export default function CTAFinal() {
       >
         {submitted ? (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-24">
-            <div className="text-5xl mb-6 text-[#E9704D]">✓</div>
+            {/* <div className="text-5xl mb-6 text-[#E9704D]">✓</div> */}
             <h2 className="font-sans font-bold uppercase text-white text-2xl mb-3">Messaggio inviato</h2>
             <p className="text-white/50 text-sm font-medium">Il team ti contatterà entro 24 ore.</p>
             <button
@@ -133,11 +153,15 @@ export default function CTAFinal() {
                   </div>
 
                   <div className="md:col-span-2 flex flex-col sm:flex-row gap-4 pt-4">
+                    {sendError && (
+                      <p className="w-full text-red-400/80 text-xs mb-2">{sendError}</p>
+                    )}
                     <button
                       type="submit"
-                      className="inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#E9704D] text-white clip-btn-tr hover:bg-[#d4603f] transition-colors w-full sm:w-auto"
+                      disabled={loading}
+                      className="inline-flex items-center justify-center px-8 py-4 text-xs uppercase tracking-widest font-bold bg-[#E9704D] text-white clip-btn-tr hover:bg-[#d4603f] transition-colors w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      {CTA.ctaPrimary}
+                      {loading ? 'Invio in corso…' : CTA.ctaPrimary}
                     </button>
                     <span className="clip-btn-bl inline-block w-full sm:w-auto" style={{ padding: '1px', background: 'rgba(255,255,255,0.25)' }}>
                       <button

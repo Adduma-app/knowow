@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://www.knowow.tech' },
+  icons: {
+    icon: '/favicon.webp',
+    shortcut: '/favicon.webp',
+  },
 }
 
 const jsonLd = {
