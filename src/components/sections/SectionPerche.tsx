@@ -168,7 +168,7 @@ function CompareCard() {
 
 export default function SectionPerche() {
   return (
-    <section className="px-6 md:px-16 lg:px-24 py-24 md:py-36">
+    <section className="px-6 md:px-16 lg:px-24 py-2 md:py-36">
       <div>
 
         {/* ── Header ── */}
@@ -203,26 +203,22 @@ export default function SectionPerche() {
 
             {/* ── Wöhler chart video — full-bleed ── */}
             <div
-              className="-mx-6 md:-mx-16 lg:-mx-24 my-12 relative overflow-hidden"
-              style={{ height: '100vh' }}
+              className="-mx-6 md:-mx-16 lg:-mx-24 md:my-12 relative overflow-hidden mt-[10%]"
+          
             >
               <video
-                src="/media/knowow-chart.mp4"
+                src="/video_grafici/knowow-chart_vp9_da_mp4.webm"
                 autoPlay
                 muted
                 loop
                 playsInline
-                className="absolute inset-0 w-full h-full"
+                className=" inset-0 w-full h-[50vh]"
                 style={{
-                  objectFit: 'cover',
-                  WebkitMaskImage:
-                    'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
-                  maskImage:
-                    'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
+                  objectFit: 'contain',
                 }}
               />
               {/* Label overlay */}
-              <div className="absolute bottom-12 left-6 md:left-16 lg:left-24 z-10">
+              <div className="absolute top-2 md:bottom-12 left-6 md:left-16 lg:left-24 z-10">
                 <span
                   className="text-micro block mb-1"
                   style={{ color: '#E9704D' }}
@@ -262,13 +258,14 @@ export default function SectionPerche() {
               glowSize={400}
               glowAlpha={0.12}
             >
-              <table className="w-full" style={{ borderCollapse: 'collapse' }}>
+              <div className="overflow-x-auto">
+              <table className="w-full min-w-[400px]" style={{ borderCollapse: 'collapse' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
                     {['Serie', 'Provini', 'R²', 'Giorni'].map((h) => (
                       <th
                         key={h}
-                        className="text-left font-sans font-bold uppercase text-white/30 py-4 px-6"
+                        className="text-left font-sans font-bold uppercase text-white/30 py-8 px-3 md:py-4 md:px-6"
                         style={{ fontSize: 10, letterSpacing: '0.25em' }}
                       >
                         {h}
@@ -285,8 +282,8 @@ export default function SectionPerche() {
                         background: row.warning ? 'rgba(233,112,77,0.06)' : 'transparent',
                       }}
                     >
-                      <td className="py-4 px-6">
-                        <div className="flex items-center gap-3">
+                      <td className=" py-4 px-6">
+                        <div className="flex flex-col gap-1">
                           <span
                             className="font-mono text-sm"
                             style={{ color: row.warning ? '#E9704D' : 'rgba(255,255,255,0.55)' }}
@@ -295,7 +292,7 @@ export default function SectionPerche() {
                           </span>
                           {row.warning && (
                             <span
-                              className="text-[9px] uppercase tracking-[0.2em] font-bold px-2 py-0.5"
+                              className="text-[8px] uppercase tracking-[0.15em] font-bold px-1.5 py-0.5 self-start"
                               style={{ color: '#E9704D', border: '1px solid rgba(233,112,77,0.35)', borderRadius: 2 }}
                             >
                               R² alto ≠ migliore
@@ -303,7 +300,7 @@ export default function SectionPerche() {
                           )}
                         </div>
                       </td>
-                      <td className="py-4 px-6">
+                      <td className="py-3 px-3 md:py-4 md:px-6">
                         <span
                           className="font-mono text-sm font-bold"
                           style={{ color: row.warning ? '#E9704D' : 'rgba(255,255,255,0.75)' }}
@@ -311,7 +308,7 @@ export default function SectionPerche() {
                           {row.provini}
                         </span>
                       </td>
-                      <td className="py-4 px-6">
+                      <td className="py-3 px-3 md:py-4 md:px-6">
                         <span
                           className="font-mono text-sm"
                           style={{
@@ -322,7 +319,7 @@ export default function SectionPerche() {
                           {row.r2}
                         </span>
                       </td>
-                      <td className="py-4 px-6">
+                      <td className="py-3 px-3 md:py-4 md:px-6">
                         <span className="font-mono text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
                           {row.giorni}
                         </span>
@@ -331,6 +328,7 @@ export default function SectionPerche() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </GlowCard>
 
             {/* ASTM callout */}

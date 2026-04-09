@@ -65,7 +65,30 @@ export default function Hero() {
     <section
       className="relative min-h-screen flex flex-col overflow-hidden"
       aria-label="Hero — Fast Fatigue Testing Technology"
+      style={{
+        WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+        maskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+      }}
     >
+      {/* Video background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+        src="/videohero.mp4"
+      />
+
+      {/* Overlay leggero per leggibilità del testo */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-[1] pointer-events-none"
+        style={{ background: 'rgba(4, 5, 14, 0.55)' }}
+      />
+
+
       <div ref={thermalRef} className="hero-thermal-bg" aria-hidden="true" />
 
       {/* Main content */}
