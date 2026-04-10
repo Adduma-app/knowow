@@ -236,20 +236,37 @@ export default function ThermalChart() {
         fontSize: 10,
         letterSpacing: '0.05em',
         color: 'rgba(180,210,255,0.45)',
-        background: 'rgba(0, 1, 5, 0.97)',
+        background: 'rgba(6, 9, 28, 0.28)',
         backdropFilter: 'blur(120px)',
         WebkitBackdropFilter: 'blur(120px)',
         padding: 10,
-        WebkitMaskImage:
-          'linear-gradient(to right, transparent 0px, black 50px, black calc(100% - 50px), transparent 100%), ' +
-          'linear-gradient(to bottom, transparent 0px, black 50px, black calc(100% - 50px), transparent 100%)',
-        WebkitMaskComposite: 'source-in',
-        maskImage:
-          'linear-gradient(to right, transparent 0px, black 50px, black calc(100% - 50px), transparent 100%), ' +
-          'linear-gradient(to bottom, transparent 0px, black 50px, black calc(100% - 50px), transparent 100%)',
-        maskComposite: 'intersect',
+        position: 'relative',
       }}
     >
+      {/* Corner brackets */}
+      {(['top-left','top-right','bottom-left','bottom-right'] as const).map((pos) => {
+        const isTop    = pos.startsWith('top')
+        const isLeft   = pos.endsWith('left')
+        return (
+          <span
+            key={pos}
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              width: 14,
+              height: 14,
+              top:    isTop    ?  6 : undefined,
+              bottom: !isTop   ?  6 : undefined,
+              left:   isLeft   ?  6 : undefined,
+              right:  !isLeft  ?  6 : undefined,
+              borderTop:    isTop    ? '1.5px solid #E9704D' : undefined,
+              borderBottom: !isTop   ? '1.5px solid #E9704D' : undefined,
+              borderLeft:   isLeft   ? '1.5px solid #E9704D' : undefined,
+              borderRight:  !isLeft  ? '1.5px solid #E9704D' : undefined,
+            }}
+          />
+        )
+      })}
       {/* Viewer row */}
       <div
         style={{

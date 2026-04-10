@@ -212,7 +212,7 @@ export default function SectionPerche() {
                 muted
                 loop
                 playsInline
-                className=" inset-0 w-full h-[50vh]"
+                className=" inset-0 w-full h-[85vh]"
                 style={{
                   objectFit: 'contain',
                 }}

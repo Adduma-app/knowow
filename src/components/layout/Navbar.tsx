@@ -18,11 +18,13 @@ export default function Navbar() {
   // Close on route change (anchor click)
   const handleNavClick = (href: string) => {
     setIsOpen(false)
-    // Move focus to target section for screen readers
-    const target = document.querySelector(href) as HTMLElement | null
-    if (target) {
-      target.setAttribute('tabindex', '-1')
-      target.focus({ preventScroll: false })
+    // Focus trick solo per hash puri sulla pagina corrente
+    if (href.startsWith('#')) {
+      const target = document.querySelector(href) as HTMLElement | null
+      if (target) {
+        target.setAttribute('tabindex', '-1')
+        target.focus({ preventScroll: false })
+      }
     }
   }
 
@@ -70,7 +72,7 @@ export default function Navbar() {
 
           {/* CTA */}
           <span className="hidden md:inline-block">
-            <SiteButton href="#contatti" variant="primary" clip="bl" aria-label="Richiedi una demo di FFTM">
+            <SiteButton href="/#contatti" variant="primary" clip="bl" aria-label="Richiedi una demo di FFTM">
               Richiedi una demo
             </SiteButton>
           </span>
@@ -127,9 +129,9 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="#contatti"
+            href="/#contatti"
             className="border border-[#E9704D] text-[#E9704D] text-xs uppercase tracking-widest px-5 py-3 text-center hover:bg-[#E9704D] hover:text-white transition-all mt-2"
-            onClick={() => handleNavClick('#contatti')}
+            onClick={() => setIsOpen(false)}
             aria-label="Richiedi una demo di FFTM"
           >
             Richiedi una demo

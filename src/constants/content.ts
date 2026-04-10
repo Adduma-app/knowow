@@ -1,10 +1,10 @@
 // ─── NAVIGATION ──────────────────────────────────────────────────────────────
 export const NAV_LINKS = [
-  { label: 'FFTM', href: '#fftm' },
-  { label: 'Applicazioni', href: '#applicazioni' },
-  { label: 'Servizi', href: '#servizi' },
-  { label: 'Chi siamo', href: '#chi-siamo' },
-  { label: 'Contatti', href: '#contatti' },
+  { label: 'FFTM', href: '/technology' },
+  { label: 'Applicazioni', href: '/#applicazioni' },
+  { label: 'Servizi', href: '/#servizi' },
+  { label: 'Chi siamo', href: '/#chi-siamo' },
+  { label: 'Contatti', href: '/#contatti' },
 ]
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────

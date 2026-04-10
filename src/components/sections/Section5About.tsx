@@ -14,7 +14,7 @@ export default function Section5About() {
     <section
       id="chi-siamo"
       ref={sectionRef}
-      className="pb-24  px-6 md:px-16 lg:px-24  relative overflow-hidden"
+      className="md:pb-24 md:-mt-[7%]  px-6 md:px-16 lg:px-24  relative overflow-hidden"
     >
       <div className=" mx-auto relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">

@@ -12,7 +12,7 @@ interface Particle {
 const SHAPE_DURATION    = 3000   // ms per forma
 const TRANSITION_DURATION = 1500 // ms transizione
 const PARTICLE_COUNT    = 4200
-const NUM_SHAPES        = 4      // aereo · DNA · pistone · molecola
+const NUM_SHAPES        = 4      // aereo · DNA · auto · molecola
 
 export default function ElementiSettori() {
   const canvasRef            = useRef<HTMLCanvasElement>(null)
@@ -28,118 +28,216 @@ export default function ElementiSettori() {
   const isTransitioningRef   = useRef(false)
   const transitionProgressRef = useRef(0)
 
-  // ── 1. AEREO (vista dall'alto) ── stabilizzatori rimossi ─────────────────────
+  // ── 1. AEREO (vista dall'alto — stile A320/B737) ────────────────────────────
   const generateAirplanePoints = useCallback((w: number, h: number, count: number) => {
     const points: { x: number; y: number }[] = []
     const cx = w * 0.50
     const cy = h * 0.50
     const s  = Math.min(w, h) * (w < 768 ? 0.0028 : 0.0040)
 
-    // Fusoliera
-    for (let i = 0; i < Math.floor(count * 0.22); i++) {
-      const t = (Math.random() - 0.5) * 2
-      const length = 130 * s
-      const widthProfile = Math.sin(((t + 1) / 2) * Math.PI) * 8 * s
+    // ── Helpers locali ────────────────────────────────────────────────────────
+    const addLine = (x1: number, y1: number, x2: number, y2: number, wt: number, thick: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random()
+        points.push({ x: x1+(x2-x1)*t+(Math.random()-0.5)*thick, y: y1+(y2-y1)*t+(Math.random()-0.5)*thick })
+      }
+    }
+    const addBez = (
+      x0: number, y0: number, xc: number, yc: number, x1: number, y1: number,
+      wt: number, thick: number,
+    ) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random(); const mt = 1 - t
+        points.push({
+          x: mt*mt*x0+2*mt*t*xc+t*t*x1+(Math.random()-0.5)*thick,
+          y: mt*mt*y0+2*mt*t*yc+t*t*y1+(Math.random()-0.5)*thick,
+        })
+      }
+    }
+    const addDisk = (ox: number, oy: number, r: number, wt: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const a = Math.random()*Math.PI*2; const rr = Math.sqrt(Math.random())*r
+        points.push({ x: ox+Math.cos(a)*rr, y: oy+Math.sin(a)*rr })
+      }
+    }
+    const addRing = (ox: number, oy: number, r: number, wt: number, thick: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const a = Math.random()*Math.PI*2; const rr = r-thick*0.5+Math.random()*thick
+        points.push({ x: ox+Math.cos(a)*rr, y: oy+Math.sin(a)*rr })
+      }
+    }
+    // Riempe la superficie tra due bezier (campionamento uniforme per lo stesso t)
+    const fillWing = (
+      x0a: number, y0a: number, xca: number, yca: number, x1a: number, y1a: number,
+      x0b: number, y0b: number, xcb: number, ycb: number, x1b: number, y1b: number,
+      wt: number, thick: number,
+    ) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random(); const mt = 1 - t
+        const ax = mt*mt*x0a+2*mt*t*xca+t*t*x1a
+        const ay = mt*mt*y0a+2*mt*t*yca+t*t*y1a
+        const bx = mt*mt*x0b+2*mt*t*xcb+t*t*x1b
+        const by = mt*mt*y0b+2*mt*t*ycb+t*t*y1b
+        const u = Math.random()
+        points.push({ x: ax+(bx-ax)*u+(Math.random()-0.5)*thick, y: ay+(by-ay)*u+(Math.random()-0.5)*thick })
+      }
+    }
+
+    // ── Proporzioni ───────────────────────────────────────────────────────────
+    const fuseHL  = 145 * s   // metà lunghezza fusoliera
+    const fuseHW  =  11 * s   // metà larghezza massima
+    const halfSpan = 118 * s  // semi-apertura alare
+
+    // Ala: attacco a cx+18*s, bordo d'attacco spazzato ~34°
+    const wRootLeadX  = cx + 18 * s;  const wRootTrailX = cx - 44 * s
+    const wTipLeadX   = cx - 52 * s;  const wTipTrailX  = cx - 65 * s
+
+    // Motore: 56% span, leggermente avanzato rispetto al centro cordato
+    const engSpan = halfSpan * 0.56    // ~66*s
+    const engCx   = cx -  8 * s
+    const engHL   = 17 * s             // metà lunghezza gondola
+    const engHW   =  5 * s             // metà larghezza gondola
+
+    // Stabilizzatori: nella coda
+    const stabRootX    = cx - 116 * s
+    const stabHalfSpan =  44 * s
+    const stabTipX     = cx - 128 * s
+
+    // ── Fusoliera (riempita + bordo) ──────────────────────────────────────────
+    for (let i = 0; i < Math.floor(count * 0.14); i++) {
+      const t = Math.random()*2-1
+      const xPos = cx + t * fuseHL
+      const norm = (t+1)/2
+      let hw: number
+      if      (norm < 0.06) hw = fuseHW * Math.sqrt(norm/0.06)
+      else if (norm > 0.87) hw = fuseHW * (1-(norm-0.87)/0.13) * 0.62
+      else                  hw = fuseHW
+      points.push({ x: xPos+(Math.random()-0.5)*2*s, y: cy+(Math.random()-0.5)*2*hw })
+    }
+    // Outline fusoliera (bordo superiore e inferiore)
+    for (let side = -1; side <= 1; side += 2) {
+      for (let i = 0; i < Math.floor(count * 0.016); i++) {
+        const t = Math.random()*2-1
+        const xPos = cx + t * fuseHL
+        const norm = (t+1)/2
+        let hw: number
+        if      (norm < 0.06) hw = fuseHW * Math.sqrt(norm/0.06)
+        else if (norm > 0.87) hw = fuseHW * (1-(norm-0.87)/0.13) * 0.62
+        else                  hw = fuseHW
+        points.push({ x: xPos+(Math.random()-0.5)*1.2*s, y: cy+side*hw+(Math.random()-0.5)*1.2*s })
+      }
+    }
+
+    // ── Ali (simmetriche, superficie piena) ──────────────────────────────────
+    for (let si = 0; si < 2; si++) {
+      const sg = si === 0 ? -1 : 1
+      const rly = sg * fuseHW
+      const tly = sg * halfSpan
+
+      // Superficie alare piena
+      fillWing(
+        wRootLeadX,  cy+rly,  cx+4*s,   cy+sg*68*s,  wTipLeadX,  cy+tly,
+        wRootTrailX, cy+rly,  cx-52*s,  cy+sg*70*s,  wTipTrailX, cy+tly,
+        0.145, 3*s
+      )
+      // Bordo d'attacco
+      addBez(wRootLeadX, cy+rly, cx+4*s, cy+sg*68*s, wTipLeadX, cy+tly, 0.020, 1.6*s)
+      // Bordo di uscita
+      addBez(wRootTrailX, cy+rly, cx-52*s, cy+sg*70*s, wTipTrailX, cy+tly, 0.020, 1.6*s)
+      // Punta alare
+      addLine(wTipLeadX, cy+tly, wTipTrailX, cy+tly, 0.006, 1.5*s)
+
+      // Linea flap inboard (1/3 span)
+      addLine(cx-6*s, cy+sg*(fuseHW+1*s), cx-26*s, cy+sg*(halfSpan*0.36), 0.011, 1.4*s)
+      // Linea aileron / flap outboard
+      addLine(cx-26*s, cy+sg*(halfSpan*0.36), wTipTrailX+5*s, cy+tly, 0.009, 1.4*s)
+      // Rib centrale (struttura interna visibile)
+      addLine(cx+5*s, cy+sg*(fuseHW+0.5*s), cx-18*s, cy+sg*(halfSpan*0.20), 0.006, 1.2*s)
+
+      // Winglet (curva angolata alla punta)
+      addBez(
+        wTipLeadX,       cy+tly,
+        wTipLeadX-5*s,   cy+sg*(halfSpan+6*s),
+        wTipLeadX-9*s,   cy+sg*(halfSpan+15*s),
+        0.006, 1.4*s
+      )
+    }
+
+    // ── Gondole motore (2, una per ala) ──────────────────────────────────────
+    for (let si = 0; si < 2; si++) {
+      const sg = si === 0 ? -1 : 1
+      const ey = sg * engSpan
+
+      // Rivestimento gondola (ovale allungato, più largo in front)
+      for (let i = 0; i < Math.floor(count * 0.026); i++) {
+        const t = Math.random()*2-1
+        const xPos = engCx + t*engHL
+        const hw = engHW * Math.sqrt(Math.max(0, 1 - (t*0.82)**2)) * (1+0.18*Math.max(0,-t))
+        points.push({ x: xPos+(Math.random()-0.5)*1.4*s, y: ey+cy+(Math.random()-0.5)*hw*2 })
+      }
+      // Bordo gondola
+      for (let bside = -1; bside <= 1; bside += 2) {
+        for (let i = 0; i < Math.floor(count * 0.009); i++) {
+          const t = Math.random()*2-1
+          const xPos = engCx + t*engHL
+          const hw = engHW * Math.sqrt(Math.max(0, 1 - (t*0.82)**2)) * (1+0.18*Math.max(0,-t))
+          points.push({ x: xPos+(Math.random()-0.5)*1.2*s, y: ey+cy+bside*hw+(Math.random()-0.5)*1.2*s })
+        }
+      }
+      // Faccia turbofan (cerchio frontale)
+      addDisk(engCx+engHL*0.70, cy+ey, engHW*0.80, 0.012)
+      addRing(engCx+engHL*0.70, cy+ey, engHW*0.76, 0.006, 1.2*s)
+      // Pilone ala→gondola
+      addLine(engCx, cy+sg*(engSpan-engHW-0.5*s), engCx, cy+sg*(fuseHW+1.5*s), 0.007, 1.2*s)
+    }
+
+    // ── Stabilizzatori orizzontali (coda) ──────────────────────────────────
+    for (let si = 0; si < 2; si++) {
+      const sg = si === 0 ? -1 : 1
+      const sRootY = sg * fuseHW * 0.65
+      const sTipY  = sg * stabHalfSpan
+
+      fillWing(
+        stabRootX,       cy+sRootY,  stabRootX-7*s,  cy+sg*24*s,  stabTipX,       cy+sTipY,
+        stabRootX-13*s,  cy+sRootY,  stabRootX-20*s, cy+sg*26*s,  stabTipX-12*s,  cy+sTipY,
+        0.032, 2*s
+      )
+      addBez(stabRootX,      cy+sRootY, stabRootX-7*s,  cy+sg*24*s, stabTipX,      cy+sTipY, 0.009, 1.3*s)
+      addBez(stabRootX-13*s, cy+sRootY, stabRootX-20*s, cy+sg*26*s, stabTipX-12*s, cy+sTipY, 0.009, 1.3*s)
+      addLine(stabTipX, cy+sTipY, stabTipX-12*s, cy+sTipY, 0.004, 1.4*s)
+    }
+
+    // ── Pinna di coda verticale (da top: spessore sul dorso della fusoliera) ─
+    addLine(cx-112*s, cy, cx-140*s, cy, 0.011, 2.8*s)
+
+    // ── Finestrini passeggeri (linea di punti su entrambi i lati) ─────────
+    for (let i = 0; i < Math.floor(count * 0.020); i++) {
+      const xPos = cx + fuseHL*0.72 - Math.random()*fuseHL*1.42
+      const sg   = Math.random() < 0.5 ? -1 : 1
+      points.push({ x: xPos+(Math.random()-0.5)*3*s, y: cy+sg*(fuseHW*0.90)+(Math.random()-0.5)*1.4*s })
+    }
+
+    // ── Cockpit (cluster muso) ────────────────────────────────────────────────
+    for (let i = 0; i < Math.floor(count * 0.010); i++) {
       points.push({
-        x: cx + t * length + (Math.random() - 0.5) * 2 * s,
-        y: cy + (Math.random() - 0.5) * widthProfile * 2,
+        x: cx+118*s+Math.random()*18*s+(Math.random()-0.5)*1.5*s,
+        y: cy+(Math.random()-0.5)*5*s,
       })
     }
 
-    // Muso
-    for (let i = 0; i < Math.floor(count * 0.055); i++) {
-      const t = Math.random()
-      const noseX  = cx + 130 * s + t * 20 * s
-      const taper  = (1 - t * t) * 7 * s
-      points.push({
-        x: noseX + (Math.random() - 0.5) * 1.5 * s,
-        y: cy + (Math.random() - 0.5) * taper,
-      })
-    }
-
-    // Coda
-    for (let i = 0; i < Math.floor(count * 0.04); i++) {
-      const t = Math.random()
-      const tailX = cx - 130 * s - t * 25 * s
-      const taper = (1 - t) * 7 * s
-      points.push({
-        x: tailX + (Math.random() - 0.5) * 2 * s,
-        y: cy + (Math.random() - 0.5) * taper,
-      })
-    }
-
-    // Ala sinistra
-    for (let i = 0; i < Math.floor(count * 0.18); i++) {
-      const t          = Math.random()
-      const yPos       = cy - t * 110 * s
-      const chord      = (70 * s) * (1 - t) + (15 * s) * t
-      const sweep      = t * 40 * s
-      const leadingEdge = cx + 20 * s - sweep
-      points.push({
-        x: leadingEdge - Math.random() * chord + (Math.random() - 0.5) * 2 * s,
-        y: yPos + (Math.random() - 0.5) * 3 * s,
-      })
-    }
-
-    // Ala destra
-    for (let i = 0; i < Math.floor(count * 0.18); i++) {
-      const t          = Math.random()
-      const yPos       = cy + t * 110 * s
-      const chord      = (70 * s) * (1 - t) + (15 * s) * t
-      const sweep      = t * 40 * s
-      const leadingEdge = cx + 20 * s - sweep
-      points.push({
-        x: leadingEdge - Math.random() * chord + (Math.random() - 0.5) * 2 * s,
-        y: yPos + (Math.random() - 0.5) * 3 * s,
-      })
-    }
-
-    // Pinna di coda
-    for (let i = 0; i < Math.floor(count * 0.04); i++) {
-      const t = Math.random()
-      points.push({
-        x: cx - 130 * s - t * 40 * s + (Math.random() - 0.5) * 3 * s,
-        y: cy + (Math.random() - 0.5) * 2.5 * s,
-      })
-    }
-
-    // Motore sinistro
-    for (let i = 0; i < Math.floor(count * 0.04); i++) {
-      const t = (Math.random() - 0.5) * 2
-      const profile = (1 - t * t) * 5 * s
-      points.push({
-        x: cx + 5 * s + t * 20 * s + (Math.random() - 0.5) * 2 * s,
-        y: cy - 45 * s + (Math.random() - 0.5) * profile * 2,
-      })
-    }
-
-    // Motore destro
-    for (let i = 0; i < Math.floor(count * 0.04); i++) {
-      const t = (Math.random() - 0.5) * 2
-      const profile = (1 - t * t) * 5 * s
-      points.push({
-        x: cx + 5 * s + t * 20 * s + (Math.random() - 0.5) * 2 * s,
-        y: cy + 45 * s + (Math.random() - 0.5) * profile * 2,
-      })
-    }
-
-    // Cabina
-    for (let i = 0; i < Math.floor(count * 0.028); i++) {
-      const t = Math.random()
-      points.push({
-        x: cx + 110 * s + t * 18 * s + (Math.random() - 0.5) * 2 * s,
-        y: cy + (Math.random() - 0.5) * 6 * s,
-      })
-    }
-
-    // Sparse
+    // ── Sparse ────────────────────────────────────────────────────────────────
     const sparseCount = count - points.length
     for (let i = 0; i < sparseCount; i++) {
       const base = points[Math.floor(Math.random() * points.length)]
-      if (base) points.push({ x: base.x + (Math.random() - 0.5) * 45 * s, y: base.y + (Math.random() - 0.5) * 45 * s })
+      if (base) points.push({ x: base.x+(Math.random()-0.5)*26*s, y: base.y+(Math.random()-0.5)*26*s })
     }
 
-    // Rotazione globale 22°
+    // ── Rotazione globale 22° ─────────────────────────────────────────────────
     const cosA = Math.cos((22 * Math.PI) / 180)
     const sinA = Math.sin((22 * Math.PI) / 180)
     return points.slice(0, count).map(p => {
@@ -198,129 +296,132 @@ export default function ElementiSettori() {
     })
   }, [])
 
-  // ── 3. RETICOLO 3D PRINTING (proiezione isometrica) ─────────────────────────
-  const generateLatticePoints = useCallback((w: number, h: number, count: number) => {
+  // ── 3. AUTO — berlina standard 3 volumi (minimal) ───────────────────────────
+  const generateCarPoints = useCallback((w: number, h: number, count: number) => {
     const points: { x: number; y: number }[] = []
-    const cx = w * 0.5
-    const cy = h * 0.5
+    const cx = w * 0.50
+    const cy = h * 0.50
     const s  = Math.min(w, h) * (w < 768 ? 0.0028 : 0.0040)
 
-    const cubeSize     = 160 * s
-    const isoAngle     = Math.PI / 6
-    const cellsPerAxis = 5
-    const cellSize     = cubeSize / cellsPerAxis
-    const strutThick   = 3 * s
-
-    const project = (x3: number, y3: number, z3: number) => ({
-      x: cx + (x3 - z3) * Math.cos(isoAngle) * 0.9,
-      y: cy - y3 * 0.9 + (x3 + z3) * Math.sin(isoAngle) * 0.45,
-    })
-
-    // Struts paralleli a X
-    for (let iy = 0; iy <= cellsPerAxis; iy++) {
-      for (let iz = 0; iz <= cellsPerAxis; iz++) {
-        const y3 = -cubeSize / 2 + iy * cellSize
-        const z3 = -cubeSize / 2 + iz * cellSize
-        const n  = Math.floor(count * 0.018)
-        for (let i = 0; i < n; i++) {
-          const p2d = project(-cubeSize / 2 + Math.random() * cubeSize, y3, z3)
-          points.push({ x: p2d.x + (Math.random() - 0.5) * strutThick, y: p2d.y + (Math.random() - 0.5) * strutThick })
-        }
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    const addLine = (x1: number, y1: number, x2: number, y2: number, wt: number, thick: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random()
+        points.push({ x: x1+(x2-x1)*t+(Math.random()-0.5)*thick, y: y1+(y2-y1)*t+(Math.random()-0.5)*thick })
+      }
+    }
+    const addBez = (
+      x0: number, y0: number, xc: number, yc: number, x1: number, y1: number,
+      wt: number, thick: number,
+    ) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random(); const mt = 1 - t
+        points.push({
+          x: mt*mt*x0+2*mt*t*xc+t*t*x1+(Math.random()-0.5)*thick,
+          y: mt*mt*y0+2*mt*t*yc+t*t*y1+(Math.random()-0.5)*thick,
+        })
+      }
+    }
+    const addRing = (ox: number, oy: number, r: number, wt: number, thick: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const a = Math.random()*Math.PI*2; const rr = r-thick*0.5+Math.random()*thick
+        points.push({ x: ox+Math.cos(a)*rr, y: oy+Math.sin(a)*rr })
       }
     }
 
-    // Struts paralleli a Y
-    for (let ix = 0; ix <= cellsPerAxis; ix++) {
-      for (let iz = 0; iz <= cellsPerAxis; iz++) {
-        const x3 = -cubeSize / 2 + ix * cellSize
-        const z3 = -cubeSize / 2 + iz * cellSize
-        const n  = Math.floor(count * 0.018)
-        for (let i = 0; i < n; i++) {
-          const p2d = project(x3, -cubeSize / 2 + Math.random() * cubeSize, z3)
-          points.push({ x: p2d.x + (Math.random() - 0.5) * strutThick, y: p2d.y + (Math.random() - 0.5) * strutThick })
-        }
-      }
+    // ── Proporzioni berlina (tipo Passat / Camry / Serie 3) ───────────────────
+    const wheelR      = 26 * s
+    const groundY     = cy + 44 * s
+    const axleY       = groundY - wheelR         // cy + 18*s
+    const frontWheelX = cx + 72 * s
+    const rearWheelX  = cx - 60 * s
+    const archR       = wheelR + 8 * s           // 34*s
+
+    // ── Punti chiave ─────────────────────────────────────────────────────────
+    const frontX  = cx + 116 * s
+    const rearX   = cx - 108 * s
+    const sillY   = groundY -  7 * s
+
+    // Cofano — leggermente convesso, poco inclinato
+    const hoodTopX = cx + 108 * s;  const hoodTopY = axleY +  8 * s   // top paraurti
+    const cowlX    = cx +  12 * s;  const cowlY    = axleY - 22 * s   // basso — berlina
+
+    // Parabrezza — inclinazione moderata (~52° da verticale)
+    const wsTopX = cx +  4 * s;  const wsTopY = cy - 30 * s
+
+    // Tetto — piatto, breve
+    const roofPkX = cx -  8 * s;  const roofPkY = cy - 34 * s
+
+    // C-pillar — cade quasi verticale (notch berlina)
+    const cpX = cx - 46 * s;  const cpY = cy - 32 * s
+
+    // Cofano posteriore (trunk lid) — orizzontale, chiaramente separato
+    const trk0X = cx - 50 * s;  const trk0Y = cy - 22 * s   // spigolo coda C-pillar
+    const trk1X = cx - 98 * s;  const trk1Y = cy - 21 * s   // spigolo post. trunk
+
+    // Coda — verticale, altezza media
+    const rearTopY = cy - 13 * s
+
+    // ── Silhouette superiore (3 volumi distinti) ──────────────────────────────
+    // [1] Paraurti ant. → cofano (bezier dolce)
+    addBez(hoodTopX, hoodTopY, cx+55*s, axleY-6*s, cowlX, cowlY,     0.050, 1.6*s)
+    // [2] Parabrezza (moderatamente inclinato)
+    addLine(cowlX, cowlY, wsTopX, wsTopY,                             0.036, 1.6*s)
+    // [3] Tetto (bezier piatta)
+    addBez(wsTopX, wsTopY, roofPkX+12*s, roofPkY, cpX, cpY,          0.038, 1.6*s)
+    // [4] C-pillar — scende ripido (notch)
+    addLine(cpX, cpY, trk0X, trk0Y,                                   0.020, 1.6*s)
+    // [5] Trunk lid — quasi orizzontale (volume 3)
+    addLine(trk0X, trk0Y, trk1X, trk1Y,                              0.032, 1.6*s)
+    // [6] Coda — verticale
+    addLine(trk1X, trk1Y, rearX, rearTopY,                           0.010, 1.6*s)
+    addLine(rearX, rearTopY, rearX, sillY,                            0.022, 1.6*s)
+
+    // ── Silhouette inferiore ──────────────────────────────────────────────────
+    // Paraurti ant. verticale
+    addLine(frontX, hoodTopY, frontX, sillY,                          0.012, 1.5*s)
+    // Pannello ant. → arco ant.
+    addBez(frontX, sillY, frontWheelX+archR+3*s, sillY, frontWheelX+archR, axleY, 0.013, 1.5*s)
+    // Sottoporta tra gli archi
+    addLine(frontWheelX-archR, sillY, rearWheelX+archR, sillY,        0.018, 1.5*s)
+    // Pannello arco post. → coda
+    addBez(rearWheelX-archR, axleY, rearX+6*s, sillY, rearX, sillY,  0.013, 1.5*s)
+
+    // ── Archi ruota (semicerchio) ─────────────────────────────────────────────
+    for (let i = 0; i < Math.floor(count * 0.036); i++) {
+      const a = Math.PI + Math.random()*Math.PI
+      points.push({ x: frontWheelX+Math.cos(a)*archR+(Math.random()-0.5)*1.5*s, y: axleY+Math.sin(a)*archR+(Math.random()-0.5)*1.5*s })
+    }
+    for (let i = 0; i < Math.floor(count * 0.036); i++) {
+      const a = Math.PI + Math.random()*Math.PI
+      points.push({ x: rearWheelX+Math.cos(a)*archR+(Math.random()-0.5)*1.5*s, y: axleY+Math.sin(a)*archR+(Math.random()-0.5)*1.5*s })
     }
 
-    // Struts paralleli a Z
-    for (let ix = 0; ix <= cellsPerAxis; ix++) {
-      for (let iy = 0; iy <= cellsPerAxis; iy++) {
-        const x3 = -cubeSize / 2 + ix * cellSize
-        const y3 = -cubeSize / 2 + iy * cellSize
-        const n  = Math.floor(count * 0.018)
-        for (let i = 0; i < n; i++) {
-          const p2d = project(x3, y3, -cubeSize / 2 + Math.random() * cubeSize)
-          points.push({ x: p2d.x + (Math.random() - 0.5) * strutThick, y: p2d.y + (Math.random() - 0.5) * strutThick })
-        }
-      }
-    }
+    // ── Ruote (anello + mozzo) ────────────────────────────────────────────────
+    addRing(frontWheelX, axleY, wheelR,      0.044, 4*s)
+    addRing(rearWheelX,  axleY, wheelR,      0.044, 4*s)
+    addRing(frontWheelX, axleY, wheelR*0.3,  0.008, 2*s)
+    addRing(rearWheelX,  axleY, wheelR*0.3,  0.008, 2*s)
 
-    // Diagonali interne (pattern gyroid-like)
-    for (let ix = 0; ix < cellsPerAxis; ix++) {
-      for (let iy = 0; iy < cellsPerAxis; iy++) {
-        for (let iz = 0; iz < cellsPerAxis; iz++) {
-          if ((ix + iy + iz) % 2 === 0) {
-            const bx = -cubeSize / 2 + ix * cellSize
-            const by = -cubeSize / 2 + iy * cellSize
-            const bz = -cubeSize / 2 + iz * cellSize
-            const n  = Math.floor(count * 0.003)
-            for (let i = 0; i < n; i++) {
-              const t   = Math.random()
-              const p2d = project(bx + t * cellSize, by + t * cellSize, bz + t * cellSize)
-              points.push({ x: p2d.x + (Math.random() - 0.5) * strutThick * 0.8, y: p2d.y + (Math.random() - 0.5) * strutThick * 0.8 })
-            }
-          }
-        }
-      }
-    }
+    // ── DLO — bordo superiore finestrini (greenhouse outline) ────────────────
+    // Parabrezza interno
+    addLine(cowlX+5*s, cowlY+6*s, wsTopX+2*s, wsTopY+3*s,            0.016, 1.3*s)
+    // Tetto finestrini
+    addBez(wsTopX+2*s, wsTopY+3*s, cx-5*s, cy-28*s, cpX+4*s, cpY+5*s, 0.018, 1.3*s)
+    // Lunotto (quasi verticale — berlina)
+    addLine(cpX+4*s, cpY+5*s, trk0X+3*s, trk0Y+3*s,                  0.012, 1.3*s)
 
-    // Nodi ai vertici del reticolo
-    const nodeR = 4 * s
-    for (let ix = 0; ix <= cellsPerAxis; ix++) {
-      for (let iy = 0; iy <= cellsPerAxis; iy++) {
-        for (let iz = 0; iz <= cellsPerAxis; iz++) {
-          const isBorder = ix === 0 || ix === cellsPerAxis || iy === 0 || iy === cellsPerAxis || iz === 0 || iz === cellsPerAxis
-          if (isBorder || (ix + iy + iz) % 2 === 0) {
-            const p2d = project(
-              -cubeSize / 2 + ix * cellSize,
-              -cubeSize / 2 + iy * cellSize,
-              -cubeSize / 2 + iz * cellSize
-            )
-            const n = Math.floor(count * 0.0008)
-            for (let i = 0; i < n; i++) {
-              const a = Math.random() * Math.PI * 2
-              const r = Math.sqrt(Math.random()) * nodeR
-              points.push({ x: p2d.x + Math.cos(a) * r, y: p2d.y + Math.sin(a) * r })
-            }
-          }
-        }
-      }
-    }
-
-    // Piattaforma di stampa
-    const bottomY = project(0, -cubeSize / 2, 0).y + 15 * s
-    for (let i = 0; i < Math.floor(count * 0.03); i++) {
-      const p2d = project(
-        (Math.random() - 0.5) * cubeSize * 1.3,
-        -cubeSize / 2 - 10 * s,
-        (Math.random() - 0.5) * cubeSize * 0.6
-      )
-      points.push({ x: p2d.x + (Math.random() - 0.5) * 2 * s, y: bottomY + (Math.random() - 0.5) * 8 * s })
-    }
-
-    // Sparse
+    // ── Sparse (jitter stretto) ───────────────────────────────────────────────
     const sparseCount = count - points.length
     for (let i = 0; i < sparseCount; i++) {
       const base = points[Math.floor(Math.random() * points.length)]
-      if (base) points.push({ x: base.x + (Math.random() - 0.5) * 35 * s, y: base.y + (Math.random() - 0.5) * 35 * s })
+      if (base) points.push({ x: base.x+(Math.random()-0.5)*8*s, y: base.y+(Math.random()-0.5)*8*s })
     }
 
-    const cosA = Math.cos((3 * Math.PI) / 180)
-    const sinA = Math.sin((3 * Math.PI) / 180)
-    return points.slice(0, count).map(p => {
-      const dx = p.x - cx; const dy = p.y - cy
-      return { x: cx + dx * cosA - dy * sinA, y: cy + dx * sinA + dy * cosA }
-    })
+    return points.slice(0, count)
   }, [])
 
   // ── 4. MOLECOLA STILIZZATA ───────────────────────────────────────────────────
@@ -436,9 +537,9 @@ export default function ElementiSettori() {
   const shapeGenerators = useCallback((w: number, h: number) => [
     generateAirplanePoints(w, h, PARTICLE_COUNT),
     generateDNAPoints(w, h, PARTICLE_COUNT),
-    generateLatticePoints(w, h, PARTICLE_COUNT),
+    generateCarPoints(w, h, PARTICLE_COUNT),
     generateMoleculePoints(w, h, PARTICLE_COUNT),
-  ], [generateAirplanePoints, generateDNAPoints, generateLatticePoints, generateMoleculePoints])
+  ], [generateAirplanePoints, generateDNAPoints, generateCarPoints, generateMoleculePoints])
 
   // ── Inizializzazione particelle ──────────────────────────────────────────────
   const initParticles = useCallback((w: number, h: number) => {
@@ -451,7 +552,7 @@ export default function ElementiSettori() {
     isTransitioningRef.current  = false
     transitionProgressRef.current = 0
 
-    particlesRef.current = targets.map(t => ({
+    particlesRef.current = targets.map((t: { x: number; y: number }) => ({
       tx: t.x, ty: t.y,
       x:  t.x + (Math.random() - 0.5) * w * 0.5,
       y:  t.y + (Math.random() - 0.5) * h * 0.5,
