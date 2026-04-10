@@ -43,11 +43,12 @@ export default function Navbar() {
         {/* Logo */}
         <a href="/" aria-label="KnoWow — torna all'inizio della pagina" className="flex items-center">
           <Image
-            src="/images/logo.png"
+            src="/images/logo_footer_knowowcompleto.svg"
             alt="KnoWow"
             width={120}
             height={32}
             className="h-6 w-auto"
+            quality={90}
             priority
           />
         </a>

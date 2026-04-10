@@ -18,11 +18,12 @@ export default function Footer() {
           {/* Col 1 — Brand */}
           <div>
             <Image
-              src="/images/logo.png"
+              src="/images/logo_footer_knowowcompleto.svg"
               alt="KnoWow"
               width={100}
               height={28}
               className="h-7 w-auto mb-4"
+              quality={100}
             />
             <p className="text-xs text-white/40 uppercase tracking-widest mb-4">
               beyond ordinary engineering

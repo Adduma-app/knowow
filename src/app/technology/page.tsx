@@ -31,7 +31,7 @@ const ALL_ITEMS = [
     accent: '#3B61AB',
     glowRGB: '59,97,171',
     side: 'right' as const,
-    videoSrc: '/video_def/temperature.webm',
+    videoSrc: '/video_def/Polyline.webm',
     xShift: -80,  // video shifts left when card is right
   },
   {
@@ -43,7 +43,7 @@ const ALL_ITEMS = [
     accent: '#E9704D',
     glowRGB: '233,112,77',
     side: 'left'  as const,
-    videoSrc: '/video_def/Polyline.webm',
+    videoSrc: '/video_def/temperature.webm',
     xShift: 80,
   },
   {
