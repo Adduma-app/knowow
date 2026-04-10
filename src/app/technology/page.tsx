@@ -19,7 +19,7 @@ const ALL_ITEMS = [
     accent: '#E9704D',
     glowRGB: '233,112,77',
     side: 'left'  as const,
-    videoSrc: '/video_grafici/glasshub.mp4',
+    videoSrc: '/video_def/chart.webm',
     xShift: 80,   // video shifts right when card is left
   },
   {
@@ -31,7 +31,7 @@ const ALL_ITEMS = [
     accent: '#3B61AB',
     glowRGB: '59,97,171',
     side: 'right' as const,
-    videoSrc: '/video_grafici/chart.mp4',
+    videoSrc: '/video_def/temperature.webm',
     xShift: -80,  // video shifts left when card is right
   },
   {
@@ -43,7 +43,7 @@ const ALL_ITEMS = [
     accent: '#E9704D',
     glowRGB: '233,112,77',
     side: 'left'  as const,
-    videoSrc: '/video_grafici/polyline.mp4',
+    videoSrc: '/video_def/Polyline.webm',
     xShift: 80,
   },
   {
@@ -55,7 +55,7 @@ const ALL_ITEMS = [
     accent: '#3B61AB',
     glowRGB: '59,97,171',
     side: 'right' as const,
-    videoSrc: '/video_grafici/thermo.mp4',
+    videoSrc: '/video_def/Risitano.webm',
     xShift: -80,
   },
 ]

@@ -207,7 +207,7 @@ export default function SectionPerche() {
           
             >
               <video
-                src="/video_grafici/knowow-chart_vp9_da_mp4.webm"
+                src="/video_def/chart.webm"
                 autoPlay
                 muted
                 loop
