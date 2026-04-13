@@ -221,11 +221,8 @@ export default function Section4Ecosystem() {
                     left:  isEven ? 0    : 'auto',
                     right: isEven ? 'auto' : 0,
                     
-                    /* EFFETTO GLASS ILLUMINATO */
-    color: 'rgba(255, 255, 255, 0.08)', // Bianco molto tenue di base
-    mixBlendMode: 'overlay',             // Fondamentale: reagisce ai colori sottostanti
-    backdropFilter: 'blur(4px)',         // Opzionale: aggiunge l'effetto "glass" fisico
-    WebkitBackdropFilter: 'blur(4px)',
+                    color: 'rgba(255, 255, 255, 0.08)',
+                    mixBlendMode: 'overlay',
                  
                   }}
                   aria-hidden="true"

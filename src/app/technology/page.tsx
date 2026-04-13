@@ -437,10 +437,12 @@ export default function TechnologyPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.7 }}
-                  className="relative w-full overflow-hidden flex flex-col justify-center gap-4"
+                  className={`relative w-full flex flex-col justify-center gap-4 ${i === 0 || i === 1 ? '' : 'overflow-hidden'}`}
                 >
                   {i === 0 || i === 1 ? (
-                    <ThermalChart />
+                    <div className="flex justify-center" style={{ transform: 'scale(0.60)', transformOrigin: 'top center', marginBottom: '-240px' }}>
+                      <ThermalChart />
+                    </div>
                   ) : i === 3 ? (
                     // Card RTM mobile: entrambi i video in sequenza
                     <>

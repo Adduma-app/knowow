@@ -641,6 +641,12 @@ export default function ElementiSettori() {
     isTransitioningRef.current  = false
     transitionProgressRef.current = 0
 
+    // Su mobile i pallini devono essere più piccoli per mantenere
+    // la stessa densità percepita del desktop (canvas più piccolo → stessi punti)
+    const isMobile   = w < 768
+    const sizeBase   = isMobile ? 0.3 : 0.5
+    const sizeRange  = isMobile ? 0.9 : 1.8
+
     particlesRef.current = targets.map((t: { x: number; y: number }) => ({
       tx: t.x, ty: t.y,
       x:  t.x + (Math.random() - 0.5) * w * 0.5,
@@ -648,8 +654,8 @@ export default function ElementiSettori() {
       offsetX: 0, offsetY: 0,
       speed:     0.4 + Math.random() * 0.9,
       phase:     Math.random() * Math.PI * 2,
-      amplitude: 2 + Math.random() * 5,
-      size:      0.5 + Math.random() * 1.8,
+      amplitude: isMobile ? 1.5 + Math.random() * 3 : 2 + Math.random() * 5,
+      size:      sizeBase + Math.random() * sizeRange,
       alpha:     0.3 + Math.random() * 0.7,
     }))
   }, [shapeGenerators])

@@ -111,7 +111,7 @@ function CompareCard() {
               <span
                 className="font-display font-black block leading-none"
                 style={{
-                  fontSize: 'clamp(6rem,12vw,10rem)',
+                  fontSize: 'clamp(3rem,12vw,10rem)',
                   WebkitTextFillColor: col.textDim
                     ? 'rgba(255,255,255,0.04)'
                     : `rgba(${col.glowRGB},0.08)`,
@@ -138,7 +138,7 @@ function CompareCard() {
                 <span
                   className="font-display font-black leading-none"
                   style={{
-                    fontSize: 'clamp(2.8rem,5vw,4rem)',
+                    fontSize: 'clamp(1.8rem,5vw,4rem)',
                     color: col.textDim ? 'rgba(255,255,255,0.22)' : col.accent,
                     letterSpacing: '-0.03em',
                   }}
@@ -212,7 +212,7 @@ export default function SectionPerche() {
                 muted
                 loop
                 playsInline
-                className=" inset-0 w-full h-[85vh]"
+                className=" inset-0 w-full h-[28vh] md:h-[85vh]"
                 style={{
                   objectFit: 'contain',
                 }}
