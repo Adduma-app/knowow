@@ -174,9 +174,11 @@ const AnimatedBackground: React.FC = () => {
     scene.add(mesh);
 
     // --- Animation loop ---
-    const clock = new THREE.Clock();
+    let prevTime = performance.now();
     const animate = () => {
-      const delta = Math.min(clock.getDelta(), 0.1);
+      const now = performance.now();
+      const delta = Math.min((now - prevTime) / 1000, 0.1);
+      prevTime = now;
       touch.update();
       uniforms.uTime.value += delta;
       renderer.render(scene, camera);

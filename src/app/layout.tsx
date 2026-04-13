@@ -72,14 +72,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="it" className="h-full">
+    <html lang="it" className="h-full" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans min-h-full">
+      <body className="font-sans min-h-full" suppressHydrationWarning>
       <CustomCursor />
         <SmoothScroll>
           {children}

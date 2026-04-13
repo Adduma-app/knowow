@@ -2,17 +2,16 @@
 
 import { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
-import Link from 'next/link'
 import { useCountUp } from '@/hooks/useCountUp'
 import { WHY_FFTM } from '@/constants/content'
 import { GlowCard } from '@/components/ui/GlowCard'
+import { SiteButton } from '@/components/ui/Button'
 import { staggerContainer, fadeInUp } from '@/lib/animations'
 
 // SVG viewBox is always 300×300 — we scale via CSS width
-const R    = 130
-const CX   = 150
-const CY   = 150
-const CIRC = 2 * Math.PI * R
+const R  = 130
+const CX = 150
+const CY = 150
 
 // ─── Circle: Traditional method ───────────────────────────────────────────────
 function CircleTraditional({ trigger }: { trigger: boolean }) {
@@ -28,8 +27,8 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
     <div className="flex flex-col items-center gap-5">
       {/* Info box — above circle */}
       <div className="text-center   max-w-[200px]">
-        <span className="text-micro text-white block mb-2">[01] METODO TRADIZIONALE</span>
-        <p className="text-xs text-white leading-relaxed font-medium">
+        <span className="text-sm text-white block mb-2">[01] METODO TRADIZIONALE</span>
+        <p className="text-sm text-white leading-relaxed font-medium">
           25 provini per test. 500 ore totali, ~20 giorni lavorativi.
         </p>
       </div>
@@ -86,7 +85,7 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
 
       {/* Info box — below circle */}
       <div className="text-center max-w-[220px]">
-        <p className="text-xs text-white leading-relaxed font-medium">
+        <p className="text-sm text-white leading-relaxed font-medium">
           Costi elevati di energia e manodopera. Ritardi nel time-to-market.
         </p>
       </div>
@@ -109,8 +108,8 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
     <div className="flex flex-col items-center gap-5">
       {/* Info box — above circle */}
       <div className="text-center max-w-[200px]">
-        <span className="text-micro text-[#E9704D]/60 block mb-2">[02] CON FFTM</span>
-        <p className="text-xs text-white leading-relaxed font-medium">
+        <span className="text-sm text-[#E9704D] block mb-2">[02] CON FFTM</span>
+        <p className="text-sm text-white leading-relaxed font-medium">
           Curve a fatica in 1–2 giorni lavorativi. Spesso meno di 24 ore.
         </p>
       </div>
@@ -185,7 +184,7 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
 
       {/* Info box — below circle */}
       <div className="text-center max-w-[220px]">
-        <p className="text-xs text-white leading-relaxed font-medium">
+        <p className="text-sm text-white leading-relaxed font-medium">
           Un solo sistema integrato: IR + DIC + ML. Validato da pubblicazioni peer-reviewed.
         </p>
       </div>
@@ -290,13 +289,9 @@ function BenefitsSticky() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
             >
-              <Link
-                href="/technology"
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#E9704D] hover:text-white transition-colors duration-300 group"
-              >
-                Scopri IR, DIC e i metodi termografici
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </Link>
+              <SiteButton variant="primary" href="/technology">
+                Scopri i metodi termografici
+              </SiteButton>
             </motion.div>
           )}
         </div>

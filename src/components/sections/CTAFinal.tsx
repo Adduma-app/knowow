@@ -78,7 +78,7 @@ export default function CTAFinal() {
        {/* Logo header */}
        <motion.div variants={fadeInUp} className="">
                   <Image
-                    src="/images/logo_knowow_footer.svg"
+                    src="/images/logo_footer_knowow_outline.svg"
                     alt="KnoWow"
                     width={160}
                     height={42}

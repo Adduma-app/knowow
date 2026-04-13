@@ -3,7 +3,6 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { ABOUT } from '@/constants/content'
-import { SectionHeading } from '@/components/ui/SectionHeading'
 import { fadeInUp, slideInRight, staggerContainer } from '@/lib/animations'
 
 export default function Section5About() {
@@ -40,7 +39,7 @@ export default function Section5About() {
             <motion.p variants={fadeInUp} className="text-white text-sm md:text-base leading-relaxed">
               {ABOUT.body}
             </motion.p>
-            <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-8 mt-8">
+            {/* <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-8 mt-8">
               <a
                 href="#"
                 className="text-xs uppercase tracking-widest text-[#E9704D] hover:text-white transition-colors "
@@ -55,7 +54,7 @@ export default function Section5About() {
               >
                 {ABOUT.linkPubs}
               </a>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
 
           {/* Right — decorative 50+ stroke number */}

@@ -296,7 +296,14 @@ export default function ElementiSettori() {
     })
   }, [])
 
-  // ── 3. AUTO — berlina standard 3 volumi (minimal) ───────────────────────────
+  // ── 3. AUTO — BMW Serie 3 F30 (cab-back, RWD, proporzioni geometriche precise)
+  //
+  // Constraint fondamentali verificati:
+  //   frontWheelX + archR < frontX   (arco non sporge dal muso)
+  //   rearWheelX  - archR > rearX    (arco non sporge dalla coda)
+  //   wheelbase ≈ 65% lunghezza totale
+  //   sbalzo ant. ≈ 26% del passo (corto per RWD)
+  //
   const generateCarPoints = useCallback((w: number, h: number, count: number) => {
     const points: { x: number; y: number }[] = []
     const cx = w * 0.50
@@ -324,6 +331,19 @@ export default function ElementiSettori() {
         })
       }
     }
+    const addCubicBez = (
+      x0: number, y0: number, xc1: number, yc1: number, xc2: number, yc2: number, x1: number, y1: number,
+      wt: number, thick: number,
+    ) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random(); const mt = 1 - t
+        points.push({
+          x: mt*mt*mt*x0+3*mt*mt*t*xc1+3*mt*t*t*xc2+t*t*t*x1+(Math.random()-0.5)*thick,
+          y: mt*mt*mt*y0+3*mt*mt*t*yc1+3*mt*t*t*yc2+t*t*t*y1+(Math.random()-0.5)*thick,
+        })
+      }
+    }
     const addRing = (ox: number, oy: number, r: number, wt: number, thick: number) => {
       const n = Math.floor(count * wt)
       for (let i = 0; i < n; i++) {
@@ -332,93 +352,162 @@ export default function ElementiSettori() {
       }
     }
 
-    // ── Proporzioni berlina (tipo Passat / Camry / Serie 3) ───────────────────
-    const wheelR      = 26 * s
-    const groundY     = cy + 44 * s
-    const axleY       = groundY - wheelR         // cy + 18*s
-    const frontWheelX = cx + 72 * s
-    const rearWheelX  = cx - 60 * s
-    const archR       = wheelR + 8 * s           // 34*s
+    // ═══════════════════════════════════════════════════════════════════════════
+    // Profilo berlina moderna (ref: BMW F30 3-Series, vista laterale)
+    //
+    // Proporzioni chiave BMW F30:
+    // - Lunghezza totale ~210*s, altezza ~65*s (ratio ~3.2:1, molto basso e lungo)
+    // - Cofano lungo ~40% della lunghezza totale
+    // - Passo (interasse) ~58% della lunghezza
+    // - Tetto basso e teso, NON bombato
+    // - Muso inclinato verso il basso (shark nose), NON alto e piatto
+    // - Linea di cintura che sale verso la coda (wedge shape)
+    // ═══════════════════════════════════════════════════════════════════════════
 
-    // ── Punti chiave ─────────────────────────────────────────────────────────
-    const frontX  = cx + 116 * s
-    const rearX   = cx - 108 * s
-    const sillY   = groundY -  7 * s
+    const wheelR  = 22 * s
+    const groundY = cy + 32 * s
+    const axleY   = groundY - wheelR
+    const archR   = 25 * s
 
-    // Cofano — leggermente convesso, poco inclinato
-    const hoodTopX = cx + 108 * s;  const hoodTopY = axleY +  8 * s   // top paraurti
-    const cowlX    = cx +  12 * s;  const cowlY    = axleY - 22 * s   // basso — berlina
+    // Interasse lungo, sbalzi corti
+    const frontWheelX = cx + 55 * s
+    const rearWheelX  = cx - 65 * s
 
-    // Parabrezza — inclinazione moderata (~52° da verticale)
-    const wsTopX = cx +  4 * s;  const wsTopY = cy - 30 * s
+    const frontX = cx + 100 * s
+    const rearX  = cx - 95 * s
+    const sillY  = groundY - 4 * s
 
-    // Tetto — piatto, breve
-    const roofPkX = cx -  8 * s;  const roofPkY = cy - 34 * s
+    // ── Punti chiave silhouette (calibrati sul profilo F30) ───────────────────
+    //
+    // Muso: scende verso il basso (shark nose), punta bassa
+    const noseTipX = frontX;           const noseTipY = cy + 12 * s
+    const hoodFrontX = cx + 90 * s;   const hoodFrontY = cy + 4 * s
 
-    // C-pillar — cade quasi verticale (notch berlina)
-    const cpX = cx - 46 * s;  const cpY = cy - 32 * s
+    // Cofano: leggera discesa dal cowl verso il muso (~8° pendenza)
+    const cowlX = cx + 14 * s;         const cowlY = cy - 8 * s
 
-    // Cofano posteriore (trunk lid) — orizzontale, chiaramente separato
-    const trk0X = cx - 50 * s;  const trk0Y = cy - 22 * s   // spigolo coda C-pillar
-    const trk1X = cx - 98 * s;  const trk1Y = cy - 21 * s   // spigolo post. trunk
+    // Parabrezza: molto inclinato (~65° da orizzontale), tipico F30
+    const wsTopX = cx + 2 * s;         const wsTopY = cy - 32 * s
 
-    // Coda — verticale, altezza media
-    const rearTopY = cy - 13 * s
+    // Tetto: arco teso e basso, picco leggermente avanti rispetto al centro
+    const roofPkX = cx - 14 * s;       const roofPkY = cy - 36 * s
 
-    // ── Silhouette superiore (3 volumi distinti) ──────────────────────────────
-    // [1] Paraurti ant. → cofano (bezier dolce)
-    addBez(hoodTopX, hoodTopY, cx+55*s, axleY-6*s, cowlX, cowlY,     0.050, 1.6*s)
-    // [2] Parabrezza (moderatamente inclinato)
-    addLine(cowlX, cowlY, wsTopX, wsTopY,                             0.036, 1.6*s)
-    // [3] Tetto (bezier piatta)
-    addBez(wsTopX, wsTopY, roofPkX+12*s, roofPkY, cpX, cpY,          0.038, 1.6*s)
-    // [4] C-pillar — scende ripido (notch)
-    addLine(cpX, cpY, trk0X, trk0Y,                                   0.020, 1.6*s)
-    // [5] Trunk lid — quasi orizzontale (volume 3)
-    addLine(trk0X, trk0Y, trk1X, trk1Y,                              0.032, 1.6*s)
-    // [6] Coda — verticale
-    addLine(trk1X, trk1Y, rearX, rearTopY,                           0.010, 1.6*s)
-    addLine(rearX, rearTopY, rearX, sillY,                            0.022, 1.6*s)
+    // C-pillar: discesa fluida, tipica 3 volumi
+    const cpTopX = cx - 42 * s;        const cpTopY = cy - 28 * s
 
-    // ── Silhouette inferiore ──────────────────────────────────────────────────
-    // Paraurti ant. verticale
-    addLine(frontX, hoodTopY, frontX, sillY,                          0.012, 1.5*s)
-    // Pannello ant. → arco ant.
-    addBez(frontX, sillY, frontWheelX+archR+3*s, sillY, frontWheelX+archR, axleY, 0.013, 1.5*s)
-    // Sottoporta tra gli archi
-    addLine(frontWheelX-archR, sillY, rearWheelX+archR, sillY,        0.018, 1.5*s)
-    // Pannello arco post. → coda
-    addBez(rearWheelX-archR, axleY, rearX+6*s, sillY, rearX, sillY,  0.013, 1.5*s)
+    // Lunotto: inclinazione media
+    const rearWindowBotX = cx - 56 * s; const rearWindowBotY = cy - 16 * s
 
-    // ── Archi ruota (semicerchio) ─────────────────────────────────────────────
-    for (let i = 0; i < Math.floor(count * 0.036); i++) {
+    // Trunk lid: corto e quasi orizzontale con leggero spoiler lip
+    const trunkEndX = cx - 84 * s;     const trunkEndY = cy - 14 * s
+
+    // Coda: troncata, verticale
+    const rearTopY = cy - 8 * s
+
+    // ── 1. MUSO — shark nose, scende in avanti ───────────────────────────────
+    // Cofano: bezier dal cowl al fronte del cofano con leggera discesa
+    addCubicBez(cowlX, cowlY, cx+40*s, cowlY+2*s, cx+70*s, hoodFrontY-4*s, hoodFrontX, hoodFrontY, 0.045, 1.4*s)
+    // Punta del muso: dal fronte cofano scende alla punta
+    addBez(hoodFrontX, hoodFrontY, frontX-4*s, hoodFrontY+4*s, noseTipX, noseTipY, 0.014, 1.3*s)
+
+    // ── 2. FACCIA ANTERIORE — inclinata, non verticale ───────────────────────
+    addBez(noseTipX, noseTipY, frontX+2*s, cy+20*s, frontX-2*s, sillY, 0.016, 1.3*s)
+
+    // ── 3. PARABREZZA — molto inclinato ──────────────────────────────────────
+    addLine(cowlX, cowlY, wsTopX, wsTopY, 0.030, 1.4*s)
+
+    // ── 4. TETTO — arco teso e basso ─────────────────────────────────────────
+    addCubicBez(wsTopX, wsTopY, cx-4*s, roofPkY-1*s, cx-28*s, roofPkY, cpTopX, cpTopY, 0.038, 1.4*s)
+
+    // ── 5. C-PILLAR + LUNOTTO — discesa fluida ───────────────────────────────
+    addBez(cpTopX, cpTopY, cx-48*s, cpTopY+4*s, rearWindowBotX, rearWindowBotY, 0.024, 1.4*s)
+
+    // ── 6. TRUNK LID — quasi orizzontale, leggero spoiler lip ────────────────
+    addBez(rearWindowBotX, rearWindowBotY, cx-68*s, rearWindowBotY+1*s, trunkEndX, trunkEndY, 0.022, 1.3*s)
+
+    // ── 7. CODA — troncata ───────────────────────────────────────────────────
+    addLine(trunkEndX, trunkEndY, rearX, rearTopY, 0.008, 1.3*s)
+    addLine(rearX, rearTopY, rearX, sillY, 0.018, 1.3*s)
+
+    // ── 8. FARI ANTERIORI — blade DRL stile F30, allungati ───────────────────
+    const hlY = noseTipY - 4 * s
+    addBez(frontX-1*s, hlY, cx+82*s, hlY+1*s, cx+72*s, hlY+3*s, 0.014, 0.8*s)
+    // DRL strip inferiore
+    addBez(frontX-2*s, hlY+6*s, cx+84*s, hlY+7*s, cx+76*s, hlY+8*s, 0.008, 0.7*s)
+
+    // ── 9. FARI POSTERIORI — barra orizzontale ───────────────────────────────
+    const rlY = rearTopY + 4 * s
+    addLine(rearX, rlY, rearX+14*s, rlY, 0.006, 1.0*s)
+    addLine(rearX, rlY+4*s, rearX+10*s, rlY+4*s, 0.004, 0.8*s)
+
+    // ── 10. SOTTOSCOCCA ──────────────────────────────────────────────────────
+    addLine(frontX-2*s, sillY, frontWheelX+archR, sillY, 0.005, 1.3*s)
+    addLine(frontWheelX-archR, sillY, rearWheelX+archR, sillY, 0.016, 1.3*s)
+    addLine(rearWheelX-archR, sillY, rearX, sillY, 0.006, 1.3*s)
+
+    // ── 11. ARCHI RUOTA — semicerchi puliti ──────────────────────────────────
+    for (let i = 0; i < Math.floor(count * 0.032); i++) {
       const a = Math.PI + Math.random()*Math.PI
-      points.push({ x: frontWheelX+Math.cos(a)*archR+(Math.random()-0.5)*1.5*s, y: axleY+Math.sin(a)*archR+(Math.random()-0.5)*1.5*s })
+      points.push({ x: frontWheelX+Math.cos(a)*archR+(Math.random()-0.5)*1.1*s, y: axleY+Math.sin(a)*archR+(Math.random()-0.5)*1.1*s })
     }
-    for (let i = 0; i < Math.floor(count * 0.036); i++) {
+    for (let i = 0; i < Math.floor(count * 0.032); i++) {
       const a = Math.PI + Math.random()*Math.PI
-      points.push({ x: rearWheelX+Math.cos(a)*archR+(Math.random()-0.5)*1.5*s, y: axleY+Math.sin(a)*archR+(Math.random()-0.5)*1.5*s })
+      points.push({ x: rearWheelX+Math.cos(a)*archR+(Math.random()-0.5)*1.1*s, y: axleY+Math.sin(a)*archR+(Math.random()-0.5)*1.1*s })
     }
 
-    // ── Ruote (anello + mozzo) ────────────────────────────────────────────────
-    addRing(frontWheelX, axleY, wheelR,      0.044, 4*s)
-    addRing(rearWheelX,  axleY, wheelR,      0.044, 4*s)
-    addRing(frontWheelX, axleY, wheelR*0.3,  0.008, 2*s)
-    addRing(rearWheelX,  axleY, wheelR*0.3,  0.008, 2*s)
+    // ── 12. RUOTE — cerchio esterno + mozzo ──────────────────────────────────
+    addRing(frontWheelX, axleY, wheelR, 0.040, 3.5*s)
+    addRing(rearWheelX, axleY, wheelR, 0.040, 3.5*s)
+    addRing(frontWheelX, axleY, wheelR*0.35, 0.008, 2*s)
+    addRing(rearWheelX, axleY, wheelR*0.35, 0.008, 2*s)
+    // Razze (linee radiali dentro le ruote)
+    for (let wi = 0; wi < 2; wi++) {
+      const wx = wi === 0 ? frontWheelX : rearWheelX
+      for (let ri = 0; ri < 10; ri++) {
+        const a = (ri / 10) * Math.PI * 2
+        addLine(wx+Math.cos(a)*wheelR*0.35, axleY+Math.sin(a)*wheelR*0.35,
+                wx+Math.cos(a)*wheelR*0.85, axleY+Math.sin(a)*wheelR*0.85, 0.002, 1.0*s)
+      }
+    }
 
-    // ── DLO — bordo superiore finestrini (greenhouse outline) ────────────────
-    // Parabrezza interno
-    addLine(cowlX+5*s, cowlY+6*s, wsTopX+2*s, wsTopY+3*s,            0.016, 1.3*s)
-    // Tetto finestrini
-    addBez(wsTopX+2*s, wsTopY+3*s, cx-5*s, cy-28*s, cpX+4*s, cpY+5*s, 0.018, 1.3*s)
-    // Lunotto (quasi verticale — berlina)
-    addLine(cpX+4*s, cpY+5*s, trk0X+3*s, trk0Y+3*s,                  0.012, 1.3*s)
+    // ── 13. LINEA DI CINTURA (character line, sale verso la coda) ────────────
+    const beltY0 = cy + 2 * s
+    addCubicBez(
+      frontWheelX-4*s, beltY0,
+      cx+10*s, beltY0-1*s,
+      cx-20*s, beltY0-4*s,
+      rearWheelX+6*s, beltY0-7*s,
+      0.016, 1.0*s
+    )
 
-    // ── Sparse (jitter stretto) ───────────────────────────────────────────────
+    // ── 14. LINEA DI FIANCATA INFERIORE (attraverso maniglie) ────────────────
+    const midLY = cy + 14 * s
+    addBez(frontWheelX-2*s, midLY, cx, midLY-1*s, rearWheelX+4*s, midLY-2*s, 0.012, 0.9*s)
+
+    // ── 15. DLO (finestrini) ─────────────────────────────────────────────────
+    // A-pillar interno
+    addLine(cowlX+4*s, cowlY+4*s, wsTopX+2*s, wsTopY+3*s, 0.014, 1.1*s)
+    // Tetto greenhouse
+    addCubicBez(wsTopX+2*s, wsTopY+3*s, cx-4*s, roofPkY+3*s, cx-28*s, roofPkY+3*s, cpTopX+4*s, cpTopY+4*s, 0.016, 1.1*s)
+    // Hofmeister kink: piccolo kick all'indietro prima di scendere
+    const kinkTopX = cpTopX + 4*s;  const kinkTopY = cpTopY + 4*s
+    const kinkMidX = cpTopX - 4*s;  const kinkMidY = cpTopY + 10*s
+    const kinkBotX = cpTopX - 2*s;  const kinkBotY = rearWindowBotY + 2*s
+    addLine(kinkTopX, kinkTopY, kinkMidX, kinkMidY, 0.007, 1.1*s)
+    addBez(kinkMidX, kinkMidY, kinkMidX-1*s, kinkMidY+3*s, kinkBotX, kinkBotY, 0.006, 1.1*s)
+    // Base DLO (sotto finestrini) — sale leggermente come la cintura
+    addBez(cowlX+4*s, cowlY+4*s, cx, beltY0-2*s, kinkBotX, kinkBotY, 0.012, 1.0*s)
+
+    // ── 16. GRIGLIA/KIDNEY (accenno) ─────────────────────────────────────────
+    const grilleY = noseTipY + 4*s
+    addLine(frontX-6*s, grilleY, frontX-6*s, grilleY+8*s, 0.003, 0.8*s)
+    addLine(frontX-10*s, grilleY, frontX-10*s, grilleY+8*s, 0.003, 0.8*s)
+
+    // ── 17. SPARSE — alone di particelle ─────────────────────────────────────
     const sparseCount = count - points.length
     for (let i = 0; i < sparseCount; i++) {
       const base = points[Math.floor(Math.random() * points.length)]
-      if (base) points.push({ x: base.x+(Math.random()-0.5)*8*s, y: base.y+(Math.random()-0.5)*8*s })
+      if (base) points.push({ x: base.x+(Math.random()-0.5)*6*s, y: base.y+(Math.random()-0.5)*6*s })
     }
 
     return points.slice(0, count)
