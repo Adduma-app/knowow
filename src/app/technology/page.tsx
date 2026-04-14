@@ -74,7 +74,7 @@ function VideoBackground({
 }: {
   activeIndex: number
   rtmPhase: 1 | 2
-}) {
+  }) {
   const stmRef   = useRef<HTMLVideoElement>(null)   // STM (index 2)
   const rtmV1Ref = useRef<HTMLVideoElement>(null)   // RTM video 1
   const rtmV2Ref = useRef<HTMLVideoElement>(null)   // RTM video 2
@@ -113,10 +113,10 @@ function VideoBackground({
           }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Cards 01–02: ThermalChart */}
+          {/* Cards 01–02: ThermalChart — only animate when this card is active */}
           {i === 0 || i === 1 ? (
             <div className="flex items-center justify-center w-[80vw]">
-              <ThermalChart />
+              <ThermalChart active={i === activeIndex} />
             </div>
 
           /* Card 03: STM video */

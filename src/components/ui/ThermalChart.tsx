@@ -3,8 +3,11 @@
 import { useRef, useEffect } from 'react'
 
 // ─── Physical constants ────────────────────────────────────────────────────────
-const W = 320
-const H = 480
+// Render at half resolution, CSS scales up → 75 % less pixel work
+const W = 160
+const H = 240
+const DISPLAY_W = 320
+const DISPLAY_H = 480
 
 const X_MIN = 176, X_MAX = 208
 const Y_MAX = 200
@@ -110,11 +113,17 @@ const CB_LABELS = Array.from({ length: 10 }, (_, i) => {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ThermalChart() {
-  const mainRef  = useRef<HTMLCanvasElement>(null)
-  const cbRef    = useRef<HTMLCanvasElement>(null)
-  const badgeRef = useRef<HTMLDivElement>(null)
-  const rafRef   = useRef<number>(0)
+interface ThermalChartProps {
+  /** When false the rAF loop is paused — saves ~150 k pixel calcs / frame */
+  active?: boolean
+}
+
+export default function ThermalChart({ active = true }: ThermalChartProps) {
+  const mainRef   = useRef<HTMLCanvasElement>(null)
+  const cbRef     = useRef<HTMLCanvasElement>(null)
+  const badgeRef  = useRef<HTMLDivElement>(null)
+  const rafRef    = useRef<number>(0)
+  const renderRef = useRef<((ts: number) => void) | null>(null)
 
   useEffect(() => {
     const mainCanvas = mainRef.current
@@ -220,12 +229,23 @@ export default function ThermalChart() {
       rafRef.current = requestAnimationFrame(render)
     }
 
-    rafRef.current = requestAnimationFrame(render)
+    // Don't start the loop here — the active-dependent effect below controls it
+    renderRef.current = render
 
     return () => {
       cancelAnimationFrame(rafRef.current)
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Start / stop rAF based on `active` prop ────────────────────────────────
+  useEffect(() => {
+    if (active && renderRef.current) {
+      rafRef.current = requestAnimationFrame(renderRef.current)
+    } else {
+      cancelAnimationFrame(rafRef.current)
+    }
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [active])
 
   // ─── Render ────────────────────────────────────────────────────────────────
 
@@ -289,14 +309,14 @@ export default function ThermalChart() {
               textAlign: 'center',
               whiteSpace: 'nowrap',
               padding: '0 2px',
-              height: H,
+              height: DISPLAY_H,
               marginTop: 20,
             }}
           >
             y [mm]
           </div>
           {/* Tick values */}
-          <div style={{ position: 'relative', width: 28, height: H, marginTop: 20 }}>
+          <div style={{ position: 'relative', width: 28, height: DISPLAY_H, marginTop: 20 }}>
             {Y_TICKS.map((v) => (
               <span
                 key={v}
@@ -329,16 +349,16 @@ export default function ThermalChart() {
             N = 0
           </div>
 
-          {/* Thermal canvas */}
+          {/* Thermal canvas — buffer at half res, CSS scales to display size */}
           <canvas
             ref={mainRef}
             width={W}
             height={H}
-            style={{ display: 'block', borderRadius: 2 }}
+            style={{ display: 'block', borderRadius: 2, width: DISPLAY_W, height: DISPLAY_H, imageRendering: 'auto' }}
           />
 
           {/* X ticks */}
-          <div style={{ position: 'relative', width: W, height: 16, marginTop: 4 }}>
+          <div style={{ position: 'relative', width: DISPLAY_W, height: 16, marginTop: 4 }}>
             {X_TICKS.map(({ label, leftPct }) => (
               <span
                 key={label}
@@ -360,7 +380,7 @@ export default function ThermalChart() {
               letterSpacing: '1.5px',
               textAlign: 'center',
               paddingTop: 2,
-              width: W,
+              width: DISPLAY_W,
             }}
           >
             x [mm]
