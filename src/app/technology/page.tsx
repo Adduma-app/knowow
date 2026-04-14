@@ -20,7 +20,7 @@ const ALL_ITEMS = [
     accent: '#E9704D',
     glowRGB: '233,112,77',
     side: 'left'  as const,
-    videoSrc: '/video_def/chart.webm',
+    videoSrc: '/video_def/chart_reduced.webm',
     xShift: 80,
   },
   {
@@ -32,7 +32,7 @@ const ALL_ITEMS = [
     accent: '#3B61AB',
     glowRGB: '59,97,171',
     side: 'right' as const,
-    videoSrc: '/video_def/temperature.webm',
+    videoSrc: '/video_def/temperature_reduced.webm',
     xShift: -80,
   },
   {
@@ -44,7 +44,7 @@ const ALL_ITEMS = [
     accent: '#E9704D',
     glowRGB: '233,112,77',
     side: 'left'  as const,
-    videoSrc: '/video_def/Polyline.webm',
+    videoSrc: '/video_def/Polyline_reduced.webm',
     xShift: 80,
   },
   {
@@ -56,7 +56,7 @@ const ALL_ITEMS = [
     accent: '#3B61AB',
     glowRGB: '59,97,171',
     side: 'right' as const,
-    videoSrc: '/video_def/temperature.webm',
+    videoSrc: '/video_def/temperature_reduced.webm',
     xShift: -80,
   },
 ]
@@ -308,7 +308,7 @@ export default function TechnologyPage() {
     const handleScroll = () => {
       if (!card4ContainerRef.current) return
       const { top } = card4ContainerRef.current.getBoundingClientRect()
-      setRtmPhase(top <= 0 ? 2 : 1)
+      setRtmPhase(top <= -window.innerHeight * 2 ? 2 : 1)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)

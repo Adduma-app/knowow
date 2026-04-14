@@ -207,7 +207,7 @@ export default function SectionPerche() {
           
             >
               <video
-                src="/video_def/chart.webm"
+                src="/video_def/chart_reduced.webm"
                 autoPlay
                 muted
                 loop

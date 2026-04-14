@@ -80,7 +80,7 @@ export default function Hero() {
         <video
           autoPlay muted loop playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          src="/video_def/video_hero_knowow.webm"
+          src="/video_def/video_hero_knowow_reduced.webm"
         />
         <div
           className="absolute inset-0"
