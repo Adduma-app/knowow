@@ -80,15 +80,15 @@ export default function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
+          className="md:hidden flex flex-col gap-[7px] p-2"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
           aria-label={isOpen ? 'Chiudi menu' : 'Apri menu'}
         >
           <span
-            className={`block w-6 h-px bg-white transition-all duration-300 ${
-              isOpen ? 'rotate-45 translate-y-2' : ''
+            className={`block w-6 h-px bg-white transition-all duration-300 origin-center ${
+              isOpen ? 'rotate-45 translate-y-[8px]' : ''
             }`}
           />
           <span
@@ -97,8 +97,8 @@ export default function Navbar() {
             }`}
           />
           <span
-            className={`block w-6 h-px bg-white transition-all duration-300 ${
-              isOpen ? '-rotate-45 -translate-y-2' : ''
+            className={`block w-6 h-px bg-white transition-all duration-300 origin-center ${
+              isOpen ? '-rotate-45 -translate-y-[8px]' : ''
             }`}
           />
         </button>

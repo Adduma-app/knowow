@@ -43,7 +43,7 @@ export default function Section2HowToUse() {
       {/* Slider — scroll nativo orizzontale */}
       <div className="overflow-x-auto scrollbar-hide">
         <div
-          className="flex px-6 md:px-16 lg:px-24 select-none justify-center"
+          className="flex px-6 md:px-16 lg:px-24 select-none lg:justify-center"
           style={{ gap: CARD_GAP }}
         >
           {cards.map((card, i) => {
@@ -52,7 +52,8 @@ export default function Section2HowToUse() {
             return (
               <div
                 key={`${card.num}-${i}`}
-                style={{ width: CARD_W, flexShrink: 0 }}
+                className="w-[82vw] sm:w-[380px]"
+                style={{ flexShrink: 0 }}
               >
                 {/* Wrapper bordo sinistro — segue il clip-path */}
                 <div
