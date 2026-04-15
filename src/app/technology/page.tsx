@@ -8,6 +8,7 @@ import { GlowCard } from '@/components/ui/GlowCard'
 import CTAFinal from '@/components/sections/CTAFinal'
 import SectionPerche from '@/components/sections/SectionPerche'
 import ThermalChart from '@/components/ui/ThermalChart'
+import Image from 'next/image'
 
 // ─── Card + video data ────────────────────────────────────────────────────────
 const ALL_ITEMS = [
@@ -113,10 +114,22 @@ function VideoBackground({
           }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Cards 01–02: ThermalChart — only animate when this card is active */}
-          {i === 0 || i === 1 ? (
+          {/* Card 01: ThermalChart */}
+          {i === 0 ? (
             <div className="flex items-center justify-center w-[80vw]">
               <ThermalChart active={i === activeIndex} />
+            </div>
+
+          /* Card 02: grafico DIC */
+          ) : i === 1 ? (
+            <div className="flex items-center justify-center w-[80vw]">
+              <Image
+                src="/images/grafico.png"
+                alt="DIC grafico"
+                width={900}
+                height={600}
+                style={{ objectFit: 'contain', maxHeight: '70vh', width: 'auto' }}
+              />
             </div>
 
           /* Card 03: STM video */
@@ -227,7 +240,7 @@ function TechHero() {
     <section className="relative flex flex-col items-center justify-center text-center px-6 md:px-16 pt-36 pb-24 overflow-hidden">
       <div aria-hidden="true" className="absolute pointer-events-none" style={{ inset: 0, zIndex: 0 }} />
 
-      <div className="relative z-10 max-w-3xl mx-auto">
+      <div className="relative z-10  mx-auto">
         <motion.span
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -308,7 +321,8 @@ export default function TechnologyPage() {
     const handleScroll = () => {
       if (!card4ContainerRef.current) return
       const { top } = card4ContainerRef.current.getBoundingClientRect()
-      setRtmPhase(top <= -window.innerHeight * 2 ? 2 : 1)
+      const vh = window.innerHeight
+      setRtmPhase(top <= -vh * 0.45 ? 2 : 1)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -345,7 +359,7 @@ export default function TechnologyPage() {
           </div>
 
           {/* Cards layer */}
-          <div style={{ position: 'relative', zIndex: 2 }}>
+          <div style={{ position: 'relative', zIndex: 2, marginTop: '-90vh' }}>
 
             {/* Cards 01–03: layout normale 100vh */}
             {ALL_ITEMS.slice(0, 3).map((item, i) => (
@@ -371,7 +385,7 @@ export default function TechnologyPage() {
             */}
             <div
               ref={card4ContainerRef}
-              style={{ position: 'relative', height: '500vh' }}
+              style={{ position: 'relative', height: '195vh' }}
             >
               {/*
                 Sentinel 1px × 100vh usato dall'IntersectionObserver per attivare
@@ -437,12 +451,21 @@ export default function TechnologyPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.7 }}
-                  className={`relative w-full flex flex-col justify-center gap-4 ${i === 0 || i === 1 ? '' : 'overflow-hidden'}`}
+                  className={`relative w-full flex flex-col justify-center gap-4 ${i === 0 ? '' : 'overflow-hidden'}`}
                 >
-                  {i === 0 || i === 1 ? (
+                  {i === 0 ? (
                     <div className="flex justify-center" style={{ transform: 'scale(0.60)', transformOrigin: 'top center', marginBottom: '-240px' }}>
                       <ThermalChart />
                     </div>
+                  ) : i === 1 ? (
+                    <Image
+                      src="/images/grafico.png"
+                      alt="DIC grafico"
+                      width={900}
+                      height={600}
+                      className="w-full h-auto"
+                      style={{ objectFit: 'contain' }}
+                    />
                   ) : i === 3 ? (
                     // Card RTM mobile: entrambi i video in sequenza
                     <>

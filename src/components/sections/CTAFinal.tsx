@@ -72,25 +72,31 @@ export default function CTAFinal() {
     <section
       id="contatti"
       ref={sectionRef}
-      className="relative py-24  px-6 md:px-16 lg:px-24   mt-[5%]"
+      className="relative px-6 md:px-16 lg:px-24 mt-[5%] pb-24 overflow-hidden"
     >
 
-       {/* Logo header */}
-       <motion.div variants={fadeInUp} className="">
-                  <Image
-                    src="/images/logo_outline_thin.svg"
-                    alt="KnoWow"
-                    width={160}
-                    height={42}
-                    className="w-full h-auto absolute top-[6%]  md:-top-[8%] left-0 object-cover"
-                  />
-                </motion.div>
+      {/* Logo header — nel flow, altezza scala con la larghezza */}
+      <motion.div
+        variants={fadeInUp}
+        initial="hidden"
+        animate={isVisible ? 'visible' : 'hidden'}
+      >
+        <Image
+          src="/images/logo_outline_thin.svg"
+          alt="KnoWow"
+          width={160}
+          height={42}
+          className="w-full h-auto block"
+        />
+      </motion.div>
 
       <motion.div
         variants={staggerContainer}
         initial="hidden"
         animate={isVisible ? 'visible' : 'hidden'}
-        className="relative z-10 max-w-8xl mx-auto"
+
+        className="relative z-10 max-w-8xl mx-auto -mt-[8px] md:-mt-[35px]"
+        
       >
         {submitted ? (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-24">

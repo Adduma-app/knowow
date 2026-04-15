@@ -168,12 +168,135 @@ function CompareCard() {
 
 export default function SectionPerche() {
   return (
-    <section className="px-6 md:px-16 lg:px-24 py-2 md:py-36">
+    <section className="px-6 md:px-16 lg:px-24 py-2 md:pt-36 md:-mb-[5%]">
       <div>
+
+
+          {/* ── Blocco header: two-column layout ── */}
+          <FadeBlock>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 xl:gap-16 xl:items-stretch">
+
+              {/* ── Left column: narrative ── */}
+              <div>
+                <span className="text-micro text-[#E9704D] block mb-5">
+                  esercizio su dati reali
+                </span>
+                <h2
+                  className="font-sans font-bold uppercase text-white/35 leading-tight mb-8"
+                  style={{ fontSize: 'clamp(1.8rem, 4vw, 3.2rem)', letterSpacing: '-0.02em' }}
+                >
+                  Pochi dati producono un'alta illusione di precisione.
+                  <br />
+                  <span className="text-white">Molti dati producono vera affidabilità.</span>
+                </h2>
+
+                <Body className="mb-8">
+                  Dati reali di una ghisa sferoidale pubblicati da{' '}
+                  <Hi>Kohout &amp; Věchet</Hi> (Int. J. Fatigue, 2001). La Serie 1 ha il
+                  miglior R² — ed è la peggiore.
+                </Body>
+
+                {/* ASTM callout */}
+                <div
+                  className="flex items-center gap-4 py-4 px-5"
+                  style={{ border: '1px solid rgba(59,97,171,0.25)', borderLeft: '3px solid #3B61AB' }}
+                >
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.25em] font-bold mb-1.5" style={{ color: '#3B61AB' }}>
+                      ASTM E739
+                    </p>
+                    <p className="text-sm text-white/55 leading-relaxed font-medium">
+                      Raccomanda un minimo di <Hi>12–24 provini</Hi> per campagne con finalità
+                      statistiche. Sotto quella soglia: caratterizzazione orientativa, non
+                      affidabilità di progetto.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* ── Right column: table ── */}
+              <div className="flex flex-col">
+                <GlowCard
+                  className="glass-card clip-card overflow-hidden  "
+                  glowRGB="59,97,171"
+                  glowSize={400}
+                  glowAlpha={0.12}
+                >
+                  <div className="pb-5 lg:pb-7">
+                    {/* Header row */}
+                    <div
+                      className="grid grid-cols-4 px-5 md:px-7 pt-6 pb-4"
+                      style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}
+                    >
+                      {['Serie', 'Provini', 'R²', 'Giorni'].map((h) => (
+                        <span
+                          key={h}
+                          className="font-sans font-bold uppercase text-white/30"
+                          style={{ fontSize: 11, letterSpacing: '0.25em' }}
+                        >
+                          {h}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Data rows */}
+                    {TABLE_ROWS.map((row, i) => (
+                      <div
+                        key={row.serie}
+                        className="grid grid-cols-4 items-center px-5 md:px-7 py-5 lg:py-7"
+                        style={{
+                          borderBottom: i < TABLE_ROWS.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                          background: row.warning ? 'rgba(233,112,77,0.06)' : 'transparent',
+                        }}
+                      >
+                        <div className="flex flex-col gap-1">
+                          <span
+                            className="font-mono text-xl lg:text-2xl font-semibold"
+                            style={{ color: row.warning ? '#E9704D' : 'rgba(255,255,255,0.55)' }}
+                          >
+                            {row.serie}
+                          </span>
+                          {row.warning && (
+                            <span
+                              className="text-[8px] uppercase tracking-[0.15em] font-bold px-1.5 py-0.5 self-start"
+                              style={{ color: '#E9704D', border: '1px solid rgba(233,112,77,0.35)', borderRadius: 2 }}
+                            >
+                              R² alto ≠ migliore
+                            </span>
+                          )}
+                        </div>
+                        <span
+                          className="font-mono text-xl lg:text-2xl font-bold"
+                          style={{ color: row.warning ? '#E9704D' : 'rgba(255,255,255,0.75)' }}
+                        >
+                          {row.provini}
+                        </span>
+                        <span
+                          className="font-mono text-xl lg:text-2xl"
+                          style={{
+                            color: row.warning ? 'rgba(233,112,77,0.9)' : 'rgba(255,255,255,0.55)',
+                            fontWeight: row.warning ? 700 : 400,
+                          }}
+                        >
+                          {row.r2}
+                        </span>
+                        <span className="font-mono text-xl lg:text-2xl" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                          {row.giorni}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </GlowCard>
+              </div>
+
+            </div>
+          </FadeBlock>
+
+    
 
         {/* ── Header ── */}
         <FadeBlock>
-          <span className="text-micro text-[#E9704D] block mb-5">
+          <span className="text-micro mt-[5%] text-[#E9704D] block mb-5">
             Perché conta farlo bene
           </span>
           <h2
@@ -188,7 +311,7 @@ export default function SectionPerche() {
 
         {/* ── Blocco 1: 5 provini ── */}
         <FadeBlock>
-          <div className="mb-16 pb-16 border-b border-white/[0.06]">
+          <div className="mb-16 pb-16">
             <BlockHeading accent="#E9704D">
               Il problema più comune: cinque provini non sono abbastanza
             </BlockHeading>
@@ -241,128 +364,7 @@ export default function SectionPerche() {
           </div>
         </FadeBlock>
 
-        {/* ── Blocco 2: tabella + ASTM ── */}
-        <FadeBlock>
-          <div className="mb-16 pb-16 border-b border-white/[0.06]">
-            <BlockHeading accent="#3B61AB">Un esercizio su dati reali</BlockHeading>
-
-            <Body className="mb-8">
-              Dati reali di una ghisa sferoidale pubblicati da{' '}
-              <Hi>Kohout &amp; Věchet</Hi> (Int. J. Fatigue, 2001). La Serie 1 ha il
-              miglior R² — ed è la peggiore.
-            </Body>
-
-            <GlowCard
-              className="glass-card clip-card overflow-hidden mb-8"
-              glowRGB="59,97,171"
-              glowSize={400}
-              glowAlpha={0.12}
-            >
-              <div className="overflow-x-auto">
-              <table className="w-full min-w-[400px]" style={{ borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-                    {['Serie', 'Provini', 'R²', 'Giorni'].map((h) => (
-                      <th
-                        key={h}
-                        className="text-left font-sans font-bold uppercase text-white/30 py-8 px-3 md:py-4 md:px-6"
-                        style={{ fontSize: 10, letterSpacing: '0.25em' }}
-                      >
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {TABLE_ROWS.map((row, i) => (
-                    <tr
-                      key={row.serie}
-                      style={{
-                        borderBottom: i < TABLE_ROWS.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
-                        background: row.warning ? 'rgba(233,112,77,0.06)' : 'transparent',
-                      }}
-                    >
-                      <td className=" py-4 px-6">
-                        <div className="flex flex-col gap-1">
-                          <span
-                            className="font-mono text-sm"
-                            style={{ color: row.warning ? '#E9704D' : 'rgba(255,255,255,0.55)' }}
-                          >
-                            {row.serie}
-                          </span>
-                          {row.warning && (
-                            <span
-                              className="text-[8px] uppercase tracking-[0.15em] font-bold px-1.5 py-0.5 self-start"
-                              style={{ color: '#E9704D', border: '1px solid rgba(233,112,77,0.35)', borderRadius: 2 }}
-                            >
-                              R² alto ≠ migliore
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="py-3 px-3 md:py-4 md:px-6">
-                        <span
-                          className="font-mono text-sm font-bold"
-                          style={{ color: row.warning ? '#E9704D' : 'rgba(255,255,255,0.75)' }}
-                        >
-                          {row.provini}
-                        </span>
-                      </td>
-                      <td className="py-3 px-3 md:py-4 md:px-6">
-                        <span
-                          className="font-mono text-sm"
-                          style={{
-                            color: row.warning ? 'rgba(233,112,77,0.9)' : 'rgba(255,255,255,0.55)',
-                            fontWeight: row.warning ? 700 : 400,
-                          }}
-                        >
-                          {row.r2}
-                        </span>
-                      </td>
-                      <td className="py-3 px-3 md:py-4 md:px-6">
-                        <span className="font-mono text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                          {row.giorni}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              </div>
-            </GlowCard>
-
-            {/* ASTM callout */}
-            <div
-              className="flex items-center gap-4 py-4 px-5"
-              style={{ border: '1px solid rgba(59,97,171,0.25)', borderLeft: '3px solid #3B61AB' }}
-            >
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.25em] font-bold mb-1.5" style={{ color: '#3B61AB' }}>
-                  ASTM E739
-                </p>
-                <p className="text-sm text-white/55 leading-relaxed font-medium">
-                  Raccomanda un minimo di <Hi>12–24 provini</Hi> per campagne con finalità
-                  statistiche. Sotto quella soglia: caratterizzazione orientativa, non
-                  affidabilità di progetto.
-                </p>
-              </div>
-            </div>
-          </div>
-        </FadeBlock>
-
-        {/* ── Aforisma ── */}
-        <FadeBlock>
-          <p
-            className="font-sans font-bold uppercase text-center leading-tight"
-            style={{ fontSize: 'clamp(1.1rem, 2.2vw, 1.7rem)', letterSpacing: '-0.01em' }}
-          >
-            <span className="text-white/28">Pochi dati producono</span>
-            <span className="text-white"> un&apos;alta illusione di precisione.</span>
-            <br />
-            <span className="text-white/28">Molti dati producono</span>
-            <span className="text-white"> vera affidabilità.</span>
-          </p>
-        </FadeBlock>
+      
 
       </div>
     </section>

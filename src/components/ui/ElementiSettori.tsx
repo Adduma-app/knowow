@@ -308,7 +308,7 @@ export default function ElementiSettori() {
     const points: { x: number; y: number }[] = []
     const cx = w * 0.50
     const cy = h * 0.50
-    const s  = Math.min(w, h) * (w < 768 ? 0.0028 : 0.0040)
+    const s  = Math.min(w, h) * (w < 768 ? 0.0036 : 0.0052)
 
     // ── Helpers ───────────────────────────────────────────────────────────────
     const addLine = (x1: number, y1: number, x2: number, y2: number, wt: number, thick: number) => {
