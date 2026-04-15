@@ -124,11 +124,12 @@ function VideoBackground({
           ) : i === 1 ? (
             <div className="flex items-center justify-center w-[80vw]">
               <Image
-                src="/images/grafico.png"
+                src="/images/grafico_2.png"
                 alt="DIC grafico"
                 width={900}
                 height={600}
-                style={{ objectFit: 'contain', maxHeight: '70vh', width: 'auto' }}
+                className="w-auto h-auto xl:w-275 2xl:w-300"
+                style={{ objectFit: 'contain', maxHeight: '90vh' }}
               />
             </div>
 
@@ -322,7 +323,7 @@ export default function TechnologyPage() {
       if (!card4ContainerRef.current) return
       const { top } = card4ContainerRef.current.getBoundingClientRect()
       const vh = window.innerHeight
-      setRtmPhase(top <= -vh * 0.45 ? 2 : 1)
+      setRtmPhase(top <= -vh * 0.40 ? 2 : 1)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -385,7 +386,7 @@ export default function TechnologyPage() {
             */}
             <div
               ref={card4ContainerRef}
-              style={{ position: 'relative', height: '195vh' }}
+              style={{ position: 'relative', height: '140vh' }}
             >
               {/*
                 Sentinel 1px × 100vh usato dall'IntersectionObserver per attivare
@@ -412,11 +413,11 @@ export default function TechnologyPage() {
               <div
                 style={{
                   position: 'sticky',
-                  top: 5,
-                  height: '100vh',
+                  top: 0,
                   display: 'flex',
-                  alignItems: 'center',
+                  alignItems: 'flex-start',
                   justifyContent: 'flex-end',
+                  paddingTop: '15vh',
                 }}
                 className="px-6 md:px-16 lg:px-24"
               >
@@ -424,8 +425,6 @@ export default function TechnologyPage() {
               </div>
             </div>
 
-            {/* Spacer finale */}
-            <div style={{ height: '100vh' }} />
           </div>
         </section>
 
