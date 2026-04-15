@@ -54,7 +54,7 @@ const HOVER_CLASS: Record<Variant, string> = {
 // Classi base dell'elemento interno (font, padding)
 const INNER_BASE =
   'relative inline-flex items-center justify-center w-full ' +
-  'px-8 py-4 text-xs uppercase tracking-widest font-bold text-white overflow-hidden'
+  'px-4 py-2 md:px-8 md:py-4 text-xs uppercase tracking-widest font-bold text-white overflow-hidden'
 
 export function SiteButton({
   variant  = 'primary',

@@ -29,7 +29,7 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
       <div className="text-center   max-w-[200px]">
         <span className="text-sm text-white block mb-2">[01] METODO TRADIZIONALE</span>
         <p className="text-sm text-white leading-relaxed font-medium">
-          25 provini per test. 500 ore totali, ~20 giorni lavorativi.
+          25 provini per test. 500 ore totali, 20 giorni lavorativi.
         </p>
       </div>
 
@@ -243,7 +243,7 @@ function BenefitsSticky() {
       {/* ── Mobile: vertical stack with title above each card ── */}
       <div className="md:hidden flex flex-col gap-12 px-6 py-10">
         <span className="text-micro text-[#E9704D] block">Perché FFTM</span>
-        {WHY_FFTM.benefits.map((b) => (
+        {WHY_FFTM.benefits.map((b, i) => (
           <div key={b.num} className="flex flex-col gap-4">
             {/* Title above card */}
             <h3
@@ -262,6 +262,12 @@ function BenefitsSticky() {
                 </p>
               </div>
             </GlowCard>
+            {/* CTA — only for benefit #03 (methods) */}
+            {i === 2 && (
+              <SiteButton  variant="primary" href="/technology">
+                Scopri i metodi termografici
+              </SiteButton>
+            )}
           </div>
         ))}
       </div>
