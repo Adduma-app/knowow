@@ -18,7 +18,7 @@ function StaggeredH1({ line1, line2 }: { line1: string; line2: string }) {
       initial="hidden"
       animate="visible"
       className="font-sans font-black uppercase text-white leading-none"
-      style={{ fontSize: 'clamp(2.4rem, 6.5vw, 5.5rem)', letterSpacing: '-0.03em' }}
+      style={{ fontSize: 'clamp(2.4rem, 6.5vw, 3.5rem)', letterSpacing: '-0.03em' }}
       aria-label={`${line1} ${line2}`}
     >
       <span className="block">
@@ -119,12 +119,10 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 1.1 }}
           className="flex flex-wrap justify-center gap-4 mt-10"
         >
-          <SiteButton href="#fftm"     variant="primary" clip="bl" aria-label="Scopri la tecnologia FFTM">
+          <SiteButton href="#fftm"     variant="primary" clip="bl" aria-label="Scopri la tecnologia FFTT">
             {HERO.ctaPrimary}
           </SiteButton>
-          <SiteButton href="#contatti" variant="ghost"   clip="tr" aria-label="Richiedi una demo di FFTM">
-            {HERO.ctaSecondary}
-          </SiteButton>
+       
         </motion.div>
       </div>
 

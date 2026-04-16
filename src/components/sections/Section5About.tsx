@@ -79,7 +79,7 @@ export default function Section5About() {
               }}
               aria-hidden="true"
             >
-              50+
+              35+
             </span>
 
             {/* Label below */}

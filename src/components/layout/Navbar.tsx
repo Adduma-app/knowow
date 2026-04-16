@@ -73,8 +73,8 @@ export default function Navbar() {
 
           {/* CTA */}
           <span className="hidden md:inline-block">
-            <SiteButton href="/#contatti" variant="primary" clip="bl" aria-label="Richiedi una demo di FFTM">
-              Richiedi una demo
+            <SiteButton href="/#contatti" variant="primary" clip="bl" aria-label="Richiedi una demo di FFTT">
+              Richiedi un pilota di FFTT
             </SiteButton>
           </span>
 
@@ -133,9 +133,9 @@ export default function Navbar() {
             href="/#contatti"
             className="border border-[#E9704D] text-[#E9704D] text-xs uppercase tracking-widest px-5 py-3 text-center hover:bg-[#E9704D] hover:text-white transition-all mt-2"
             onClick={() => setIsOpen(false)}
-            aria-label="Richiedi una demo di FFTM"
+            aria-label="Richiedi una demo di FFTT"
           >
-            Richiedi una demo
+            Richiedi un pilota di FFTT
           </a>
         </div>
       </div>

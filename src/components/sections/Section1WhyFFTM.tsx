@@ -26,16 +26,22 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
   return (
     <div className="flex flex-col items-center gap-5">
       {/* Info box — above circle */}
-      <div className="text-center   max-w-[200px]">
+      <div className="text-center w-50">
         <span className="text-sm text-white block mb-2">[01] METODO TRADIZIONALE</span>
         <p className="text-sm text-white leading-relaxed font-medium">
-          25 provini per test. 500 ore totali, 20 giorni lavorativi.
+          25 provini (5 livelli di carico x 5 provini)
+        </p>
+        <p className="text-sm text-white leading-relaxed font-medium">
+          500+ ore
+        </p>
+        <p className="text-sm text-white leading-relaxed font-medium flex items-center justify-center gap-1">
+          <span className='h-[13px]'>~</span>1 mese
         </p>
       </div>
 
       {/* SVG circle — responsive via CSS */}
       <div
-        className="relative w-[60vw] max-w-[420px]  min-w-[220px] md:w-[28vw] lg:w-[24vw]"
+        className="relative w-[60vw] max-w-[590px]  min-w-[220px] md:w-[28vw] lg:w-[24vw]"
         style={{ aspectRatio: '1 / 1' }}
       >
         <svg
@@ -62,11 +68,11 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
             x={CX} y={CY - 10}
             textAnchor="middle" dominantBaseline="middle"
             fill="rgba(255,255,255,0.35)"
-            fontSize="72"
+            fontSize="54"
             fontFamily="Fussion, Eurostile, Arial"
             fontWeight="900"
           >
-            500
+            500+
           </text>
           {/* Unit */}
           <text
@@ -86,7 +92,8 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
       {/* Info box — below circle */}
       <div className="text-center max-w-[220px]">
         <p className="text-sm text-white leading-relaxed font-medium">
-          Costi elevati di energia e manodopera. Ritardi nel time-to-market.
+        Riduce la velocità di innovazione e ritarda
+        il time-to-market
         </p>
       </div>
     </div>
@@ -108,9 +115,9 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
     <div className="flex flex-col items-center gap-5">
       {/* Info box — above circle */}
       <div className="text-center max-w-[200px]">
-        <span className="text-sm text-[#E9704D] block mb-2">[02] CON FFTM</span>
+        <span className="text-sm text-[#E9704D] block mb-2">[02] CON FFTT</span>
         <p className="text-sm text-white leading-relaxed font-medium">
-          Curve a fatica in 1–2 giorni lavorativi. Spesso meno di 24 ore.
+        Curva di Wöhler e limite di fatica in &lt;48 ore
         </p>
       </div>
 
@@ -165,7 +172,7 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
             fontFamily="Fussion, Eurostile, Arial"
             fontWeight="900"
           >
-            {count}
+            &lt;{count}
           </text>
           {/* Unit */}
           <text
@@ -183,10 +190,15 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
       </div>
 
       {/* Info box — below circle */}
-      <div className="text-center max-w-[220px]">
-        <p className="text-sm text-white leading-relaxed font-medium">
-          Un solo sistema integrato: IR + DIC + ML. Validato da pubblicazioni peer-reviewed.
+      <div className="text-center max-w-[450px] text-sm text-white leading-relaxed font-medium">
+        <p>
+        Sistema basato su:
         </p>
+        <ul>
+          <li>•  Sensori Termografici (IR)</li>
+          <li>• Digital Image Correlation</li>
+          <li>• Sistemi di analisi dati proprietari</li>
+        </ul>
       </div>
     </div>
   )

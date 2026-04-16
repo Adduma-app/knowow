@@ -1,7 +1,6 @@
 // ─── NAVIGATION ──────────────────────────────────────────────────────────────
 export const NAV_LINKS = [
-  { label: 'FFTM', href: '/technology' },
-  { label: 'Applicazioni', href: '/#applicazioni' },
+  { label: 'FFTt', href: '/technology' },
   { label: 'Servizi', href: '/#servizi' },
   { label: 'Chi siamo', href: '/#chi-siamo' },
   { label: 'Contatti', href: '/#contatti' },
@@ -10,11 +9,11 @@ export const NAV_LINKS = [
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 export const HERO = {
   tag: 'Fast Fatigue Testing Technology',
-  h1Line1: 'Testare la fatica dei materiali',
+  h1Line1: 'Testare il comportamento a fatica di materiali, componenti e sistemi ',
   h1Line2: 'non è mai stato così veloce.',
   subtitle:
-    "KnoWow porta la ricerca universitaria direttamente nel tuo laboratorio. Con FFTM riduci i tempi di testing da mesi a ore — senza rinunciare all'affidabilità dei risultati.",
-  ctaPrimary: 'Scopri FFTM',
+    "KnoWow porta la ricerca universitaria direttamente nel tuo laboratorio. FFTT riduce i tempi di testing da diverse settimane a poche ore senza rinunciare all'affidabilità dei risultati.",
+  ctaPrimary: 'Scopri FFTT',
   ctaSecondary: 'Richiedi una demo',
   stats: [
     { value: '< 48h', label: 'Tempi di testing' },
@@ -25,18 +24,17 @@ export const HERO = {
 
 // ─── SECTION 1 — WHY FFTM ────────────────────────────────────────────────────
 export const WHY_FFTM = {
-  label: 'Perché FFTM',
-  h2Line1: 'Il test di fatica tradizionale',
-  h2Line2: 'costa tempo e denaro. FFTM no.',
-  body: "I metodi standard per la caratterizzazione a fatica richiedono centinaia di provini e settimane di test. FFTM riduce drasticamente tempi e costi senza compromettere l'affidabilità scientifica.",
+  label: 'Perché FFTT',
+  h2Line1: 'La caratterizzazione a fatica con metodi tradizionali richiede tempi lunghi',
+  h2Line2: 'e frena i processi di R&D. FFTT NO.',
+  body: "I metodi standard per l’esecuzione delle prove richiedono centinaia di ore e decine di provini per derivare una curva di Wöhler (S–N) e ricavare il limite di fatica. FFTT riduce drasticamente il numero dei provini e i tempi di prova garantendo un’affidabilità del dato pari o superiore rispetto ai protocolli tradizionali.",
   traditional: {
     tag: '[01]',
     title: 'Il metodo tradizionale',
     items: [
-      '25 provini per test (5 livelli × 5 provini)',
-      '~500 ore totali, ~20 giorni lavorativi',
-      'Costi elevati di energia e manodopera',
-      'Ritardi nel time-to-market',
+      '25 provini (5 livelli di carico x 5 provini)',
+      '500+ ore',
+      '~1 mese',
     ],
   },
   fftm: {
@@ -52,49 +50,49 @@ export const WHY_FFTM = {
   benefits: [
     {
       num: '01',
-      title: 'Da ~500 ore a meno di 48 ore',
-      text: 'Dove i metodi tradizionali impiegano settimane, FFTM restituisce curve a fatica e limiti di fatica in 1–2 giorni lavorativi.',
+      title: 'Da 500+ ore a <48 ore',
+      text: 'Dove i metodi tradizionali impiegano settimane, FFTT restituisce curva di Wöhler (S–N) e limite di fatica in < 48 ore',
     },
     {
       num: '02',
-      title: 'Una sola tecnologia, tutto integrato',
-      text: 'FFTM combina applicazione del carico, sensori termografici IR, correlazione digitale delle immagini (DIC) e software di analisi machine learning in un unico sistema operativo.',
+      title: 'Una tecnologia integrata',
+      text: 'FFTT combina sensori termografici (IR), Digital Image Correlation (DIC) e algoritmi proprietari per l’analisi dei dati in un unico processo.',
     },
     {
       num: '03',
-      title: 'Metodi validati dalla ricerca scientifica',
-      text: 'La tecnologia si basa sul Metodo Termografico di Risitano e sul Metodo Termografico Statico, documentati in numerose pubblicazioni peer-reviewed.',
+      title: 'Tecnologia fondata su metodi energetici frutto di oltre 35 anni di ricerca scientifica',
+      text: 'La tecnologia si basa sul Metodo Termografico Risitano e sul Metodo Termografico Statico, documentati in numerose pubblicazioni peer-reviewed.',
     },
   ],
 }
 
 // ─── SECTION 2 — HOW TO USE ───────────────────────────────────────────────────
 export const HOW_TO_USE = {
-  label: 'Come usare FFTM',
-  h2: 'Tre modi per integrare FFTM nella tua azienda',
-  body: 'Che tu abbia bisogno di un test singolo o di una partnership continuativa, FFTM si adatta al tuo flusso di lavoro.',
+  label: 'al servizio delle esigenze aziendali',
+  h2: 'METTIAMO LA FAST FATIGUE TESTING TECHNOLOGY AL SERVIZIO DELLA TUA AZIENDA',
+  body: 'FFTT è disponibile per progetti pilota, come bundle di servizi nell’ambito di una partnership continuativa e come tecnologia in licenza trasferita direttamente presso i vostri laboratori ',
   cards: [
     {
       mode: 'MODALITÀ 01',
       num: '01',
-      title: 'Testing su richiesta',
-      text: 'Inviaci i tuoi provini oppure veniamo direttamente nella tua azienda. Ti restituiamo curve a fatica, limite di fatica e report tecnico completo.',
+      title: 'Progetto pilota',
+      text: 'Il progetto pilota si svolge presso i laboratori Knowow oppure presso i vostri laboratori. Ti restituiamo curva di Wöhler (S–N), limite di fatica e report tecnico completo. Il pilota rappresenta una vetrina delle nostre capacità tecniche pensata per facilitare il primo engagement. Il passo successivo della partnership è l’attivazione di un bundle di servizi.',
       cta: 'Richiedi un preventivo →',
       borderColor: 'border-[#E9704D]',
     },
     {
       mode: 'MODALITÀ 02',
       num: '02',
-      title: 'Pacchetti su misura',
-      text: "Se hai esigenze continuative o multi-progetto, costruiamo insieme un pacchetto di servizi personalizzato, ottimizzando costi e tempi in base al tuo piano di sviluppo prodotto.",
-      cta: 'Scopri i bundle →',
+      title: 'Bundle di servizi',
+      text: "Alle attività spot prediligiamo relazioni strutturate e continuative per traferire il massimo del valore ai nostri partner selezionati. I nostri bundle di servizi ci consentono di allinearci ai piani di sviluppo aziendali garantendo tempi di risposta celeri e capacità tecnica dedicata. ",
+      cta: 'Scopri i nostri bundle →',
       borderColor: 'border-[#3B61AB]',
     },
     {
       mode: 'MODALITÀ 03',
       num: '03',
-      title: 'Porta FFTM nel tuo laboratorio',
-      text: "Acquisisci la licenza della tecnologia FFTM e integrala nel tuo laboratorio esistente. KnoWow ti supporta nell'installazione, nella calibrazione e nella formazione del personale.",
+      title: 'Porta FFTT nel tuo laboratorio',
+      text: "Se hai esigenze particolarmente frequenti o da parte di diversi team del tuo reparto R&D puoi acquisire la licenza della tecnologia e integrarla direttamente presso i vostri laboratori. Possiamo fornire banchi prova su misura o un retrofit per i vostri banchi prova esistenti. Knowow fornisce supporto per l’installazione e la calibrazione, cura la formazione del personale e garantisce assistenza da remoto.",
       cta: 'Richiedi informazioni sulla licenza →',
       borderColor: 'border-white/20',
     },
@@ -103,35 +101,35 @@ export const HOW_TO_USE = {
 
 // ─── SECTION 3 — SECTORS ─────────────────────────────────────────────────────
 export const SECTORS = {
-  label: 'Applicazioni per settore',
-  h2: 'FFTM funziona nel tuo settore',
-  body: 'La tecnologia FFTM è stata applicata con successo in diversi settori industriali, su materiali che spaziano dai metalli ai polimeri, dai compositi ai tessuti tecnici.',
+  label: 'Settori applicativi',
+  h2: 'FFTT nel tuo settore',
+  body: 'La tecnologia fftt trova applicazione in diversi settori industriali e su un’ampia gamma di materiali tra cui metalli, compositi, polimeri, tessuti tecnici e fibre ad alte prestazioni.',
   items: [
     { label: 'Automotive' },
-    { label: 'Biomedicale'},
-    { label: 'Defence' },
-    { label: 'Aerospace' },
-    { label: 'Manufacturing'},
-    { label: 'Additive Manufacturing' },
-    { label: '3D Printing' },
-    { label: 'Ricerca e Università' },
+    { label: 'Motorsport'},
+    { label: 'Luxury manufacturing' },
+    { label: 'Biomedicale' },
+    { label: 'Aerospace'},
+    { label: 'Navale' },
+    { label: 'Difesa' },
+    { label: 'Additive manufacturing' },
   ],
 }
 
 // ─── SECTION 4 — ECOSYSTEM ───────────────────────────────────────────────────
 export const ECOSYSTEM = {
-  h2line1: 'FFTM è il cuore.',
+  h2line1: 'FFTT è L’AVANGUARDIA TECNOLOGICA',
   h2line2a: "Intorno c'è un ",
   h2accent: 'ecosistema',
-  h2line2b: ' completo.',
-  body: "KnoWow non si ferma al testing a fatica. Attorno alla tecnologia FFTM abbiamo costruito un insieme di servizi complementari che coprono l'intero ciclo di vita del prodotto industriale.",
+  h2line2b: ' completo di prodotti e servizi.',
+  body: "Knowow non è solo testing di fatica. I NOSTRI PRODOTTI E SERVIZI coprono l’intero ciclo di vita del prodotto industriale.",
   services: [
     {
       num: '01.',
       title: 'Controllo qualità non distruttivo',
       keyword: 'FQCT',
       subtitle: 'Fast Quality Control Technology — FQCT',
-      text: "Una tecnologia proprietaria che analizza la firma meccanico-strutturale di un componente e la confronta con il prototipo validato. Screening completo in 50–60 minuti, con risultato pass/fail chiaro per individuare derive produttive prima che diventino problemi di qualità.",
+      text: "Facenda leva sulla fisica dietro FFTT, il nostro controllo qualità non distruttivo analizza la firma meccanico-strutturale di un componente e la confronta con quella del suo prototipo validato. Si effettua così uno screening completo in 50-60 minuti che restituisce un risultato pass/fail chiaro utile a individuare eventuali derive produttive prima che diventino problemi di qualità.",
       icon: '/favicon.webp',
     },
     {
@@ -144,18 +142,18 @@ export const ECOSYSTEM = {
     },
     {
       num: '03.',
-      title: 'FEM, CFD e Multibody',
+      title: 'FEM, CFD, MBS, CAO/RT',
       keyword: 'FEM / CFD',
       subtitle: 'Simulazioni Numeriche',
-      text: "Analisi agli elementi finiti, fluidodinamica computazionale e simulazioni multicorpo per il testing virtuale. Il complemento ideale ai test fisici condotti con FFTM.",
+      text: "Analisi agli elementi finiti, fluidodinamica computazionale, simulazioni multibody, simulazione e ottimizzazione ottica",
       icon: '/favicon.webp',
     },
     {
       num: '04.',
-      title: 'Sostenibilità certificata',
-      keyword: 'LCA & EPD',
-      subtitle: 'LCA & EPD',
-      text: "Life Cycle Assessment e Environmental Product Declaration collegati ai materiali e componenti testati. Per chi vuole documentare l'impatto ambientale del proprio prodotto con dati tecnici solidi.",
+      title: 'Innovazione',
+      keyword: 'Tailored R&D',
+      subtitle: 'Tailored R&D',
+      text: "Progettazione e sviluppo di soluzioni ingegneristiche innovative su misura ",
       icon: '/favicon.webp',
     },
   ],
@@ -163,19 +161,19 @@ export const ECOSYSTEM = {
 
 // ─── SECTION 5 — ABOUT ───────────────────────────────────────────────────────
 export const ABOUT = {
-  label: "Chi c'è dietro FFTM",
-  h2line1: '50 anni di ricerca.',
-  h2line2: 'Una tecnologia che funziona.',
-  body: "KnoWow è uno spin-off accademico dell'Università di Messina. Il team che ha sviluppato FFTM vanta oltre 50 anni di ricerca pionieristica nel campo della fatica dei materiali e della termografia. I metodi alla base di FFTM — il Metodo Termografico di Risitano e il Metodo Termografico Statico — sono documentati da numerose pubblicazioni scientifiche peer-reviewed e da brevetti registrati. Non una promessa: una tecnologia provata.",
+  label: "Dietro FFTT",
+  h2line1: 'Oltre 35 anni di ricerca.',
+  h2line2: 'Una tecnologia senza pari.',
+  body: "Knowow nasce come spin-off accademico dell’Università di Messina. Il team che ha sviluppato e industrializzato FFTT vanta oltre 35 anni di ricerca pionieristica nel campo della fatica dei materiali e della termografia, grazie a cui hanno visto la luce i metodi alla base di FFTT: il Metodo Termografico Risitano e il Metodo Termografico Statico.",
   linkAbout: 'Chi siamo →',
   linkPubs: 'Pubblicazioni & brevetti →',
 }
 
 // ─── CTA FINAL ───────────────────────────────────────────────────────────────
 export const CTA = {
-  h2: 'Pronto a ridurre i tuoi tempi di testing?',
-  body: 'Parla con il nostro team. Ti mostriamo come FFTM funziona sul tuo caso specifico.',
-  ctaPrimary: 'Richiedi una demo gratuita',
+  h2: 'Contattaci',
+  body: 'Entra in contatto con il nostro team. Abbiamo una soluzione per ogni esigenza della tua azienda.',
+  ctaPrimary: 'Invia',
   ctaSecondary: 'Contattaci',
 }
 

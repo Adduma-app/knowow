@@ -166,9 +166,7 @@ export default function CTAFinal() {
                     <SiteButton type="submit" variant="primary" clip="tr" disabled={loading}>
                       {loading ? 'Invio in corso…' : CTA.ctaPrimary}
                     </SiteButton>
-                    <SiteButton href="mailto:info@knowow.tech" variant="ghost" clip="bl">
-                      {CTA.ctaSecondary}
-                    </SiteButton>
+                   
                   </div>
                 </motion.form>
 
