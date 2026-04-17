@@ -41,7 +41,7 @@ export function SectionHeading({
           <motion.h2
             variants={fadeInUp}
             className="font-black uppercase text-white leading-none"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'clamp(2rem, 4vw, 2.5rem)', letterSpacing: '-0.02em' }}
           >
             {h2}
           </motion.h2>
@@ -63,7 +63,7 @@ export function SectionHeading({
           </span>
           <h2
             className="font-black uppercase text-white leading-none"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'clamp(2rem, 4vw, 2.5rem)', letterSpacing: '-0.02em' }}
           >
             {h2}
           </h2>

@@ -1,18 +1,18 @@
 // ─── NAVIGATION ──────────────────────────────────────────────────────────────
 export const NAV_LINKS = [
-  { label: 'FFTt', href: '/technology' },
-  { label: 'Servizi', href: '/#servizi' },
   { label: 'Chi siamo', href: '/#chi-siamo' },
+  { label: 'FFTT', href: '/technology' },
+  { label: 'Prodotti & Servizi', href: '/prodotti-e-servizi' },
   { label: 'Contatti', href: '/#contatti' },
 ]
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 export const HERO = {
   tag: 'Fast Fatigue Testing Technology',
-  h1Line1: 'Testare il comportamento a fatica di materiali, componenti e sistemi ',
-  h1Line2: 'non è mai stato così veloce.',
+  h1Line1: 'Testare il comportamento a fatica di materiali, componenti e sistemi non è ',
+  h1Line2: 'mai stato così semplice e veloce.',
   subtitle:
-    "KnoWow porta la ricerca universitaria direttamente nel tuo laboratorio. FFTT riduce i tempi di testing da diverse settimane a poche ore senza rinunciare all'affidabilità dei risultati.",
+    "FFTT riduce i tempi di testing da diverse settimane a poche ore senza rinunciare all'affidabilità dei risultati.",
   ctaPrimary: 'Scopri FFTT',
   ctaSecondary: 'Richiedi una demo',
   stats: [
@@ -27,7 +27,7 @@ export const WHY_FFTM = {
   label: 'Perché FFTT',
   h2Line1: 'La caratterizzazione a fatica con metodi tradizionali richiede tempi lunghi',
   h2Line2: 'e frena i processi di R&D. FFTT NO.',
-  body: "I metodi standard per l’esecuzione delle prove richiedono centinaia di ore e decine di provini per derivare una curva di Wöhler (S–N) e ricavare il limite di fatica. FFTT riduce drasticamente il numero dei provini e i tempi di prova garantendo un’affidabilità del dato pari o superiore rispetto ai protocolli tradizionali.",
+  body: "I metodi standard per l’esecuzione delle prove richiedono centinaia di ore e decine di provini per derivare una curva di Wöhler\u00A0(S\u2011N) e ricavare il limite di fatica. FFTT riduce drasticamente il numero dei provini e i tempi di prova garantendo un’affidabilità del dato pari o superiore rispetto ai protocolli tradizionali.",
   traditional: {
     tag: '[01]',
     title: 'Il metodo tradizionale',
@@ -51,7 +51,7 @@ export const WHY_FFTM = {
     {
       num: '01',
       title: 'Da 500+ ore a <48 ore',
-      text: 'Dove i metodi tradizionali impiegano settimane, FFTT restituisce curva di Wöhler (S–N) e limite di fatica in < 48 ore',
+      text: 'Dove i metodi tradizionali impiegano settimane, FFTT restituisce curva di Wöhler\u00A0(S\u2011N) e limite di fatica in < 48 ore',
     },
     {
       num: '02',
@@ -69,14 +69,14 @@ export const WHY_FFTM = {
 // ─── SECTION 2 — HOW TO USE ───────────────────────────────────────────────────
 export const HOW_TO_USE = {
   label: 'al servizio delle esigenze aziendali',
-  h2: 'METTIAMO LA FAST FATIGUE TESTING TECHNOLOGY AL SERVIZIO DELLA TUA AZIENDA',
+  h2: 'FAST FATIGUE TESTING TECHNOLOGY AL SERVIZIO DELLA TUA AZIENDA',
   body: 'FFTT è disponibile per progetti pilota, come bundle di servizi nell’ambito di una partnership continuativa e come tecnologia in licenza trasferita direttamente presso i vostri laboratori ',
   cards: [
     {
       mode: 'MODALITÀ 01',
       num: '01',
       title: 'Progetto pilota',
-      text: 'Il progetto pilota si svolge presso i laboratori Knowow oppure presso i vostri laboratori. Ti restituiamo curva di Wöhler (S–N), limite di fatica e report tecnico completo. Il pilota rappresenta una vetrina delle nostre capacità tecniche pensata per facilitare il primo engagement. Il passo successivo della partnership è l’attivazione di un bundle di servizi.',
+      text: 'Il progetto pilota si svolge presso i laboratori Knowow oppure presso i vostri laboratori. Restituiamo curva di Wöhler\u00A0(S\u2011N), limite di fatica e report tecnico completo. Il pilota rappresenta una vetrina delle nostre capacità tecniche pensata per facilitare il primo engagement. Il passo successivo della partnership è l’attivazione di un bundle di servizi.',
       cta: 'Richiedi un preventivo →',
       borderColor: 'border-[#E9704D]',
     },
@@ -92,7 +92,7 @@ export const HOW_TO_USE = {
       mode: 'MODALITÀ 03',
       num: '03',
       title: 'Porta FFTT nel tuo laboratorio',
-      text: "Se hai esigenze particolarmente frequenti o da parte di diversi team del tuo reparto R&D puoi acquisire la licenza della tecnologia e integrarla direttamente presso i vostri laboratori. Possiamo fornire banchi prova su misura o un retrofit per i vostri banchi prova esistenti. Knowow fornisce supporto per l’installazione e la calibrazione, cura la formazione del personale e garantisce assistenza da remoto.",
+      text: "In caso di esigenze frequenti o da parte di diversi team del reparto R&D, è possibile acquisire la licenza della tecnologia e integrarla direttamente presso i vostri laboratori. Forniamo banchi prova su misura o un retrofit per i vostri banchi prova esistenti. Knowow fornisce supporto per l’installazione e la calibrazione, cura la formazione del personale e garantisce assistenza da remoto.",
       cta: 'Richiedi informazioni sulla licenza →',
       borderColor: 'border-white/20',
     },
@@ -122,14 +122,14 @@ export const ECOSYSTEM = {
   h2line2a: "Intorno c'è un ",
   h2accent: 'ecosistema',
   h2line2b: ' completo di prodotti e servizi.',
-  body: "Knowow non è solo testing di fatica. I NOSTRI PRODOTTI E SERVIZI coprono l’intero ciclo di vita del prodotto industriale.",
+  body: "Knowow non è solo testing di fatica. I nostri prodotti e servizi coprono l’intero ciclo di vita del prodotto industriale.",
   services: [
     {
       num: '01.',
       title: 'Controllo qualità non distruttivo',
       keyword: 'FQCT',
       subtitle: 'Fast Quality Control Technology — FQCT',
-      text: "Facenda leva sulla fisica dietro FFTT, il nostro controllo qualità non distruttivo analizza la firma meccanico-strutturale di un componente e la confronta con quella del suo prototipo validato. Si effettua così uno screening completo in 50-60 minuti che restituisce un risultato pass/fail chiaro utile a individuare eventuali derive produttive prima che diventino problemi di qualità.",
+      text: "Facendo leva sulla fisica alla base di FFTT, il nostro controllo qualità non distruttivo analizza l'impronta meccanico-strutturale di un componente e la confronta con quella del suo prototipo validato. Si effettua così uno screening completo in 50-60 minuti che restituisce un risultato pass/fail chiaro e utile a individuare eventuali derive produttive prima che diventino problemi di qualità.",
       icon: '/favicon.webp',
     },
     {
@@ -137,7 +137,7 @@ export const ECOSYSTEM = {
       title: 'Progettazione guidata dalla performance',
       keyword: 'Performance Driven Design',
       subtitle: 'Performance Driven Design',
-      text: "Un approccio alla progettazione che supera il metodo trial-and-error esplorando matematicamente l'intero spazio delle soluzioni possibili. Meno iterazioni, meno simulazioni, risultati ottimali.",
+      text: "Un approccio alla progettazione che supera il metodo trial-and-error esplorando matematicamente l'intero spettro delle soluzioni possibili. Meno iterazioni, meno simulazioni, risultati ottimali.",
       icon: '/favicon.webp',
     },
     {

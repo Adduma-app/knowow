@@ -30,7 +30,7 @@ export default function Section5About() {
             <motion.h2
               variants={fadeInUp}
               className="font-display font-black uppercase text-white leading-tight mb-6"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.02em' }}
+              style={{ fontSize: 'clamp(2rem, 4vw, 2.5rem)', letterSpacing: '-0.02em' }}
             >
               {ABOUT.h2line1}
               <br />

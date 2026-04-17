@@ -64,13 +64,13 @@ export default function Section2HowToUse() {
                     className="glass-card clip-card h-[100%] flex flex-col justify-start  p-10 "
                   >
                     {/* Contenuto — cresce per occupare tutto lo spazio */}
-                    <div className="flex-1 min-h-[300px]">
-                      <span className="text-micro text-white
+                    <div className="flex-1 min-h-[400px]">
+                      {/* <span className="text-micro text-white
                       
                       
                       px-2 py-1 inline-block mb-5">
                         {card.mode}
-                      </span>
+                      </span> */}
                       <h3
                         className="font-sans font-bold uppercase text-white text-lg leading-tight mb-4"
                         style={{ letterSpacing: '-0.01em' }}

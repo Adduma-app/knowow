@@ -120,7 +120,7 @@ export default function Section4Ecosystem() {
           <span className="text-micro text-[#E9704D] block mb-4">{ECOSYSTEM.h2line1}</span>
           <h2
             className="font-sans font-bold uppercase leading-none"
-            style={{ fontSize: 'clamp(2rem, 6vw, 5rem)', letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'clamp(2rem, 6vw, 2.5rem)', letterSpacing: '-0.02em' }}
           >
             <span className="text-white">{ECOSYSTEM.h2line2a}</span>
             <span className="text-[#E9704D]">{ECOSYSTEM.h2accent}</span>
@@ -203,7 +203,7 @@ export default function Section4Ecosystem() {
                 >
                   <h3
                     className="font-sans font-bold uppercase text-white leading-tight mb-3"
-                    style={{ fontSize: 'clamp(1.3rem, 2.2vw, 1.9rem)', letterSpacing: '-0.01em' }}
+                    style={{ fontSize: 'clamp(1.3rem, 2.2vw, 1.875rem)', letterSpacing: '-0.01em' }}
                   >
                     {service.title}
                   </h3>

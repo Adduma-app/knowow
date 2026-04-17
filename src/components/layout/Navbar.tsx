@@ -39,7 +39,7 @@ export default function Navbar() {
       }`}
     >
       <div
-        className="flex items-center justify-between py-4 navbar-safe"
+        className="flex items-center justify-between py-2 md:py-4 navbar-safe"
         style={{ paddingLeft: 'max(1.5rem, env(safe-area-inset-left))', paddingRight: 'max(1.5rem, env(safe-area-inset-right))' }}
       >
         {/* Logo */}
@@ -49,7 +49,7 @@ export default function Navbar() {
             alt="KnoWow"
             width={120}
             height={32}
-            className="h-6"
+            className="h-9 md:h-11"
             style={{ width: 'auto' }}
             quality={90}
             priority

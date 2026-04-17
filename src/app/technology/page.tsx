@@ -28,8 +28,8 @@ const ALL_ITEMS = [
     num: '02',
     tag: 'Equipment',
     title: 'Digital Image Correlation',
-    subtitle: 'Campo di deformazione superficiale',
-    body: "Misura l'evoluzione della deformazione sulla superficie del provino durante il test di trazione statico.",
+    subtitle: 'Campo di deformazione',
+    body: "Misura la deformazione del provino durante i test meccanici",
     accent: '#3B61AB',
     glowRGB: '59,97,171',
     side: 'right' as const,
@@ -40,8 +40,8 @@ const ALL_ITEMS = [
     num: '03',
     tag: 'Metodo / STM',
     title: 'Static Thermographic Method',
-    subtitle: 'Tensione limite macroscopica',
-    body: "Valutazione della tensione limite — la tensione macroscopica che induce il primo danno nel materiale.",
+    subtitle: 'Limite di primo danneggiamento',
+    body: "Valutazione della tensione limite, che induce la prima microplasticizzazione del materiale.",
     accent: '#E9704D',
     glowRGB: '233,112,77',
     side: 'left'  as const,
@@ -51,9 +51,9 @@ const ALL_ITEMS = [
   {
     num: '04',
     tag: 'Metodo / RTM',
-    title: "Risitano's Thermographic Method",
-    subtitle: 'Valutazione del limite a fatica',
-    body: "Valutazione del limite a fatica tramite l'andamento della temperatura di stabilizzazione in funzione del livello di tensione applicato.",
+    title: "Risitano Thermographic Method",
+    subtitle: 'Curva di Wöhler e limite di fatica',
+    body: "Derivazione della curva di Wöhler e del limite di fatica mediante analisi dell'andamento della temperatura di stabilizzazione in funzione del livello di tensione applicato.",
     accent: '#3B61AB',
     glowRGB: '59,97,171',
     side: 'right' as const,
@@ -248,7 +248,7 @@ function TechHero() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-micro text-[#E9704D] block mb-6"
         >
-          FFT — Fast Fatigue Testing
+          Il cuore di FFTT
         </motion.span>
 
         <motion.h1
@@ -268,7 +268,7 @@ function TechHero() {
               backgroundClip: 'text',
             }}
           >
-            Testing Machine
+            TESTING TECHNOLOGY
           </span>
         </motion.h1>
 
@@ -279,9 +279,9 @@ function TechHero() {
           className="text-white/45 text-sm leading-relaxed font-medium mx-auto"
           style={{ maxWidth: '36rem' }}
         >
-          FFTM è una macchina brevettata per test statici e a fatica completamente automatizzati.
-          Equipaggiata con telecamera IR e sistema DIC, basata sul Metodo Termografico di Risitano
-          e sul Metodo Termografico Statico — restituisce curve a fatica complete in meno di 48 ore.
+          FFTT si basa sul Metodo Termografico Risitano e sul
+Metodo Termografico Statico ed è equipaggiata con sensori termografici (IR)e digital image correlation (DIC). Restituisce
+curva di Whöler e limite di fatica in meno di 48 ore.
         </motion.p>
       </div>
     </section>
@@ -347,12 +347,12 @@ export default function TechnologyPage() {
             style={{ position: 'sticky', top: 0, height: '90vh', zIndex: 1, overflow: 'hidden' }}
           >
             <div className="absolute top-24 left-0 right-0 text-center px-6 md:px-16 lg:px-24 z-10">
-              <span className="text-micro text-white/30 block mb-3">All-in-one equipment</span>
+              <span className="text-micro text-white/30 block mb-3">all-in-one equipment</span>
               <h2
                 className="font-sans font-bold uppercase text-white"
                 style={{ fontSize: 'clamp(1.2rem, 2.2vw, 2rem)', letterSpacing: '-0.015em' }}
               >
-                Un sistema, quattro tecnologie
+                Un sistema integrato per la massima efficienza
               </h2>
             </div>
 

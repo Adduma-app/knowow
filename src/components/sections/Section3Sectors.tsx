@@ -140,7 +140,7 @@ export default function Section3Sectors() {
                     <span
                       className="sector-label font-display lowercase"
                       style={{
-                        fontSize: 'clamp(1.2rem, 3vw, 3rem)',
+                        fontSize: 'clamp(1.2rem, 3vw, 2.5rem)',
                         letterSpacing: '0.06em',
                         color: '#FFFFFF',
                         WebkitTextFillColor: '#FFFFFF',

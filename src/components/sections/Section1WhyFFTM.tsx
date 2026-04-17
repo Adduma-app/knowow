@@ -197,7 +197,7 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
         <ul>
           <li>•  Sensori Termografici (IR)</li>
           <li>• Digital Image Correlation</li>
-          <li>• Sistemi di analisi dati proprietari</li>
+          <li>• Algoritmi proprietari per l'analisi dei dati</li>
         </ul>
       </div>
     </div>
@@ -254,7 +254,7 @@ function BenefitsSticky() {
     <>
       {/* ── Mobile: vertical stack with title above each card ── */}
       <div className="md:hidden flex flex-col gap-12 px-6 py-10">
-        <span className="text-micro text-[#E9704D] block">Perché FFTM</span>
+        <span className="text-micro text-[#E9704D] block">Perché FFTT</span>
         {WHY_FFTM.benefits.map((b, i) => (
           <div key={b.num} className="flex flex-col gap-4">
             {/* Title above card */}
@@ -288,14 +288,14 @@ function BenefitsSticky() {
       <div className="hidden md:flex items-start">
         {/* Left sticky */}
         <div className="sticky top-0 h-screen w-[42%] flex flex-col justify-center pl-16 lg:pl-24 pr-8 shrink-0">
-          <span className="text-micro text-[#E9704D] block mb-3">Perché FFTM</span>
+          <span className="text-micro text-[#E9704D] block mb-3">Perché FFTT</span>
           <motion.h3
             key={activeIndex}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
             className="font-sans font-bold uppercase text-white leading-tight mb-4"
-            style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', letterSpacing: '-0.01em' }}
+            style={{ fontSize: 'clamp(1.5rem, 2.5vw, 1.875rem)', letterSpacing: '-0.01em' }}
           >
             {active.title}
           </motion.h3>
@@ -331,7 +331,7 @@ function BenefitsSticky() {
                   <BenefitNum num={b.num} isActive={activeIndex === i} />
                 </div>
                 <div className="relative z-10 p-8 md:p-20 min-h-[50vh] flex flex-col justify-center">
-                  <p className="text-sm lg:text-2xl text-white leading-relaxed max-w-lg font-medium mb-8">
+                  <p className="text-sm lg:text-2xl text-white leading-relaxed max-w-xl font-medium mb-8">
                     {b.text}
                   </p>
                   
@@ -370,7 +370,7 @@ export default function Section1WhyFFTM() {
           <motion.h2
             variants={fadeInUp}
             className="font-sans font-bold uppercase text-white leading-none"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', letterSpacing: '-0.01em' }}
+            style={{ fontSize: 'clamp(2rem, 4vw, 2.5rem)', letterSpacing: '-0.01em' }}
           >
             {WHY_FFTM.h2Line1}<br />{WHY_FFTM.h2Line2}
           </motion.h2>

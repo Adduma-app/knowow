@@ -123,7 +123,7 @@ export default function CTAFinal() {
                 <motion.h2
                   variants={fadeInUp}
                   className="font-sans font-bold uppercase text-white leading-tight mb-3"
-                  style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', letterSpacing: '-0.01em' }}
+                  style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', letterSpacing: '-0.01em' }}
                 >
                   {CTA.h2}
                 </motion.h2>

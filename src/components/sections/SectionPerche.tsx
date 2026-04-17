@@ -62,7 +62,7 @@ function Hi({ children }: { children: React.ReactNode }) {
 function CompareCard() {
   const cols = [
     {
-      label: 'Metodo tradizionale',
+      label: 'PRASSI INDUSTRIALE',
       badge: '⚠ Insufficiente',
       num: '5',
       unit: 'provini',
@@ -179,20 +179,20 @@ export default function SectionPerche() {
               {/* ── Left column: narrative ── */}
               <div>
                 <span className="text-micro text-[#E9704D] block mb-5">
-                  esercizio su dati reali
+                  caso di studio
                 </span>
                 <h2
                   className="font-sans font-bold uppercase text-white/35 leading-tight mb-8"
-                  style={{ fontSize: 'clamp(1.8rem, 4vw, 3.2rem)', letterSpacing: '-0.02em' }}
+                  style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', letterSpacing: '-0.02em' }}
                 >
-                  Pochi dati producono un'alta illusione di precisione.
+                 POCHI DATI GENERANO UN’ILLUSIONE DI PRECISIONE.
+                 
                   <br />
-                  <span className="text-white">Molti dati producono vera affidabilità.</span>
+                  <span className="text-white">MOLTI DATI GARANTISCONO VERA AFFIDABILITA’.</span>
                 </h2>
 
                 <Body className="mb-8">
-                  Dati reali di una ghisa sferoidale pubblicati da{' '}
-                  <Hi>Kohout &amp; Věchet</Hi> (Int. J. Fatigue, 2001). La Serie 1 ha il
+                   La Serie 1 ha il
                   miglior R² — ed è la peggiore.
                 </Body>
 
@@ -209,6 +209,13 @@ export default function SectionPerche() {
                       Raccomanda un minimo di <Hi>12–24 provini</Hi> per campagne con finalità
                       statistiche. Sotto quella soglia: caratterizzazione orientativa, non
                       affidabilità di progetto.
+                      Il range di ASTM E739 è
+ampio per restituire un intervallo di minima e massima aPidabilità
+del dato. La letteratura sulla caratterizzazione a fatica e diversi
+decenni di applicazioni industriali indicano 20 provini come soglia
+pratica sotto la quale la stima delle curve di sopravvivenza diventa
+troppo incerta per supportare decisioni di progetto aPidabili. Non è
+una regola normativa, ma una soglia ingegneristica ben fondata.
                     </p>
                   </div>
                 </div>
@@ -297,11 +304,11 @@ export default function SectionPerche() {
         {/* ── Header ── */}
         <FadeBlock>
           <span className="text-micro mt-[5%] text-[#E9704D] block mb-5">
-            Perché conta farlo bene
+          L’IMPORTANZA DI UNA CAMPAGNA BEN FATTA
           </span>
           <h2
             className="font-sans font-bold uppercase text-white leading-tight mb-16"
-            style={{ fontSize: 'clamp(1.8rem, 4vw, 3.2rem)', letterSpacing: '-0.02em' }}
+            style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', letterSpacing: '-0.02em' }}
           >
             La fatica dei materiali:
             <br />
@@ -318,9 +325,9 @@ export default function SectionPerche() {
 
             <Body>
               Uno degli errori più diffusi è lavorare con curve di Wöhler derivate da appena
-              5 provini. <Hi>La differenza rispetto a 20+ provini non è quantitativa: è qualitativa.</Hi>{' '}
-              Con 5 provini non si stima una distribuzione — si fitta una curva su un campione
-              troppo piccolo. Come stimare le precipitazioni annuali di una città misurando
+              5 provini. <Hi>La differenza rispetto a 20+ provini non è quantitativa, è qualitativa.</Hi>{' '}
+              Con 5 provini non si stima una distribuzione, si fitta una curva su un campione
+              troppo piccolo: come stimare le precipitazioni annuali di una città misurando
               solo 5 giorni d&apos;estate.
             </Body>
 

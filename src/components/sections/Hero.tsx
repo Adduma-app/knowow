@@ -18,7 +18,7 @@ function StaggeredH1({ line1, line2 }: { line1: string; line2: string }) {
       initial="hidden"
       animate="visible"
       className="font-sans font-black uppercase text-white leading-none"
-      style={{ fontSize: 'clamp(2.4rem, 6.5vw, 3.5rem)', letterSpacing: '-0.03em' }}
+      style={{ fontSize: 'clamp(2.4rem, 6.5vw, 2.8125rem)', letterSpacing: '-0.03em' }}
       aria-label={`${line1} ${line2}`}
     >
       <span className="block">
@@ -33,7 +33,7 @@ function StaggeredH1({ line1, line2 }: { line1: string; line2: string }) {
           <span key={i} className="word-clip mr-[0.18em] last:mr-0">
             <motion.span
               variants={wordReveal}
-              className={`inline-block ${i >= 3 ? 'text-[#E9704D]' : ''}`}
+              className={`inline-block ${i >= 0 ? 'text-[#E9704D]' : ''}`}
             >
               {word}
             </motion.span>

@@ -26,7 +26,6 @@ export default function Home() {
         <Section1WhyFFTM />
         <Section2HowToUse />
         <Section3Sectors />
-        <Section4Ecosystem />
         <Section5About />
         <CTAFinal />
         <Footer />

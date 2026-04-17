@@ -12,7 +12,7 @@ interface Particle {
 const SHAPE_DURATION    = 3000   // ms per forma
 const TRANSITION_DURATION = 1500 // ms transizione
 const PARTICLE_COUNT    = 4200
-const NUM_SHAPES        = 4      // aereo · DNA · auto · molecola
+const NUM_SHAPES        = 7      // yacht · DNA · auto · molecola · orologio · moto · tank
 
 export default function ElementiSettori() {
   const canvasRef            = useRef<HTMLCanvasElement>(null)
@@ -28,225 +28,7 @@ export default function ElementiSettori() {
   const isTransitioningRef   = useRef(false)
   const transitionProgressRef = useRef(0)
 
-  // ── 1. AEREO (vista dall'alto — stile A320/B737) ────────────────────────────
-  const generateAirplanePoints = useCallback((w: number, h: number, count: number) => {
-    const points: { x: number; y: number }[] = []
-    const cx = w * 0.50
-    const cy = h * 0.50
-    const s  = Math.min(w, h) * (w < 768 ? 0.0028 : 0.0040)
-
-    // ── Helpers locali ────────────────────────────────────────────────────────
-    const addLine = (x1: number, y1: number, x2: number, y2: number, wt: number, thick: number) => {
-      const n = Math.floor(count * wt)
-      for (let i = 0; i < n; i++) {
-        const t = Math.random()
-        points.push({ x: x1+(x2-x1)*t+(Math.random()-0.5)*thick, y: y1+(y2-y1)*t+(Math.random()-0.5)*thick })
-      }
-    }
-    const addBez = (
-      x0: number, y0: number, xc: number, yc: number, x1: number, y1: number,
-      wt: number, thick: number,
-    ) => {
-      const n = Math.floor(count * wt)
-      for (let i = 0; i < n; i++) {
-        const t = Math.random(); const mt = 1 - t
-        points.push({
-          x: mt*mt*x0+2*mt*t*xc+t*t*x1+(Math.random()-0.5)*thick,
-          y: mt*mt*y0+2*mt*t*yc+t*t*y1+(Math.random()-0.5)*thick,
-        })
-      }
-    }
-    const addDisk = (ox: number, oy: number, r: number, wt: number) => {
-      const n = Math.floor(count * wt)
-      for (let i = 0; i < n; i++) {
-        const a = Math.random()*Math.PI*2; const rr = Math.sqrt(Math.random())*r
-        points.push({ x: ox+Math.cos(a)*rr, y: oy+Math.sin(a)*rr })
-      }
-    }
-    const addRing = (ox: number, oy: number, r: number, wt: number, thick: number) => {
-      const n = Math.floor(count * wt)
-      for (let i = 0; i < n; i++) {
-        const a = Math.random()*Math.PI*2; const rr = r-thick*0.5+Math.random()*thick
-        points.push({ x: ox+Math.cos(a)*rr, y: oy+Math.sin(a)*rr })
-      }
-    }
-    // Riempe la superficie tra due bezier (campionamento uniforme per lo stesso t)
-    const fillWing = (
-      x0a: number, y0a: number, xca: number, yca: number, x1a: number, y1a: number,
-      x0b: number, y0b: number, xcb: number, ycb: number, x1b: number, y1b: number,
-      wt: number, thick: number,
-    ) => {
-      const n = Math.floor(count * wt)
-      for (let i = 0; i < n; i++) {
-        const t = Math.random(); const mt = 1 - t
-        const ax = mt*mt*x0a+2*mt*t*xca+t*t*x1a
-        const ay = mt*mt*y0a+2*mt*t*yca+t*t*y1a
-        const bx = mt*mt*x0b+2*mt*t*xcb+t*t*x1b
-        const by = mt*mt*y0b+2*mt*t*ycb+t*t*y1b
-        const u = Math.random()
-        points.push({ x: ax+(bx-ax)*u+(Math.random()-0.5)*thick, y: ay+(by-ay)*u+(Math.random()-0.5)*thick })
-      }
-    }
-
-    // ── Proporzioni ───────────────────────────────────────────────────────────
-    const fuseHL  = 145 * s   // metà lunghezza fusoliera
-    const fuseHW  =  11 * s   // metà larghezza massima
-    const halfSpan = 118 * s  // semi-apertura alare
-
-    // Ala: attacco a cx+18*s, bordo d'attacco spazzato ~34°
-    const wRootLeadX  = cx + 18 * s;  const wRootTrailX = cx - 44 * s
-    const wTipLeadX   = cx - 52 * s;  const wTipTrailX  = cx - 65 * s
-
-    // Motore: 56% span, leggermente avanzato rispetto al centro cordato
-    const engSpan = halfSpan * 0.56    // ~66*s
-    const engCx   = cx -  8 * s
-    const engHL   = 17 * s             // metà lunghezza gondola
-    const engHW   =  5 * s             // metà larghezza gondola
-
-    // Stabilizzatori: nella coda
-    const stabRootX    = cx - 116 * s
-    const stabHalfSpan =  44 * s
-    const stabTipX     = cx - 128 * s
-
-    // ── Fusoliera (riempita + bordo) ──────────────────────────────────────────
-    for (let i = 0; i < Math.floor(count * 0.14); i++) {
-      const t = Math.random()*2-1
-      const xPos = cx + t * fuseHL
-      const norm = (t+1)/2
-      let hw: number
-      if      (norm < 0.06) hw = fuseHW * Math.sqrt(norm/0.06)
-      else if (norm > 0.87) hw = fuseHW * (1-(norm-0.87)/0.13) * 0.62
-      else                  hw = fuseHW
-      points.push({ x: xPos+(Math.random()-0.5)*2*s, y: cy+(Math.random()-0.5)*2*hw })
-    }
-    // Outline fusoliera (bordo superiore e inferiore)
-    for (let side = -1; side <= 1; side += 2) {
-      for (let i = 0; i < Math.floor(count * 0.016); i++) {
-        const t = Math.random()*2-1
-        const xPos = cx + t * fuseHL
-        const norm = (t+1)/2
-        let hw: number
-        if      (norm < 0.06) hw = fuseHW * Math.sqrt(norm/0.06)
-        else if (norm > 0.87) hw = fuseHW * (1-(norm-0.87)/0.13) * 0.62
-        else                  hw = fuseHW
-        points.push({ x: xPos+(Math.random()-0.5)*1.2*s, y: cy+side*hw+(Math.random()-0.5)*1.2*s })
-      }
-    }
-
-    // ── Ali (simmetriche, superficie piena) ──────────────────────────────────
-    for (let si = 0; si < 2; si++) {
-      const sg = si === 0 ? -1 : 1
-      const rly = sg * fuseHW
-      const tly = sg * halfSpan
-
-      // Superficie alare piena
-      fillWing(
-        wRootLeadX,  cy+rly,  cx+4*s,   cy+sg*68*s,  wTipLeadX,  cy+tly,
-        wRootTrailX, cy+rly,  cx-52*s,  cy+sg*70*s,  wTipTrailX, cy+tly,
-        0.145, 3*s
-      )
-      // Bordo d'attacco
-      addBez(wRootLeadX, cy+rly, cx+4*s, cy+sg*68*s, wTipLeadX, cy+tly, 0.020, 1.6*s)
-      // Bordo di uscita
-      addBez(wRootTrailX, cy+rly, cx-52*s, cy+sg*70*s, wTipTrailX, cy+tly, 0.020, 1.6*s)
-      // Punta alare
-      addLine(wTipLeadX, cy+tly, wTipTrailX, cy+tly, 0.006, 1.5*s)
-
-      // Linea flap inboard (1/3 span)
-      addLine(cx-6*s, cy+sg*(fuseHW+1*s), cx-26*s, cy+sg*(halfSpan*0.36), 0.011, 1.4*s)
-      // Linea aileron / flap outboard
-      addLine(cx-26*s, cy+sg*(halfSpan*0.36), wTipTrailX+5*s, cy+tly, 0.009, 1.4*s)
-      // Rib centrale (struttura interna visibile)
-      addLine(cx+5*s, cy+sg*(fuseHW+0.5*s), cx-18*s, cy+sg*(halfSpan*0.20), 0.006, 1.2*s)
-
-      // Winglet (curva angolata alla punta)
-      addBez(
-        wTipLeadX,       cy+tly,
-        wTipLeadX-5*s,   cy+sg*(halfSpan+6*s),
-        wTipLeadX-9*s,   cy+sg*(halfSpan+15*s),
-        0.006, 1.4*s
-      )
-    }
-
-    // ── Gondole motore (2, una per ala) ──────────────────────────────────────
-    for (let si = 0; si < 2; si++) {
-      const sg = si === 0 ? -1 : 1
-      const ey = sg * engSpan
-
-      // Rivestimento gondola (ovale allungato, più largo in front)
-      for (let i = 0; i < Math.floor(count * 0.026); i++) {
-        const t = Math.random()*2-1
-        const xPos = engCx + t*engHL
-        const hw = engHW * Math.sqrt(Math.max(0, 1 - (t*0.82)**2)) * (1+0.18*Math.max(0,-t))
-        points.push({ x: xPos+(Math.random()-0.5)*1.4*s, y: ey+cy+(Math.random()-0.5)*hw*2 })
-      }
-      // Bordo gondola
-      for (let bside = -1; bside <= 1; bside += 2) {
-        for (let i = 0; i < Math.floor(count * 0.009); i++) {
-          const t = Math.random()*2-1
-          const xPos = engCx + t*engHL
-          const hw = engHW * Math.sqrt(Math.max(0, 1 - (t*0.82)**2)) * (1+0.18*Math.max(0,-t))
-          points.push({ x: xPos+(Math.random()-0.5)*1.2*s, y: ey+cy+bside*hw+(Math.random()-0.5)*1.2*s })
-        }
-      }
-      // Faccia turbofan (cerchio frontale)
-      addDisk(engCx+engHL*0.70, cy+ey, engHW*0.80, 0.012)
-      addRing(engCx+engHL*0.70, cy+ey, engHW*0.76, 0.006, 1.2*s)
-      // Pilone ala→gondola
-      addLine(engCx, cy+sg*(engSpan-engHW-0.5*s), engCx, cy+sg*(fuseHW+1.5*s), 0.007, 1.2*s)
-    }
-
-    // ── Stabilizzatori orizzontali (coda) ──────────────────────────────────
-    for (let si = 0; si < 2; si++) {
-      const sg = si === 0 ? -1 : 1
-      const sRootY = sg * fuseHW * 0.65
-      const sTipY  = sg * stabHalfSpan
-
-      fillWing(
-        stabRootX,       cy+sRootY,  stabRootX-7*s,  cy+sg*24*s,  stabTipX,       cy+sTipY,
-        stabRootX-13*s,  cy+sRootY,  stabRootX-20*s, cy+sg*26*s,  stabTipX-12*s,  cy+sTipY,
-        0.032, 2*s
-      )
-      addBez(stabRootX,      cy+sRootY, stabRootX-7*s,  cy+sg*24*s, stabTipX,      cy+sTipY, 0.009, 1.3*s)
-      addBez(stabRootX-13*s, cy+sRootY, stabRootX-20*s, cy+sg*26*s, stabTipX-12*s, cy+sTipY, 0.009, 1.3*s)
-      addLine(stabTipX, cy+sTipY, stabTipX-12*s, cy+sTipY, 0.004, 1.4*s)
-    }
-
-    // ── Pinna di coda verticale (da top: spessore sul dorso della fusoliera) ─
-    addLine(cx-112*s, cy, cx-140*s, cy, 0.011, 2.8*s)
-
-    // ── Finestrini passeggeri (linea di punti su entrambi i lati) ─────────
-    for (let i = 0; i < Math.floor(count * 0.020); i++) {
-      const xPos = cx + fuseHL*0.72 - Math.random()*fuseHL*1.42
-      const sg   = Math.random() < 0.5 ? -1 : 1
-      points.push({ x: xPos+(Math.random()-0.5)*3*s, y: cy+sg*(fuseHW*0.90)+(Math.random()-0.5)*1.4*s })
-    }
-
-    // ── Cockpit (cluster muso) ────────────────────────────────────────────────
-    for (let i = 0; i < Math.floor(count * 0.010); i++) {
-      points.push({
-        x: cx+118*s+Math.random()*18*s+(Math.random()-0.5)*1.5*s,
-        y: cy+(Math.random()-0.5)*5*s,
-      })
-    }
-
-    // ── Sparse ────────────────────────────────────────────────────────────────
-    const sparseCount = count - points.length
-    for (let i = 0; i < sparseCount; i++) {
-      const base = points[Math.floor(Math.random() * points.length)]
-      if (base) points.push({ x: base.x+(Math.random()-0.5)*26*s, y: base.y+(Math.random()-0.5)*26*s })
-    }
-
-    // ── Rotazione globale 22° ─────────────────────────────────────────────────
-    const cosA = Math.cos((22 * Math.PI) / 180)
-    const sinA = Math.sin((22 * Math.PI) / 180)
-    return points.slice(0, count).map(p => {
-      const dx = p.x - cx; const dy = p.y - cy
-      return { x: cx + dx * cosA - dy * sinA, y: cy + dx * sinA + dy * cosA }
-    })
-  }, [])
-
-  // ── 2. DOPPIA ELICA DNA ──────────────────────────────────────────────────────
+  // ── 1. DOPPIA ELICA DNA ──────────────────────────────────────────────────────
   const generateDNAPoints = useCallback((w: number, h: number, count: number) => {
     const points: { x: number; y: number }[] = []
     const cx = w * 0.5; const cy = h * 0.5
@@ -622,13 +404,577 @@ export default function ElementiSettori() {
     return points.slice(0, count)
   }, [])
 
-  // ── Lista delle 4 forme ──────────────────────────────────────────────────────
+  // ── 4. OROLOGIO DA POLSO (Rolex Submariner style) ───────────────────────────
+  const generateWatchPoints = useCallback((w: number, h: number, count: number) => {
+    const points: { x: number; y: number }[] = []
+    const cx = w * 0.50
+    const cy = h * 0.50
+    const s  = Math.min(w, h) * (w < 768 ? 0.0028 : 0.0040)
+
+    const addLine = (x1: number, y1: number, x2: number, y2: number, wt: number, thick: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random()
+        points.push({ x: x1+(x2-x1)*t+(Math.random()-0.5)*thick, y: y1+(y2-y1)*t+(Math.random()-0.5)*thick })
+      }
+    }
+    const addBez = (
+      x0: number, y0: number, xc: number, yc: number, x1: number, y1: number,
+      wt: number, thick: number,
+    ) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random(); const mt = 1 - t
+        points.push({
+          x: mt*mt*x0+2*mt*t*xc+t*t*x1+(Math.random()-0.5)*thick,
+          y: mt*mt*y0+2*mt*t*yc+t*t*y1+(Math.random()-0.5)*thick,
+        })
+      }
+    }
+    const addDisk = (ox: number, oy: number, r: number, wt: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const a = Math.random()*Math.PI*2; const rr = Math.sqrt(Math.random())*r
+        points.push({ x: ox+Math.cos(a)*rr, y: oy+Math.sin(a)*rr })
+      }
+    }
+    const addRing = (ox: number, oy: number, r: number, wt: number, thick: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const a = Math.random()*Math.PI*2; const rr = r-thick*0.5+Math.random()*thick
+        points.push({ x: ox+Math.cos(a)*rr, y: oy+Math.sin(a)*rr })
+      }
+    }
+
+    // ── Dimensioni ──────────────────────────────────────────────────────────────
+    const caseR  = 52 * s   // raggio cassa
+    const bzOR   = 60 * s   // ghiera esterno
+    const bzIR   = 50 * s   // ghiera interno
+    const dialR  = 44 * s   // quadrante
+    const lugW   = 19 * s   // semi-larghezza terminali
+    const lugExt = 20 * s   // estensione terminali oltre la cassa
+    const brHW   =  6 * s   // semi-larghezza del link centrale bracciale
+    const linkH  =  8 * s   // altezza di ogni link
+    const nLinks =  6        // righe bracciale per lato
+    const lugGap =  0.52     // semi-apertura angolare terminali (rad)
+
+    // ── 1. Cassa ────────────────────────────────────────────────────────────────
+    addDisk(cx, cy, caseR, 0.10)
+    addRing(cx, cy, caseR, 0.022, 2.5*s)
+
+    // ── 2. Ghiera (bezel) con tacche minuto/ora ─────────────────────────────────
+    addRing(cx, cy, (bzOR+bzIR)*0.5, 0.050, bzOR-bzIR)
+    for (let i = 0; i < 60; i++) {
+      const a   = (i / 60) * Math.PI * 2 - Math.PI / 2
+      const big = i % 5 === 0
+      const r0  = bzIR + (bzOR-bzIR) * 0.20
+      const r1  = bzOR - (bzOR-bzIR) * (big ? 0.08 : 0.38)
+      const n   = Math.floor(count * (big ? 0.0028 : 0.0010))
+      for (let j = 0; j < n; j++) {
+        const r = r0 + Math.random()*(r1-r0)
+        points.push({ x: cx+Math.cos(a)*r+(Math.random()-0.5)*s, y: cy+Math.sin(a)*r+(Math.random()-0.5)*s })
+      }
+    }
+
+    // ── 3. Quadrante ────────────────────────────────────────────────────────────
+    addDisk(cx, cy, dialR, 0.060)
+    addRing(cx, cy, dialR, 0.010, 1.2*s)
+
+    // ── 4. Indici ore — rettangoli radiali luminescenti ─────────────────────────
+    for (let i = 0; i < 12; i++) {
+      const angle  = (i / 12) * Math.PI * 2 - Math.PI / 2
+      const dist   = dialR * 0.80
+      const mx     = cx + Math.cos(angle) * dist
+      const my     = cy + Math.sin(angle) * dist
+      const perp   = angle + Math.PI / 2
+      const big    = i % 3 === 0
+      const mLen   = big ? 9*s : 5.5*s
+      const mThick = big ? 3.2*s : 2.2*s
+      addLine(
+        mx + Math.cos(perp)*mLen*0.5, my + Math.sin(perp)*mLen*0.5,
+        mx - Math.cos(perp)*mLen*0.5, my - Math.sin(perp)*mLen*0.5,
+        big ? 0.008 : 0.004, mThick
+      )
+    }
+
+    // ── 5. Lancette posizione 10:10 ─────────────────────────────────────────────
+    // Ore ~10 o'clock
+    const hAngle = -Math.PI/2 - (2/12)*Math.PI*2
+    // Minuti ~2 o'clock
+    const mAngle = -Math.PI/2 + (2/12)*Math.PI*2
+
+    // Lancetta ore: grossa stile "Mercedes" con finestra luminescente interna
+    const hHandLen = dialR * 0.55
+    addLine(
+      cx - Math.cos(hAngle)*hHandLen*0.12, cy - Math.sin(hAngle)*hHandLen*0.12,
+      cx + Math.cos(hAngle)*hHandLen,      cy + Math.sin(hAngle)*hHandLen,
+      0.020, 5.5*s
+    )
+    addLine(
+      cx + Math.cos(hAngle)*hHandLen*0.22, cy + Math.sin(hAngle)*hHandLen*0.22,
+      cx + Math.cos(hAngle)*hHandLen*0.76, cy + Math.sin(hAngle)*hHandLen*0.76,
+      0.004, 2*s
+    )
+
+    // Lancetta minuti: lunga, più sottile
+    const mHandLen = dialR * 0.88
+    addLine(
+      cx - Math.cos(mAngle)*mHandLen*0.12, cy - Math.sin(mAngle)*mHandLen*0.12,
+      cx + Math.cos(mAngle)*mHandLen,      cy + Math.sin(mAngle)*mHandLen,
+      0.016, 4*s
+    )
+    addLine(
+      cx + Math.cos(mAngle)*mHandLen*0.18, cy + Math.sin(mAngle)*mHandLen*0.18,
+      cx + Math.cos(mAngle)*mHandLen*0.86, cy + Math.sin(mAngle)*mHandLen*0.86,
+      0.003, 1.8*s
+    )
+
+    // Perno centrale
+    addDisk(cx, cy, 4*s, 0.010)
+    addRing(cx, cy, 4*s, 0.003, 1*s)
+
+    // ── 6. Coronella (3 o'clock) ────────────────────────────────────────────────
+    const crownBX = cx + caseR + 2*s
+    const crownEX = cx + caseR + 14*s
+    const crownHH = 5*s
+    for (let i = 0; i < Math.floor(count * 0.011); i++) {
+      const t    = Math.random()
+      const xPos = crownBX + t*(crownEX-crownBX)
+      const hw   = crownHH * (0.78 + 0.22*(1-t))
+      points.push({ x: xPos+(Math.random()-0.5)*s, y: cy+(Math.random()-0.5)*hw*2 })
+    }
+    for (let r = 0; r < 6; r++) {
+      const rx = crownBX + r*(crownEX-crownBX)/5.5
+      addLine(rx, cy - crownHH, rx, cy + crownHH, 0.0016, 0.6*s)
+    }
+
+    // ── 7. Terminali (lugs) — top-left, top-right, bottom-left, bottom-right ────
+    for (const side of [-1, 1]) {
+      const ba  = -Math.PI/2 + side * lugGap
+      const bx  = cx + Math.cos(ba) * caseR
+      const by  = cy + Math.sin(ba) * caseR
+      const tx  = cx + side * lugW
+      const ty  = cy - caseR - lugExt
+      addBez(bx, by, bx + (tx-bx)*0.28, by + (ty-by)*0.35, tx, ty, 0.014, 3.5*s)
+    }
+    addLine(cx - lugW, cy - caseR - lugExt, cx + lugW, cy - caseR - lugExt, 0.010, 3*s)
+
+    for (const side of [-1, 1]) {
+      const ba  = Math.PI/2 - side * lugGap
+      const bx  = cx + Math.cos(ba) * caseR
+      const by  = cy + Math.sin(ba) * caseR
+      const tx  = cx + side * lugW
+      const ty  = cy + caseR + lugExt
+      addBez(bx, by, bx + (tx-bx)*0.28, by + (ty-by)*0.35, tx, ty, 0.014, 3.5*s)
+    }
+    addLine(cx - lugW, cy + caseR + lugExt, cx + lugW, cy + caseR + lugExt, 0.010, 3*s)
+
+    // ── 8. Bracciale Oyster — 3 link: centro largo + 2 laterali stretti ─────────
+    const bTopY = cy - caseR - lugExt
+    const bBotY = cy + caseR + lugExt
+
+    const drawBracelet = (startY: number, dir: number) => {
+      for (let row = 0; row < nLinks; row++) {
+        const rowY = startY + dir * row * linkH
+        const midY = rowY + dir * linkH * 0.5
+
+        // Link centrale
+        for (let i = 0; i < Math.floor(count * 0.0050); i++)
+          points.push({ x: cx - brHW + Math.random()*brHW*2, y: midY + (Math.random()-0.5)*linkH*0.80 })
+        // Link laterale sinistro
+        for (let i = 0; i < Math.floor(count * 0.0024); i++)
+          points.push({ x: cx - brHW*3 + Math.random()*brHW*2, y: midY + (Math.random()-0.5)*linkH*0.80 })
+        // Link laterale destro
+        for (let i = 0; i < Math.floor(count * 0.0024); i++)
+          points.push({ x: cx + brHW + Math.random()*brHW*2, y: midY + (Math.random()-0.5)*linkH*0.80 })
+
+        // Bordo orizzontale tra righe
+        addLine(cx - brHW*3, rowY, cx + brHW*3, rowY, 0.0022, 0.7*s)
+        // Divisori verticali centro/laterali
+        addLine(cx - brHW, rowY, cx - brHW, rowY + dir*linkH, 0.0007, 0.5*s)
+        addLine(cx + brHW, rowY, cx + brHW, rowY + dir*linkH, 0.0007, 0.5*s)
+      }
+      // Bordo terminale bracciale
+      addLine(cx - brHW*3, startY + dir*nLinks*linkH, cx + brHW*3, startY + dir*nLinks*linkH, 0.0028, 1.5*s)
+    }
+    drawBracelet(bTopY, -1)
+    drawBracelet(bBotY,  1)
+
+    // ── Sparse ────────────────────────────────────────────────────────────────────
+    const sparseCount = count - points.length
+    for (let i = 0; i < sparseCount; i++) {
+      const base = points[Math.floor(Math.random() * points.length)]
+      if (base) points.push({ x: base.x+(Math.random()-0.5)*12*s, y: base.y+(Math.random()-0.5)*12*s })
+    }
+
+    return points.slice(0, count)
+  }, [])
+
+  // ── 5. NAVE — vista frontale, stile icona ───────────────────────────────────
+  const generateShipPoints = useCallback((w: number, h: number, count: number) => {
+    const points: { x: number; y: number }[] = []
+    const cx = w * 0.50
+    const cy = h * 0.50
+    const s  = Math.min(w, h) * (w < 768 ? 0.0032 : 0.0044)
+
+    const addLine = (x1: number, y1: number, x2: number, y2: number, wt: number, thick: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random()
+        points.push({ x: x1+(x2-x1)*t+(Math.random()-0.5)*thick, y: y1+(y2-y1)*t+(Math.random()-0.5)*thick })
+      }
+    }
+    const addBez = (
+      x0: number, y0: number, xc: number, yc: number, x1: number, y1: number,
+      wt: number, thick: number,
+    ) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random(); const mt = 1 - t
+        points.push({
+          x: mt*mt*x0+2*mt*t*xc+t*t*x1+(Math.random()-0.5)*thick,
+          y: mt*mt*y0+2*mt*t*yc+t*t*y1+(Math.random()-0.5)*thick,
+        })
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    //             ┌─┐         ciminiera
+    //          ┌──┴─┴──┐      ponte comando
+    //       ┌──┴───────┴──┐   cabina
+    //      ╱               ╲
+    //     ╱    ╲     ╱      ╲  scafo (trapezio con linee V)
+    //    ╱      ╲   ╱        ╲
+    //     ╲      ╲ ╱        ╱
+    //       ╲     V       ╱
+    //    ~~~~~~~~~~~~~~~~~~~~~~  onde
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // Dimensioni principali
+    const deckW   = 70 * s    // metà larghezza al ponte
+    const keelY   = cy + 55 * s   // fondo chiglia
+    const deckY   = cy - 10 * s   // livello coperta
+    const waveY   = cy + 38 * s   // linea onde
+
+    // ── 1. SCAFO — trapezio con fondo curvo ──────────────────────────────────
+    // Lato sinistro (diagonale)
+    addLine(cx - deckW, deckY, cx - 18*s, keelY, 0.035, 3*s)
+    // Lato destro (diagonale)
+    addLine(cx + deckW, deckY, cx + 18*s, keelY, 0.035, 3*s)
+    // Fondo curvo
+    addBez(cx - 18*s, keelY, cx, keelY + 6*s, cx + 18*s, keelY, 0.025, 3*s)
+    // Coperta (linea orizzontale in alto)
+    addLine(cx - deckW, deckY, cx + deckW, deckY, 0.030, 3*s)
+
+    // Linee V interne dello scafo (struttura)
+    addLine(cx - deckW + 15*s, deckY, cx, keelY - 4*s, 0.020, 2*s)
+    addLine(cx + deckW - 15*s, deckY, cx, keelY - 4*s, 0.020, 2*s)
+    // Linea verticale centrale (chiglia)
+    addLine(cx, deckY, cx, keelY, 0.018, 2*s)
+
+    // Fill scafo
+    for (let i = 0; i < Math.floor(count * 0.18); i++) {
+      const t = Math.random()
+      const yPos = deckY + t * (keelY - deckY)
+      // Larghezza si restringe verso il basso
+      const halfW = deckW * (1 - t * 0.75)
+      const xPos = cx + (Math.random() - 0.5) * 2 * halfW
+      points.push({ x: xPos, y: yPos })
+    }
+
+    // ── 2. CABINA — rettangolo sopra la coperta ─────────────────────────────
+    const cabW   = 48 * s    // metà larghezza cabina
+    const cabTop = deckY - 36 * s
+    const cabBot = deckY
+
+    addLine(cx - cabW, cabBot, cx - cabW, cabTop, 0.020, 3*s)   // parete sx
+    addLine(cx + cabW, cabBot, cx + cabW, cabTop, 0.020, 3*s)   // parete dx
+    addLine(cx - cabW, cabTop, cx + cabW, cabTop, 0.025, 3*s)   // tetto
+    addLine(cx - cabW, cabBot, cx + cabW, cabBot, 0.010, 2*s)   // base
+
+    // Fill cabina
+    for (let i = 0; i < Math.floor(count * 0.10); i++) {
+      points.push({
+        x: cx + (Math.random() - 0.5) * 2 * cabW,
+        y: cabTop + Math.random() * (cabBot - cabTop),
+      })
+    }
+
+    // Finestre cabina (fascia)
+    const winY = cabTop + (cabBot - cabTop) * 0.45
+    addLine(cx - cabW + 6*s, winY, cx + cabW - 6*s, winY, 0.020, 5*s)
+
+    // ── 3. PONTE COMANDO — rettangolo più piccolo ───────────────────────────
+    const brW   = 30 * s
+    const brTop = cabTop - 24 * s
+    const brBot = cabTop
+
+    addLine(cx - brW, brBot, cx - brW, brTop, 0.014, 2.5*s)
+    addLine(cx + brW, brBot, cx + brW, brTop, 0.014, 2.5*s)
+    addLine(cx - brW, brTop, cx + brW, brTop, 0.018, 2.5*s)
+
+    // Fill ponte
+    for (let i = 0; i < Math.floor(count * 0.06); i++) {
+      points.push({
+        x: cx + (Math.random() - 0.5) * 2 * brW,
+        y: brTop + Math.random() * (brBot - brTop),
+      })
+    }
+
+    // Finestra ponte
+    addLine(cx - brW + 5*s, brTop + (brBot - brTop) * 0.4, cx + brW - 5*s, brTop + (brBot - brTop) * 0.4, 0.014, 4*s)
+
+    // ── 4. CIMINIERA / FUMAIOLO ─────────────────────────────────────────────
+    const chW = 7 * s
+    const chTop = brTop - 18 * s
+    const chBot = brTop
+
+    addLine(cx - chW, chBot, cx - chW, chTop, 0.008, 2*s)
+    addLine(cx + chW, chBot, cx + chW, chTop, 0.008, 2*s)
+    addLine(cx - chW, chTop, cx + chW, chTop, 0.008, 2*s)
+
+    // Fill ciminiera
+    for (let i = 0; i < Math.floor(count * 0.015); i++) {
+      points.push({
+        x: cx + (Math.random() - 0.5) * 2 * chW,
+        y: chTop + Math.random() * (chBot - chTop),
+      })
+    }
+
+    // ── 5. ONDE (3 curve sinusoidali) ───────────────────────────────────────
+    for (let wave = 0; wave < 3; wave++) {
+      const wy = waveY + wave * 8*s
+      const waveW = deckW + 16*s + wave * 6*s
+      const n = Math.floor(count * 0.018)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random()
+        const x = cx - waveW + t * 2 * waveW
+        const y = wy + Math.sin(t * Math.PI * 3) * 4*s + (Math.random()-0.5) * 2*s
+        points.push({ x, y })
+      }
+    }
+
+    // ── Sparse ──────────────────────────────────────────────────────────────
+    const sparseCount = count - points.length
+    for (let i = 0; i < sparseCount; i++) {
+      const base = points[Math.floor(Math.random() * points.length)]
+      if (base) points.push({ x: base.x+(Math.random()-0.5)*2*s, y: base.y+(Math.random()-0.5)*2*s })
+    }
+
+    return points.slice(0, count)
+  }, [])
+
+
+  // ── 6. MOTO sport/naked (vista laterale — fronte a DESTRA) ──────────────────
+  const generateMotorcyclePoints = useCallback((w: number, h: number, count: number) => {
+    const points: { x: number; y: number }[] = []
+    const cx = w * 0.50
+    const cy = h * 0.50
+    // Aumentiamo leggermente la scala per dare più respiro alla struttura
+    const s  = Math.min(w, h) * (w < 768 ? 0.0035 : 0.0045)
+
+    const addLine = (x1: number, y1: number, x2: number, y2: number, wt: number, thick: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random()
+        points.push({ x: x1+(x2-x1)*t+(Math.random()-0.5)*thick, y: y1+(y2-y1)*t+(Math.random()-0.5)*thick })
+      }
+    }
+
+    const addRing = (x: number, y: number, r: number, thick: number, wt: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const a = Math.random() * Math.PI * 2; const rr = r + (Math.random()-0.5)*thick
+        points.push({ x: x + Math.cos(a)*rr, y: y + Math.sin(a)*rr })
+      }
+    }
+
+    // ── Proporzioni Rialzate ────────────────────────────────────────────────
+    const wheelR    = 28 * s
+    const groundY   = cy + 35 * s      // Abbassiamo il "terreno"
+    const wheelY    = groundY - wheelR
+    const backWheelX = cx - 65 * s
+    const frontWheelX = cx + 65 * s
+    
+    // Il corpo viene posizionato più in alto rispetto al centro delle ruote
+    const bodyY = cy - 15 * s 
+
+    // ── 1. RUOTE (Stabili e dense) ──────────────────────────────────────────
+    addRing(backWheelX, wheelY, wheelR, 6 * s, 0.18)      
+    addRing(backWheelX, wheelY, wheelR * 0.6, 2 * s, 0.04) 
+    
+    addRing(frontWheelX, wheelY, wheelR, 6 * s, 0.18)     
+    addRing(frontWheelX, wheelY, wheelR * 0.6, 2 * s, 0.04) 
+
+    // ── 2. CORPO RIALZATO (Serbatoio e Sella) ───────────────────────────────
+    // Serbatoio: spostato verso l'alto (bodyY)
+    const nTank = Math.floor(count * 0.22)
+    for (let i = 0; i < nTank; i++) {
+      const tx = (Math.random() - 0.5) * 75 * s
+      const ty = (Math.random() - 0.5) * 38 * s
+      // Forma a goccia muscolosa
+      if ((tx*tx)/(42*s*42*s) + (ty*ty)/(20*s*20*s) < 1) {
+        points.push({ x: cx + 10 * s + tx, y: bodyY + ty })
+      }
+    }
+
+    // Sella e Codino (alti e slanciati verso il posteriore)
+    addLine(backWheelX - 15 * s, bodyY + 5 * s, cx - 5 * s, bodyY + 12 * s, 0.12, 5 * s)
+
+    // ── 3. MECCANICA (Unione slanciata) ─────────────────────────────────────
+    // Forcella Anteriore (più lunga per connettere la ruota al corpo alto)
+    addLine(frontWheelX, wheelY, frontWheelX - 35 * s, bodyY - 15 * s, 0.07, 3 * s)
+    
+    // Manubrio (sopra la forcella)
+    addLine(frontWheelX - 40 * s, bodyY - 18 * s, frontWheelX - 25 * s, bodyY - 14 * s, 0.02, 2 * s)
+    
+    // Blocco Motore (centrale, riempie il vuoto sotto il serbatoio)
+    const nEngine = Math.floor(count * 0.15)
+    for (let i = 0; i < nEngine; i++) {
+      points.push({ 
+        x: cx + (Math.random() - 0.5) * 55 * s, 
+        y: bodyY + 28 * s + (Math.random() - 0.5) * 22 * s 
+      })
+    }
+
+    // ── 4. RIFINITURA (Contorni netti) ───────────────────────────────────────
+    const currentTotal = points.length
+    const diff = count - currentTotal
+    for (let i = 0; i < diff; i++) {
+      const parent = points[Math.floor(Math.random() * currentTotal)]
+      points.push({
+        x: parent.x + (Math.random() - 0.5) * 1.1 * s,
+        y: parent.y + (Math.random() - 0.5) * 1.1 * s
+      })
+    }
+
+    return points.slice(0, count)
+  }, [])
+
+
+  const generateTankPoints = useCallback((w: number, h: number, count: number) => {
+    const points: { x: number; y: number }[] = []
+    
+    // Centriamo la forma nel canvas
+    const cx = w * 0.50
+    const cy = h * 0.50
+    
+    // Fattore di scala basato sulla dimensione minore del canvas
+    const s = Math.min(w, h) * (w < 768 ? 0.003 : 0.004)
+
+    // Helper per linee dense
+    const addDenseLine = (x1: number, y1: number, x2: number, y2: number, pointRatio: number, thick: number) => {
+      const n = Math.floor(count * pointRatio)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random()
+        points.push({ 
+          x: x1 + (x2 - x1) * t + (Math.random() - 0.5) * thick, 
+          y: y1 + (y2 - y1) * t + (Math.random() - 0.5) * thick 
+        })
+      }
+    }
+
+    // Helper per cerchi densi
+    const addDenseRing = (centerX: number, centerY: number, radius: number, pointRatio: number, thick: number) => {
+      const n = Math.floor(count * pointRatio)
+      for (let i = 0; i < n; i++) {
+        const ang = Math.random() * Math.PI * 2
+        const r = radius + (Math.random() - 0.5) * thick
+        points.push({ x: centerX + Math.cos(ang) * r, y: centerY + Math.sin(ang) * r })
+      }
+    }
+
+    // Helper per aree rettangolari dense
+    const fillDenseRect = (x1: number, y1: number, x2: number, y2: number, pointRatio: number) => {
+      const n = Math.floor(count * pointRatio)
+      for (let i = 0; i < n; i++) {
+        points.push({ 
+          x: x1 + Math.random() * (x2 - x1), 
+          y: y1 + Math.random() * (y2 - y1) 
+        })
+      }
+    }
+
+    // ── Proporzioni Carro Armato (Solido e basso) ─────────────────────────────
+    const groundY     = cy + 30 * s    // Base dei cingoli
+    const trackH      = 22 * s         // Altezza cingoli
+    const hullH       = 25 * s         // Altezza scafo
+    const turretH     = 18 * s         // Altezza torretta
+    
+    const trackL      = cx - 110 * s   // Estremità sinistra cingoli
+    const trackR      = cx + 110 * s   // Estremità destra cingoli
+    const hullL       = cx - 95 * s    // Estremità sinistra scafo
+    const hullR       = cx + 95 * s    // Estremità destra scafo
+
+    // ── 1. CINGOLI (Treads - 35% dei punti) ──────────────────────────────────
+    // Il perimetro ovale dei cingoli
+    addDenseLine(trackL, groundY, trackR, groundY, 0.05, 4 * s) // Bottom
+    addDenseLine(trackL, groundY - trackH, trackR, groundY - trackH, 0.05, 4 * s) // Top
+    
+    // Ruote dei cingoli (Bogies - 6 ruote piccole)
+    const nBogies = 6
+    const bogieR = trackH * 0.35
+    const bogieStep = (trackR - trackL - bogieR * 2) / (nBogies - 1)
+    for (let i = 0; i < nBogies; i++) {
+      const bx = trackL + bogieR + i * bogieStep
+      addDenseRing(bx, groundY - trackH * 0.5, bogieR, 0.03, 1.5 * s)
+    }
+
+    // ── 2. SCAFO (Hull - 30% dei punti) ─────────────────────────────────────
+    // Il corpo principale rettangolare sopra i cingoli
+    const hullY = groundY - trackH
+    fillDenseRect(hullL, hullY - hullH, hullR, hullY, 0.30)
+    
+    // Dettagli scafo (Bordi netti per definizione)
+    addDenseLine(hullL, hullY - hullH, hullR, hullY - hullH, 0.02, 2 * s) // Top hull
+
+    // ── 3. TORRETTA (Turret - 20% dei punti) ──────────────────────────────────
+    // La torretta girevole sopra lo scafo
+    const turretY = hullY - hullH
+    const turretL = cx - 55 * s
+    const turretR = cx + 35 * s
+    fillDenseRect(turretL, turretY - turretH, turretR, turretY, 0.20)
+    
+    // Bordo superiore torretta
+    addDenseLine(turretL + 5 * s, turretY - turretH, turretR - 5 * s, turretY - turretH, 0.02, 2 * s)
+
+    // ── 4. CANNONE (Gun Barrel - 10% dei punti) ─────────────────────────────
+    // Il lungo cannone che sporge in avanti
+    const gunY = turretY - turretH * 0.5
+    const gunL = turretR
+    const gunR = turretR + 90 * s
+    const gunThick = 4 * s
+    
+    fillDenseRect(gunL, gunY - gunThick * 0.5, gunR, gunY + gunThick * 0.5, 0.10)
+    
+    // Bordo del cannone
+    addDenseLine(gunL, gunY, gunR, gunY, 0.01, 1.5 * s)
+
+    // ── 5. RIFINITURA (Contorni netti) ───────────────────────────────────────
+    // Noise minimo per riempire senza sfocare la silhouette iconica
+    const currentTotal = points.length
+    const diff = count - currentTotal
+    for (let i = 0; i < diff; i++) {
+      const parent = points[Math.floor(Math.random() * currentTotal)]
+      points.push({
+        x: parent.x + (Math.random() - 0.5) * 1.3 * s,
+        y: parent.y + (Math.random() - 0.5) * 1.3 * s
+      })
+    }
+
+    return points.slice(0, count)
+  }, [])
+  
+  // ── Lista delle 7 forme ──────────────────────────────────────────────────────
   const shapeGenerators = useCallback((w: number, h: number) => [
-    generateAirplanePoints(w, h, PARTICLE_COUNT),
+    generateShipPoints(w, h, PARTICLE_COUNT),
     generateDNAPoints(w, h, PARTICLE_COUNT),
     generateCarPoints(w, h, PARTICLE_COUNT),
     generateMoleculePoints(w, h, PARTICLE_COUNT),
-  ], [generateAirplanePoints, generateDNAPoints, generateCarPoints, generateMoleculePoints])
+    generateWatchPoints(w, h, PARTICLE_COUNT),
+    generateMotorcyclePoints(w, h, PARTICLE_COUNT),
+    generateTankPoints(w, h, PARTICLE_COUNT),
+  ], [generateShipPoints, generateDNAPoints, generateMotorcyclePoints, generateCarPoints, generateMoleculePoints, generateWatchPoints, generateTankPoints])
 
   // ── Inizializzazione particelle ──────────────────────────────────────────────
   const initParticles = useCallback((w: number, h: number) => {

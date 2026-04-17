@@ -22,17 +22,15 @@ export default function Footer() {
               alt="KnoWow"
               width={100}
               height={28}
-              className="h-7 w-auto mb-4"
+              className="h-9 md:h-16 w-auto mb-4"
               quality={100}
             />
-            <p className="text-xs text-white/40 uppercase tracking-widest mb-4">
-              beyond ordinary engineering
-            </p>
+         
             <p className="text-sm text-white/50 max-w-xs leading-relaxed">
               Spin-off dell&apos;Università di Messina. Fast Fatigue Testing Technology.
             </p>
             <p className="text-xs text-white/25 mt-6">
-              © 2026 KnoWow s.r.l. — P.IVA [in registrazione]
+              © 2026 KnoWow s.r.l. — P.IVA 03698560830
             </p>
           </div>
 
@@ -75,7 +73,7 @@ export default function Footer() {
                 Università di Messina — Spin-off accademico
               </li>
               <li className="text-xs text-white/25 mt-2">
-                Membro Confindustria
+                Associato Confindustria tramite Sicindustria
               </li>
             </ul>
           </div>
