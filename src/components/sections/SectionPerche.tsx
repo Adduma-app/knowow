@@ -193,7 +193,7 @@ export default function SectionPerche() {
 
                 <Body className="mb-8">
                    La Serie 1 ha il
-                  miglior R² — ed è la peggiore.
+                  miglior R² — ed è la meno affidabile.
                 </Body>
 
                 {/* ASTM callout */}
@@ -210,11 +210,11 @@ export default function SectionPerche() {
                       statistiche. Sotto quella soglia: caratterizzazione orientativa, non
                       affidabilità di progetto.
                       Il range di ASTM E739 è
-ampio per restituire un intervallo di minima e massima aPidabilità
+ampio per restituire un intervallo di minima e massima affidabilità
 del dato. La letteratura sulla caratterizzazione a fatica e diversi
 decenni di applicazioni industriali indicano 20 provini come soglia
 pratica sotto la quale la stima delle curve di sopravvivenza diventa
-troppo incerta per supportare decisioni di progetto aPidabili. Non è
+troppo incerta per supportare decisioni di progetto affidabili. Non è
 una regola normativa, ma una soglia ingegneristica ben fondata.
                     </p>
                   </div>
@@ -268,7 +268,7 @@ una regola normativa, ma una soglia ingegneristica ben fondata.
                               className="text-[8px] uppercase tracking-[0.15em] font-bold px-1.5 py-0.5 self-start"
                               style={{ color: '#E9704D', border: '1px solid rgba(233,112,77,0.35)', borderRadius: 2 }}
                             >
-                              R² alto ≠ migliore
+                              R² alto <span className='text-[12px]'>≠</span> migliore
                             </span>
                           )}
                         </div>
