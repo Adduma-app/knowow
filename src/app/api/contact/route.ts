@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     }
 
     const { error } = await resend.emails.send({
-      from: 'Knowow Contact Form <onboarding@resend.dev>', // sostituire con dominio verificato
+      from: 'Knowow Contact Form <info@knowow.tech>', 
       to: 'info@knowow.tech',
       replyTo: email,
       subject: `Nuovo contatto da ${nome} — ${azienda}`,
