@@ -5,8 +5,8 @@ import Section4Ecosystem from '@/components/sections/Section4Ecosystem'
 import CTAFinal from '@/components/sections/CTAFinal'
 
 export const metadata = {
-  title: 'Prodotti & Servizi — KnoWow',
-  description: "L'ecosistema completo di prodotti e servizi KnoWow: dalla caratterizzazione a fatica al controllo qualità, dalla progettazione guidata dalla performance alle simulazioni numeriche.",
+  title: 'Prodotti & Servizi — Knowow',
+  description: "L'ecosistema completo di prodotti e servizi Knowow: dalla caratterizzazione a fatica al controllo qualità, dalla progettazione guidata dalla performance alle simulazioni numeriche.",
 }
 
 export default function ProdottiServiziPage() {

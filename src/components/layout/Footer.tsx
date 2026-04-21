@@ -19,7 +19,7 @@ export default function Footer() {
           <div>
             <Image
               src="/images/logo_footer_knowowcompleto.svg"
-              alt="KnoWow"
+              alt="Knowow"
               width={100}
               height={28}
               className="h-9 md:h-16 w-auto mb-4"
@@ -30,7 +30,7 @@ export default function Footer() {
               Spin-off dell&apos;Università di Messina. Fast Fatigue Testing Technology.
             </p>
             <p className="text-xs text-white/25 mt-6">
-              © 2026 KnoWow s.r.l. — P.IVA 03698560830
+              © 2026 Knowow s.r.l. — P.IVA 03698560830
             </p>
           </div>
 
@@ -81,7 +81,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-white/[0.05] mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-white/25">
-          <span>KnoWow s.r.l. — Tutti i diritti riservati</span>
+          <span>Knowow s.r.l. — Tutti i diritti riservati</span>
 
           {/* TODO_crea pagine e decommenta */}
           {/* <div className="flex gap-6">

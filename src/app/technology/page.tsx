@@ -347,12 +347,12 @@ export default function TechnologyPage() {
             style={{ position: 'sticky', top: 0, height: '90vh', zIndex: 1, overflow: 'hidden' }}
           >
             <div className="absolute top-24 left-0 right-0 text-center px-6 md:px-16 lg:px-24 z-10">
-              <span className="text-micro text-white/30 block mb-3">all-in-one equipment</span>
+              <span className="text-micro text-white/30 block mb-3">FFTT combina sensori termografici (IR), Digital image Correlation (DIC) metodi termografici e algoritmi proprietari per l'analisi dei dati in un unico processo.</span>
               <h2
                 className="font-sans font-bold uppercase text-white"
                 style={{ fontSize: 'clamp(1.2rem, 2.2vw, 2rem)', letterSpacing: '-0.015em' }}
               >
-                Un sistema integrato per la massima efficienza
+                Una tecnologia integrata
               </h2>
             </div>
 
@@ -431,12 +431,12 @@ export default function TechnologyPage() {
         {/* ══ MOBILE / TABLET (< lg) ══ */}
         <section className="lg:hidden px-6 pb-16">
           <div className="text-center mb-10">
-            <span className="text-micro text-white/30 block mb-3">All-in-one equipment</span>
+            <span className="text-micro text-white/30 block mb-3">FFTT combina sensori termografici (IR), Digital image Correlation (DIC) metodi termografici e algoritmi proprietari per l'analisi dei dati in un unico processo.</span>
             <h2
               className="font-sans font-bold uppercase text-white"
               style={{ fontSize: 'clamp(1.2rem, 5vw, 1.8rem)', letterSpacing: '-0.015em' }}
             >
-              Un sistema, quattro tecnologie
+              Una tecnologia integrata
             </h2>
           </div>
 

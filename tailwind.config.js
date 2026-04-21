@@ -1,4 +1,4 @@
-// tailwind.config.js — KnoWow Design System
+// tailwind.config.js — Knowow Design System
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [

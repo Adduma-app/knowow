@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { GlowCard } from '@/components/ui/GlowCard'
+import Image from 'next/image'
 
 // ─── Table data ───────────────────────────────────────────────────────────────
 
@@ -172,14 +173,14 @@ export default function SectionPerche() {
       <div>
 
 
-          {/* ── Blocco header: two-column layout ── */}
+          {/* ── Blocco header: two-column layout ── CASO STUDIO 1 */}
           <FadeBlock>
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 xl:gap-16 xl:items-stretch">
 
               {/* ── Left column: narrative ── */}
               <div>
                 <span className="text-micro text-[#E9704D] block mb-5">
-                  caso di studio
+                  caso di studio 1
                 </span>
                 <h2
                   className="font-sans font-bold uppercase text-white/35 leading-tight mb-8"
@@ -206,16 +207,7 @@ export default function SectionPerche() {
                       ASTM E739
                     </p>
                     <p className="text-sm text-white/55 leading-relaxed font-medium">
-                      Raccomanda un minimo di <Hi>12–24 provini</Hi> per campagne con finalità
-                      statistiche. Sotto quella soglia: caratterizzazione orientativa, non
-                      affidabilità di progetto.
-                      Il range di ASTM E739 è
-ampio per restituire un intervallo di minima e massima affidabilità
-del dato. La letteratura sulla caratterizzazione a fatica e diversi
-decenni di applicazioni industriali indicano 20 provini come soglia
-pratica sotto la quale la stima delle curve di sopravvivenza diventa
-troppo incerta per supportare decisioni di progetto affidabili. Non è
-una regola normativa, ma una soglia ingegneristica ben fondata.
+                    Lo standard ASTM E739 raccomanda un minimo di <Hi>12–24 provini</Hi> provini per campagne con finalità statistiche. Sotto quella soglia si può parlare di caratterizzazione orientativa, non di affidabilità di progetto. Il range di ASTM E739 è ampio per restituire un intervallo di minore e maggiore affidabilità del dato. La letteratura scientifica sulla caratterizzazione a fatica e diversi decenni di applicazioni industriali indicano 20 provini come soglia pratica sotto la quale la stima delle curve di sopravvivenza diventa troppo incerta per supportare decisioni di progetto affidabili. Non si tratta di una regola normativa, ma una soglia ingegneristica ben fondata.
                     </p>
                   </div>
                 </div>
@@ -320,7 +312,7 @@ una regola normativa, ma una soglia ingegneristica ben fondata.
         <FadeBlock>
           <div className="mb-16 pb-16">
             <BlockHeading accent="#E9704D">
-              Il problema più comune: cinque provini non sono abbastanza
+              Il problema più comune: 5 provini non sono abbastanza
             </BlockHeading>
 
             <Body>
@@ -364,14 +356,70 @@ una regola normativa, ma una soglia ingegneristica ben fondata.
             <CompareCard />
 
             <Body>
-              Con 20+ provini è possibile costruire una <Hi>curva P-S-N</Hi>{' '}
+              Con i metodi tradizionali utilizzando 20+ provini è possibile costruire una <Hi>curva P-S-N</Hi>{' '}
               (Probability-Stress-Number of Cycles): la famiglia di curve isoaffidabilità al
-              5%, 50%, 95% su cui si fondano le decisioni di progetto robuste.
+              5%, 50%, 95% su cui si fondano le decisioni di progetto robuste. Con FFTT si raggiunge lo stesso risultato con pochi provini e in meno di 48 ore.
             </Body>
           </div>
         </FadeBlock>
 
       
+       {/* ── CASO STUDIO 2 */}
+       <FadeBlock>
+            <div>
+
+              {/* ── Testo ── */}
+              <div className="mb-10">
+                <span className="text-micro text-[#E9704D] block mb-5">
+                  caso di studio 2
+                </span>
+                <h2
+                  className="font-sans font-bold uppercase text-white/35 leading-tight mb-8"
+                  style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', letterSpacing: '-0.02em' }}
+                >
+                 Valutazione della fatica di un
+
+                  <br />
+                  <span className="text-white">acciaio strutturale navale.</span>
+                </h2>
+
+                <Body className="mb-0">
+                Confronto tra il metodo tradizionale e la nostra soluzione.
+                </Body>
+              </div>
+
+              {/* ── card casi studio ── */}
+              <div className="clip-card-footer bg-[#18192D] p-6 md:p-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                  {[
+                    { img: '/casi_studio/card_1_casostudio2.0.png', title: 'Titolo caso studio 1', body: 'Curva S-N con banda di dispersione ottenuta tramite metodi di fatica tradizionali. Tempo di prova: circa 500 ore' },
+                    { img: '/casi_studio/card_2_casostudio2.png', title: 'Titolo caso studio 2', body: 'Valutazione del limite di fatica mediante il metodo termografico.Tempo di prova: circa 8 ore' },
+                    { img: '/casi_studio/card_3_casostudio2.png', title: 'Titolo caso studio 3', body: 'Confronto tra il valore S-N ottenuto con prove a gradini mediante metodo termografico e la banda di dispersione delle prove di fatica tradizionali' },
+                  ].map((card) => (
+                    <div
+                      key={card.img}
+                      className=" rounded-sm overflow-hidden bg-transparent flex flex-col"
+                    >
+                      <div className="relative w-full aspect-[4/3]">
+                        <Image
+                          src={card.img}
+                          alt={card.title}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                      <div className="p-5">
+                        <p className="text-xs text-white/90 leading-relaxed font-medium">
+                          {card.body}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </FadeBlock>
 
       </div>
     </section>

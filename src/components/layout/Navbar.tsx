@@ -43,10 +43,10 @@ export default function Navbar() {
         style={{ paddingLeft: 'max(1.5rem, env(safe-area-inset-left))', paddingRight: 'max(1.5rem, env(safe-area-inset-right))' }}
       >
         {/* Logo */}
-        <a href="/" aria-label="KnoWow — torna all'inizio della pagina" className="flex items-center">
+        <a href="/" aria-label="Knowow — torna all'inizio della pagina" className="flex items-center">
           <Image
             src="/images/logo_footer_knowowcompleto.svg"
-            alt="KnoWow"
+            alt="Knowow"
             width={120}
             height={32}
             className="h-9 md:h-11"
@@ -57,7 +57,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8" role="list">
+        <div className="hidden lg:flex items-center gap-8" role="list">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
@@ -72,7 +72,7 @@ export default function Navbar() {
         </div>
 
           {/* CTA */}
-          <span className="hidden md:inline-block">
+          <span className="hidden lg:inline-block">
             <SiteButton href="/#contatti" variant="primary" clip="bl" aria-label="Richiedi una demo di FFTT">
               Richiedi un pilota di FFTT
             </SiteButton>
@@ -80,7 +80,7 @@ export default function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col gap-[7px] p-2"
+          className="lg:hidden flex flex-col gap-[7px] p-2"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
@@ -107,7 +107,7 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div
         id="mobile-menu"
-        className={`md:hidden bg-[#17192D] border-t border-white/[0.05] overflow-hidden transition-all duration-300 ${
+        className={`lg:hidden bg-[#17192D] border-t border-white/[0.05] overflow-hidden transition-all duration-300 ${
           isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
         }`}
         style={{

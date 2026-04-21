@@ -1,13 +1,162 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ECOSYSTEM } from '@/constants/content'
+import Image from 'next/image'
+
+// ─── Popup data ──────────────────────────────────────────────────────────────
+const AMBITI = [
+  {
+    button: 'Fem',
+    title: 'FEM – Analisi agli Elementi Finiti',
+    img: '/simulazioni_numeriche/fem_01.jpeg',
+    text: 'Simulazioni strutturali per valutare tensioni, deformazioni e meccanismi di cedimento in condizioni di carico reali o realistiche.',
+  },
+  {
+    button: 'Cfd',
+    title: 'Fluidodinamica Computazionale',
+    img: '/simulazioni_numeriche/cfd_01.jpeg',
+    text: 'Analisi di flussi interni ed esterni, scambio termico e interazioni fluido-struttura.',
+  },
+  {
+    button: 'Multibody Dynamics',
+    title: 'Multibody Dynamics',
+    img: '/simulazioni_numeriche/multibody.png',
+    text: 'Modellazione cinematica e dinamica di sistemi meccanici complessi con componenti interagenti.',
+  },
+  {
+    button: 'Simulazioni Ottiche',
+    title: 'Simulazioni Ottiche',
+    img: '/simulazioni_numeriche/ottica.png',
+    text: 'Previsione e ottimizzazione del comportamento della luce attraverso materiali e superfici persistemi ottici e di illuminazione.',
+  },
+]
+
+// ─── Image Lightbox ─────────────────────────────────────────────────────────
+function ImageLightbox({ src, onClose }: { src: string; onClose: () => void }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)' }}
+      onClick={onClose}
+    >
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-6 z-10 text-white/40 hover:text-white transition-colors text-2xl leading-none"
+        aria-label="Chiudi"
+      >
+        ×
+      </button>
+      <div
+        className="relative w-[85vw] md:w-[50vw] aspect-[16/10]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Image
+          src={src}
+          alt=""
+          fill
+          className="object-contain"
+        />
+      </div>
+    </div>
+  )
+}
+
+// ─── Ambiti Popup ────────────────────────────────────────────────────────────
+function AmbitiPopup({ onClose }: { onClose: () => void }) {
+  const [active, setActive] = useState(0)
+  const item = AMBITI[active]
+
+  // Blocca scroll del body quando il popup è aperto
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8"
+      style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)' }}
+      onClick={onClose}
+    >
+      <div
+        className="clip-card-footer bg-[#0F1120] w-full max-w-5xl max-h-[90vh] overflow-y-auto relative"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-5 z-10 text-white/40 hover:text-white transition-colors text-2xl leading-none"
+          aria-label="Chiudi"
+        >
+          ×
+        </button>
+
+        <div className="p-6 pt-14 pl-14 md:p-12 md:pt-24 md:pl-24 lg:p-10 lg:pt-12 lg:pl-12">
+          {/* Contenuto: immagine + testo */}
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_35%] gap-6 md:gap-10 mb-8">
+            {/* Immagine grande */}
+            <div className="relative w-full aspect-[16/10] bg-[#0F1120] rounded-sm overflow-hidden">
+              <Image
+                src={item.img}
+                alt={item.title}
+                fill
+                className="object-contain"
+              />
+            </div>
+
+            {/* Testo laterale (sotto su mobile) */}
+            <div className="flex flex-col justify-end">
+              <span className="text-micro text-[#E9704D] block mb-3">
+                {item.title}
+              </span>
+              <p className="text-sm text-white/60 leading-relaxed font-medium">
+                {item.text}
+              </p>
+            </div>
+          </div>
+
+          {/* Pulsanti tab in basso al centro */}
+          <div className="flex flex-wrap justify-center gap-3">
+            {AMBITI.map((a, i) => (
+              <button
+                key={a.button}
+                onClick={() => setActive(i)}
+                className="px-5 py-2.5 text-xs uppercase tracking-widest font-bold transition-all"
+                style={{
+                  border: i === active
+                    ? '1px solid #E9704D'
+                    : '1px solid rgba(255,255,255,0.12)',
+                  color: i === active ? '#E9704D' : 'rgba(255,255,255,0.45)',
+                  background: i === active ? 'rgba(233,112,77,0.08)' : 'transparent',
+                }}
+              >
+                {a.button}
+              </button>
+            ))}
+          </div>
+
+          <p className="text-xs text-white/30 text-center mt-8 max-w-xl mx-auto leading-relaxed font-medium">
+            Ogni simulazione è condotta in funzione dell&apos;applicazione specifica e in coerenza con i requisiti di progetto e i dati sperimentali.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Section4Ecosystem() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const slidesRef  = useRef<HTMLDivElement>(null)
   const shapeRef   = useRef<HTMLDivElement>(null)
   const svgRef     = useRef<SVGSVGElement>(null)
+  const [showAmbiti, setShowAmbiti] = useState(false)
+  const [lightboxImg, setLightboxImg] = useState<string | null>(null)
 
   useEffect(() => {
     let ctx: { revert: () => void } | null = null
@@ -209,6 +358,45 @@ export default function Section4Ecosystem() {
                   </h3>
                   <p className="tracking-widest uppercase text-xs text-[#E9704D]">{service.subtitle}</p>
                   <p className="text-sm text-white leading-relaxed font-medium">{service.text}</p>
+                  {i === 0 && (
+                    <button
+                      onClick={() => setLightboxImg('/media/1_controllo_qualit.jpeg')}
+                      className="mt-4 px-5 py-2.5 text-xs uppercase tracking-widest font-bold transition-all self-start"
+                      style={{
+                        border: '1px solid #E9704D',
+                        color: '#E9704D',
+                        background: 'rgba(233,112,77,0.06)',
+                      }}
+                    >
+                      Visualizza 
+                    </button>
+                  )}
+                  {i === 1 && (
+                    <button
+                      onClick={() => setLightboxImg('/media/2_performance_driven-design.jpeg')}
+                      className="mt-4 px-5 py-2.5 text-xs uppercase tracking-widest font-bold transition-all self-start"
+                      style={{
+                        border: '1px solid #E9704D',
+                        color: '#E9704D',
+                        background: 'rgba(233,112,77,0.06)',
+                      }}
+                    >
+                      Visualizza 
+                    </button>
+                  )}
+                  {i === 2 && (
+                    <button
+                      onClick={() => setShowAmbiti(true)}
+                      className="mt-4 px-5 py-2.5 text-xs uppercase tracking-widest font-bold transition-all self-start"
+                      style={{
+                        border: '1px solid #E9704D',
+                        color: '#E9704D',
+                        background: 'rgba(233,112,77,0.06)',
+                      }}
+                    >
+                      Scopri gli ambiti
+                    </button>
+                  )}
                 </div>
 
                 {/* I numeri ora usano mix-blend-mode per essere "illuminati" dall'SVG */}
@@ -235,6 +423,8 @@ export default function Section4Ecosystem() {
         </div>
       </div>
 
+      {showAmbiti && <AmbitiPopup onClose={() => setShowAmbiti(false)} />}
+      {lightboxImg && <ImageLightbox src={lightboxImg} onClose={() => setLightboxImg(null)} />}
     </>
   )
 }

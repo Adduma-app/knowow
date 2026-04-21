@@ -4,17 +4,17 @@ import SmoothScroll from '@/components/ui/SmoothScroll'
 import CustomCursor from '@/components/ui/CustomCursor'
 
 export const metadata: Metadata = {
-  title: 'KnoWow | Fast Fatigue Testing Technology — beyond ordinary engineering',
+  title: 'Knowow | Fast Fatigue Testing Technology — beyond ordinary engineering',
   description:
-    "KnoWow riduce il testing a fatica da ~500 ore a meno di 48 ore con FFTM. Spin-off dell'Università di Messina. Testing, licenza e servizi su misura.",
+    "Knowow riduce il testing a fatica da ~500 ore a meno di 48 ore con FFTM. Spin-off dell'Università di Messina. Testing, licenza e servizi su misura.",
   keywords:
     'fast fatigue testing technology, FFTM, testing a fatica, curva di Wöhler, termografia, Risitano, materiali',
   openGraph: {
-    title: 'KnoWow | Fast Fatigue Testing Technology',
+    title: 'Knowow | Fast Fatigue Testing Technology',
     description:
       'Da ~500 ore a meno di 48 ore. Tecnologia di testing a fatica basata su metodi termografici brevettati.',
     url: 'https://www.knowow.tech',
-    siteName: 'KnoWow',
+    siteName: 'Knowow',
     locale: 'it_IT',
     type: 'website',
   },
@@ -32,7 +32,7 @@ const jsonLd = {
     {
       '@type': 'Organization',
       '@id': 'https://www.knowow.tech/#organization',
-      name: 'KnoWow s.r.l.',
+      name: 'Knowow s.r.l.',
       url: 'https://www.knowow.tech',
       logo: 'https://www.knowow.tech/images/logo.png',
       description:

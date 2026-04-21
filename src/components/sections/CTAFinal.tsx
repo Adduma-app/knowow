@@ -83,7 +83,7 @@ export default function CTAFinal() {
       >
         <Image
           src="/images/logo_outline_thin.svg"
-          alt="KnoWow"
+          alt="Knowow"
           width={160}
           height={42}
           className="w-full h-auto block"

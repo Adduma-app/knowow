@@ -13,13 +13,13 @@ export async function POST(req: Request) {
     }
 
     const { error } = await resend.emails.send({
-      from: 'KnoWow Contact Form <onboarding@resend.dev>', // sostituire con dominio verificato
-      to: 'grazia.baiamonte.adduma@gmail.com',
+      from: 'Knowow Contact Form <onboarding@resend.dev>', // sostituire con dominio verificato
+      to: 'info@knowow.tech',
       replyTo: email,
       subject: `Nuovo contatto da ${nome} — ${azienda}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #111;">
-          <h2 style="color: #E9704D; margin-bottom: 24px;">Nuovo messaggio dal form KnoWow</h2>
+          <h2 style="color: #E9704D; margin-bottom: 24px;">Nuovo messaggio dal form Knowow</h2>
 
           <table style="width: 100%; border-collapse: collapse;">
             <tr>

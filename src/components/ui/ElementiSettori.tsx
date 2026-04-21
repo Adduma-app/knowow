@@ -765,14 +765,14 @@ export default function ElementiSettori() {
   }, [])
 
 
-  // ── 6. MOTO sport/naked (vista laterale — fronte a DESTRA) ──────────────────
+  // ── 6. MOTO GP 500cc (ref: Yamaha YZR500, vista laterale — fronte a DESTRA) ─
   const generateMotorcyclePoints = useCallback((w: number, h: number, count: number) => {
     const points: { x: number; y: number }[] = []
     const cx = w * 0.50
     const cy = h * 0.50
-    // Aumentiamo leggermente la scala per dare più respiro alla struttura
-    const s  = Math.min(w, h) * (w < 768 ? 0.0035 : 0.0045)
+    const s  = Math.min(w, h) * (w < 768 ? 0.0034 : 0.0046)
 
+    // ── Helpers ─────────────────────────────────────────────────────────────
     const addLine = (x1: number, y1: number, x2: number, y2: number, wt: number, thick: number) => {
       const n = Math.floor(count * wt)
       for (let i = 0; i < n; i++) {
@@ -780,72 +780,280 @@ export default function ElementiSettori() {
         points.push({ x: x1+(x2-x1)*t+(Math.random()-0.5)*thick, y: y1+(y2-y1)*t+(Math.random()-0.5)*thick })
       }
     }
-
-    const addRing = (x: number, y: number, r: number, thick: number, wt: number) => {
+    const addBez = (
+      x0: number, y0: number, xc: number, yc: number, x1: number, y1: number,
+      wt: number, thick: number,
+    ) => {
       const n = Math.floor(count * wt)
       for (let i = 0; i < n; i++) {
-        const a = Math.random() * Math.PI * 2; const rr = r + (Math.random()-0.5)*thick
-        points.push({ x: x + Math.cos(a)*rr, y: y + Math.sin(a)*rr })
+        const t = Math.random(); const mt = 1 - t
+        points.push({
+          x: mt*mt*x0+2*mt*t*xc+t*t*x1+(Math.random()-0.5)*thick,
+          y: mt*mt*y0+2*mt*t*yc+t*t*y1+(Math.random()-0.5)*thick,
+        })
+      }
+    }
+    const addCubicBez = (
+      x0: number, y0: number, xc1: number, yc1: number, xc2: number, yc2: number, x1: number, y1: number,
+      wt: number, thick: number,
+    ) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const t = Math.random(); const mt = 1 - t
+        points.push({
+          x: mt*mt*mt*x0+3*mt*mt*t*xc1+3*mt*t*t*xc2+t*t*t*x1+(Math.random()-0.5)*thick,
+          y: mt*mt*mt*y0+3*mt*mt*t*yc1+3*mt*t*t*yc2+t*t*t*y1+(Math.random()-0.5)*thick,
+        })
+      }
+    }
+    const addRing = (ox: number, oy: number, r: number, wt: number, thick: number) => {
+      const n = Math.floor(count * wt)
+      for (let i = 0; i < n; i++) {
+        const a = Math.random()*Math.PI*2; const rr = r-thick*0.5+Math.random()*thick
+        points.push({ x: ox+Math.cos(a)*rr, y: oy+Math.sin(a)*rr })
       }
     }
 
-    // ── Proporzioni Rialzate ────────────────────────────────────────────────
-    const wheelR    = 28 * s
-    const groundY   = cy + 35 * s      // Abbassiamo il "terreno"
-    const wheelY    = groundY - wheelR
-    const backWheelX = cx - 65 * s
-    const frontWheelX = cx + 65 * s
-    
-    // Il corpo viene posizionato più in alto rispetto al centro delle ruote
-    const bodyY = cy - 15 * s 
+    // ═══════════════════════════════════════════════════════════════════════════
+    //  Yamaha YZR500 GP — proporzioni dalla reference:
+    //  - Moto ALTA: il cupolino arriva molto sopra le ruote
+    //  - Ruote grandi (~30% dell'altezza totale)
+    //  - Ampio vuoto sotto la pancia (telaio, motore visibili)
+    //  - Codone che RISALE nettamente verso l'alto
+    //  - Carenatura integrale con forma a goccia
+    //  - Forcellone lungo
+    // ═══════════════════════════════════════════════════════════════════════════
 
-    // ── 1. RUOTE (Stabili e dense) ──────────────────────────────────────────
-    addRing(backWheelX, wheelY, wheelR, 6 * s, 0.18)      
-    addRing(backWheelX, wheelY, wheelR * 0.6, 2 * s, 0.04) 
-    
-    addRing(frontWheelX, wheelY, wheelR, 6 * s, 0.18)     
-    addRing(frontWheelX, wheelY, wheelR * 0.6, 2 * s, 0.04) 
+    const wheelR  = 26 * s
+    const groundY = cy + 42 * s
+    const axleY   = groundY - wheelR
 
-    // ── 2. CORPO RIALZATO (Serbatoio e Sella) ───────────────────────────────
-    // Serbatoio: spostato verso l'alto (bodyY)
-    const nTank = Math.floor(count * 0.22)
-    for (let i = 0; i < nTank; i++) {
-      const tx = (Math.random() - 0.5) * 75 * s
-      const ty = (Math.random() - 0.5) * 38 * s
-      // Forma a goccia muscolosa
-      if ((tx*tx)/(42*s*42*s) + (ty*ty)/(20*s*20*s) < 1) {
-        points.push({ x: cx + 10 * s + tx, y: bodyY + ty })
+    // Ruote — interasse (passo) compatto stile GP
+    const rearWX  = cx - 60 * s
+    const frontWX = cx + 60 * s
+
+    // ── Altezze chiave ─────────────────────────────────────────────────────
+    const cupolinoTopY = cy - 38 * s   // punto più alto cupolino
+    const tankTopY     = cy - 32 * s   // cresta serbatoio
+    const seatY        = cy - 24 * s   // sella
+    const tailTopY     = cy - 28 * s   // codone risale
+    const tailTipY     = cy - 20 * s   // punta posteriore codone
+    const bellyY       = cy + 8 * s    // bordo inferiore carenatura
+
+    // X di riferimento
+    const noseX     = cx + 72 * s    // punta muso
+    const steerX    = cx + 40 * s    // cannotto sterzo
+    const tankEndX  = cx - 6 * s     // fine serbatoio / inizio sella
+    const tailEndX  = cx - 56 * s    // punta codone
+
+    // Pivot forcellone
+    const pivotX = cx - 14 * s
+    const pivotY = cy + 6 * s
+
+    // ── 1. RUOTE — grandi, con cerchio, mozzo, razze ───────────────────────
+    for (let wi = 0; wi < 2; wi++) {
+      const wx = wi === 0 ? frontWX : rearWX
+      // Pneumatico (anello esterno denso)
+      addRing(wx, axleY, wheelR, 0.032, 4.0*s)
+      // Cerchio interno
+      addRing(wx, axleY, wheelR * 0.82, 0.010, 1.8*s)
+      // Mozzo
+      addRing(wx, axleY, wheelR * 0.22, 0.006, 2.0*s)
+      // Razze (5 triple raggi)
+      for (let ri = 0; ri < 5; ri++) {
+        const a = (ri / 5) * Math.PI * 2
+        addLine(
+          wx+Math.cos(a)*wheelR*0.22, axleY+Math.sin(a)*wheelR*0.22,
+          wx+Math.cos(a)*wheelR*0.78, axleY+Math.sin(a)*wheelR*0.78,
+          0.0018, 1.0*s
+        )
+      }
+      // Disco freno anteriore (più grande)
+      if (wi === 0) {
+        addRing(wx, axleY, wheelR * 0.58, 0.008, 2.0*s)
       }
     }
 
-    // Sella e Codino (alti e slanciati verso il posteriore)
-    addLine(backWheelX - 15 * s, bodyY + 5 * s, cx - 5 * s, bodyY + 12 * s, 0.12, 5 * s)
+    // ── 2. FORCELLA ANTERIORE — steli lunghi e inclinati (~24°) ────────────
+    const forkTopX = steerX + 4*s
+    const forkTopY = cy - 22*s
+    // Stelo sx
+    addLine(forkTopX - 4*s, forkTopY, frontWX - 4*s, axleY, 0.016, 2.5*s)
+    // Stelo dx
+    addLine(forkTopX + 4*s, forkTopY, frontWX + 4*s, axleY, 0.016, 2.5*s)
+    // Piastra di sterzo
+    addLine(forkTopX - 7*s, forkTopY, forkTopX + 7*s, forkTopY, 0.005, 2.5*s)
+    // Piastra inferiore (a metà steli)
+    const mfx = (forkTopX + frontWX)*0.5
+    const mfy = (forkTopY + axleY)*0.5
+    addLine(mfx - 6*s, mfy, mfx + 6*s, mfy, 0.004, 2.0*s)
 
-    // ── 3. MECCANICA (Unione slanciata) ─────────────────────────────────────
-    // Forcella Anteriore (più lunga per connettere la ruota al corpo alto)
-    addLine(frontWheelX, wheelY, frontWheelX - 35 * s, bodyY - 15 * s, 0.07, 3 * s)
-    
-    // Manubrio (sopra la forcella)
-    addLine(frontWheelX - 40 * s, bodyY - 18 * s, frontWheelX - 25 * s, bodyY - 14 * s, 0.02, 2 * s)
-    
-    // Blocco Motore (centrale, riempie il vuoto sotto il serbatoio)
-    const nEngine = Math.floor(count * 0.15)
-    for (let i = 0; i < nEngine; i++) {
-      points.push({ 
-        x: cx + (Math.random() - 0.5) * 55 * s, 
-        y: bodyY + 28 * s + (Math.random() - 0.5) * 22 * s 
-      })
+    // ── 3. CUPOLINO — alto e prominente (stile YZR500) ─────────────────────
+    // Il cupolino si estende molto sopra la ruota anteriore
+    const noseTopY = cy - 20*s   // parte alta del muso
+    const noseBotY = cy + 2*s    // parte bassa del muso
+
+    // Profilo superiore cupolino: dalla punta sale al picco poi scende allo sterzo
+    addCubicBez(
+      noseX, noseTopY,
+      noseX - 8*s, cupolinoTopY,
+      steerX + 20*s, cupolinoTopY - 2*s,
+      steerX, cupolinoTopY + 4*s,
+      0.025, 2.0*s
+    )
+    // Parabrezza (arco dalla cresta del cupolino al cannotto)
+    addBez(steerX, cupolinoTopY + 4*s, steerX - 4*s, cy - 42*s, steerX - 2*s, forkTopY + 2*s, 0.012, 1.5*s)
+
+    // Profilo inferiore cupolino (mento): dalla punta scende, poi curva sotto
+    addCubicBez(
+      noseX, noseBotY,
+      noseX - 14*s, cy + 10*s,
+      cx + 42*s, bellyY + 2*s,
+      cx + 28*s, bellyY,
+      0.020, 2.0*s
+    )
+    // Chiusura verticale del muso (punta)
+    addLine(noseX, noseTopY, noseX, noseBotY, 0.008, 2.0*s)
+
+    // Fill cupolino (zona tra profilo superiore e inferiore)
+    for (let i = 0; i < Math.floor(count * 0.07); i++) {
+      const t = Math.random()
+      const xPos = noseX + (steerX - noseX) * t
+      const topAtT = noseTopY + (cupolinoTopY - noseTopY) * Math.sin(t * Math.PI * 0.5)
+      const botAtT = noseBotY + (bellyY - noseBotY) * t
+      const yPos = topAtT + Math.random() * (botAtT - topAtT)
+      points.push({ x: xPos + (Math.random()-0.5)*2*s, y: yPos })
     }
 
-    // ── 4. RIFINITURA (Contorni netti) ───────────────────────────────────────
-    const currentTotal = points.length
-    const diff = count - currentTotal
-    for (let i = 0; i < diff; i++) {
-      const parent = points[Math.floor(Math.random() * currentTotal)]
+    // Presa d'aria / faro (fessura orizzontale a metà muso)
+    const slotY = (noseTopY + noseBotY) * 0.5
+    addLine(noseX - 2*s, slotY - 2*s, noseX - 14*s, slotY, 0.006, 1.5*s)
+    addLine(noseX - 2*s, slotY + 2*s, noseX - 14*s, slotY, 0.006, 1.5*s)
+
+    // ── 4. SERBATOIO — bombatura alta ──────────────────────────────────────
+    // Profilo superiore: dallo sterzo al serbatoio e poi giù alla sella
+    addCubicBez(
+      steerX - 2*s, forkTopY,
+      cx + 24*s, tankTopY - 4*s,
+      cx + 8*s, tankTopY,
+      tankEndX, seatY,
+      0.024, 2.0*s
+    )
+    // Fill serbatoio
+    for (let i = 0; i < Math.floor(count * 0.06); i++) {
+      const t = Math.random()
+      const xPos = steerX + (tankEndX - steerX) * t
+      const topLine = forkTopY + (tankTopY - forkTopY) * Math.sin(t * Math.PI * 0.6)
+      const botLine = cy - 10*s
+      const yPos = topLine + Math.random() * Math.max(0, botLine - topLine)
+      points.push({ x: xPos + (Math.random()-0.5)*3*s, y: yPos })
+    }
+
+    // ── 5. CODONE — risale nettamente (stile 500cc GP) ─────────────────────
+    // Profilo superiore codone: dalla sella risale e poi riscende alla punta
+    addCubicBez(
+      tankEndX, seatY,
+      cx - 20*s, seatY - 4*s,
+      cx - 34*s, tailTopY,
+      tailEndX, tailTipY,
+      0.022, 2.0*s
+    )
+    // Profilo inferiore codone: scende verso il basso dalla sella alla punta
+    addBez(
+      tailEndX, tailTipY,
+      cx - 44*s, tailTipY + 10*s,
+      cx - 20*s, cy - 8*s,
+      0.014, 2.0*s
+    )
+    // Chiusura verticale punta codone
+    addLine(tailEndX, tailTipY, tailEndX, tailTipY + 6*s, 0.004, 1.5*s)
+
+    // Fill codone
+    for (let i = 0; i < Math.floor(count * 0.04); i++) {
+      const t = Math.random()
+      const xPos = tankEndX + (tailEndX - tankEndX) * t
+      const topAtT = seatY + (tailTopY - seatY) * Math.sin(t * Math.PI * 0.7)
+      const botAtT = cy - 8*s + (tailTipY + 6*s - (cy - 8*s)) * t
+      const yPos = topAtT + Math.random() * Math.max(0, botAtT - topAtT)
+      points.push({ x: xPos + (Math.random()-0.5)*2*s, y: yPos })
+    }
+
+    // ── 6. CARENATURA INFERIORE / PANCIA ───────────────────────────────────
+    // Bordo inferiore carenatura: dal muso → ventre → risale dietro il motore
+    addCubicBez(
+      cx + 28*s, bellyY,
+      cx + 10*s, bellyY + 6*s,
+      cx - 6*s, bellyY + 4*s,
+      cx - 20*s, cy - 2*s,
+      0.016, 2.0*s
+    )
+    // Fill pancia (zona sottile tra serbatoio e ventre)
+    for (let i = 0; i < Math.floor(count * 0.04); i++) {
+      const t = Math.random()
+      const xPos = cx + 28*s + ((cx - 20*s) - (cx + 28*s)) * t
+      const yy = cy - 8*s + Math.random() * (bellyY + 4*s - (cy - 8*s))
+      points.push({ x: xPos + (Math.random()-0.5)*2*s, y: yy })
+    }
+
+    // ── 7. MOTORE — V4 compatto visibile sotto la carenatura ───────────────
+    const engL = cx - 8*s; const engR = cx + 18*s
+    const engTop = cy + 2*s; const engBot = cy + 24*s
+    // Contorno
+    addLine(engL, engTop, engR + 2*s, engTop, 0.006, 1.8*s)
+    addLine(engR + 2*s, engTop, engR + 6*s, engBot, 0.008, 1.8*s)
+    addLine(engR + 6*s, engBot, engL - 4*s, engBot, 0.006, 1.8*s)
+    addLine(engL - 4*s, engBot, engL, engTop, 0.006, 1.8*s)
+    // Fill
+    for (let i = 0; i < Math.floor(count * 0.04); i++) {
       points.push({
-        x: parent.x + (Math.random() - 0.5) * 1.1 * s,
-        y: parent.y + (Math.random() - 0.5) * 1.1 * s
+        x: engL - 2*s + Math.random() * (engR + 4*s - (engL - 2*s)),
+        y: engTop + Math.random() * (engBot - engTop),
       })
+    }
+    // Cilindri V (due linee diagonali che formano la V)
+    const engCX = (engL + engR) * 0.5
+    addLine(engCX, engBot, engCX - 10*s, engTop - 6*s, 0.006, 2.5*s)
+    addLine(engCX, engBot, engCX + 12*s, engTop - 4*s, 0.006, 2.5*s)
+
+    // ── 8. SCARICO — 4 in 1, esce sotto il motore verso il retro ──────────
+    addBez(
+      engL - 2*s, engBot,
+      cx - 24*s, cy + 30*s,
+      cx - 46*s, cy + 20*s,
+      0.010, 3.0*s
+    )
+    // Terminale (ovale)
+    addRing(cx - 46*s, cy + 20*s, 4*s, 0.005, 2.0*s)
+
+    // ── 9. FORCELLONE — lungo (tipico GP) ──────────────────────────────────
+    // Braccio superiore
+    addLine(pivotX, pivotY, rearWX + 2*s, axleY - 3*s, 0.016, 3.0*s)
+    // Braccio inferiore
+    addLine(pivotX, pivotY + 7*s, rearWX + 2*s, axleY + 3*s, 0.016, 3.0*s)
+    // Piastrina assale posteriore
+    addRing(rearWX, axleY, 4*s, 0.003, 2.0*s)
+
+    // ── 10. TELAIO — tubi perimetrali visibili ─────────────────────────────
+    // Tubo dal cannotto al pivot (diagonale, visibile nella "gola")
+    addLine(steerX, forkTopY + 6*s, pivotX, pivotY, 0.010, 2.5*s)
+    // Tubo dal cannotto al motore (più verticale)
+    addLine(steerX + 4*s, forkTopY + 10*s, engR + 2*s, engBot - 4*s, 0.008, 2.0*s)
+
+    // ── 11. AMMORTIZZATORE POSTERIORE (mono) ───────────────────────────────
+    addLine(cx - 20*s, seatY + 6*s, pivotX + 4*s, pivotY + 4*s, 0.005, 2.0*s)
+
+    // ── 12. PARAFANGO ANTERIORE (piccolo arco sopra la ruota) ──────────────
+    for (let i = 0; i < Math.floor(count * 0.008); i++) {
+      const a = Math.PI + Math.random() * Math.PI  // semicerchio superiore
+      const r = wheelR + 4*s
+      points.push({ x: frontWX + Math.cos(a)*r + (Math.random()-0.5)*2*s, y: axleY + Math.sin(a)*r + (Math.random()-0.5)*2*s })
+    }
+
+    // ── Sparse — alone stretto ─────────────────────────────────────────────
+    const sparseCount = count - points.length
+    for (let i = 0; i < sparseCount; i++) {
+      const base = points[Math.floor(Math.random() * points.length)]
+      if (base) points.push({ x: base.x+(Math.random()-0.5)*2.5*s, y: base.y+(Math.random()-0.5)*2.5*s })
     }
 
     return points.slice(0, count)

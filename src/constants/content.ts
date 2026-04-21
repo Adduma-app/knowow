@@ -3,6 +3,7 @@ export const NAV_LINKS = [
   { label: 'Chi siamo', href: '/#chi-siamo' },
   { label: 'FFTT', href: '/technology' },
   { label: 'Prodotti & Servizi', href: '/prodotti-e-servizi' },
+  { label: 'Partner', href: '/partner' },
   { label: 'Contatti', href: '/#contatti' },
 ]
 
@@ -12,7 +13,7 @@ export const HERO = {
   h1Line1: 'Testare il comportamento a fatica di materiali, componenti e sistemi non è ',
   h1Line2: 'mai stato così semplice e veloce.',
   subtitle:
-    "FFTT riduce i tempi di testing da diverse settimane a poche ore senza rinunciare all'affidabilità dei risultati.",
+    "FFTT riduce i tempi di testing da diverse settimane a poche ore.",
   ctaPrimary: 'Scopri FFTT',
   ctaSecondary: 'Richiedi una demo',
   stats: [
@@ -103,7 +104,7 @@ export const HOW_TO_USE = {
 export const SECTORS = {
   label: 'Settori applicativi',
   h2: 'FFTT nel tuo settore',
-  body: 'La tecnologia fftt trova applicazione in diversi settori industriali e su un’ampia gamma di materiali tra cui metalli, compositi, polimeri, tessuti tecnici e fibre ad alte prestazioni.',
+  body: 'La tecnologia FFTT trova applicazione in diversi settori industriali e su un’ampia gamma di materiali tra cui metalli, compositi, polimeri, tessuti tecnici e fibre ad alte prestazioni.',
   items: [
     { label: 'Automotive' },
     { label: 'Motorsport'},
@@ -142,10 +143,10 @@ export const ECOSYSTEM = {
     },
     {
       num: '03.',
-      title: 'FEM, CFD, MBS, CAO/RT',
-      keyword: 'FEM / CFD',
+      title: 'SIMULAZIONI NUMERICHE',
+      keyword: 'FEM, CFD, MBS, CAO/RT',
       subtitle: 'Simulazioni Numeriche',
-      text: "Analisi agli elementi finiti, fluidodinamica computazionale, simulazioni multibody, simulazione e ottimizzazione ottica",
+      text: "Analisi agli elementi finiti, fluidodinamica computazionale, simulazioni multibody, simulazione e ottimizzazione ottica consentono di prevedere con accuratezza il comportamento dei sistemi in condizioni operative reali e forniscono i dati necessari per guidare le decisioni progettuali all’interno del framework Performance Driven Design.",
       icon: '/favicon.webp',
     },
     {
@@ -181,7 +182,7 @@ export const CTA = {
 export const FOOTER = {
   tagline: 'beyond ordinary engineering',
   description: "Spin-off dell'Università di Messina. Fast Fatigue Testing Technology.",
-  copyright: '© 2026 KnoWow s.r.l. — P.IVA [in registrazione]',
+  copyright: '© 2026 Knowow s.r.l. — P.IVA [in registrazione]',
   navLinks: [
     "FFTM — Cos'è FFTM",
     'FFTM — Come funziona',
