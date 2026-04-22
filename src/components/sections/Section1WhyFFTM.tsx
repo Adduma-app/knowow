@@ -28,13 +28,13 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
       {/* Info box — above circle */}
       <div className="text-center w-50">
         <span className="text-sm text-white block mb-2">[01] METODO TRADIZIONALE</span>
-        <p className="text-sm text-white leading-relaxed font-medium">
+        <p className="text-sm text-white leading-relaxed font-medium text-balance">
           25 provini (5 livelli di carico x 5 provini)
         </p>
-        <p className="text-sm text-white leading-relaxed font-medium">
+        <p className="text-sm text-white leading-relaxed font-medium text-balance">
           500+ ore
         </p>
-        <p className="text-sm text-white leading-relaxed font-medium flex items-center justify-center gap-1">
+        <p className="text-sm text-white leading-relaxed font-medium flex items-center justify-center gap-1 text-balance">
           <span className='h-[13px]'>~</span>1 mese
         </p>
       </div>
@@ -91,7 +91,7 @@ function CircleTraditional({ trigger }: { trigger: boolean }) {
 
       {/* Info box — below circle */}
       <div className="text-center max-w-[220px]">
-        <p className="text-sm text-white leading-relaxed font-medium">
+        <p className="text-sm text-white leading-relaxed font-medium text-balance">
         Riduce la velocità di innovazione e ritarda
         il time-to-market
         </p>
@@ -116,7 +116,7 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
       {/* Info box — above circle */}
       <div className="text-center max-w-[200px]">
         <span className="text-sm text-[#E9704D] block mb-2">[02] CON FFTT</span>
-        <p className="text-sm text-white leading-relaxed font-medium">
+        <p className="text-sm text-white leading-relaxed font-medium text-balance">
         Curva di Wöhler e limite di fatica in &lt;48 ore
         </p>
       </div>
@@ -190,7 +190,7 @@ function CircleFFTM({ trigger }: { trigger: boolean }) {
       </div>
 
       {/* Info box — below circle */}
-      <div className="text-center max-w-[450px] text-sm text-white leading-relaxed font-medium">
+      <div className="text-center max-w-[450px] text-sm text-white leading-relaxed font-medium text-balance">
         <p>
         Sistema basato su:
         </p>
@@ -269,7 +269,7 @@ function BenefitsSticky() {
                 <BenefitNum num={b.num} isActive={false} />
               </div>
               <div className="relative z-10 p-6 min-h-[220px]">
-                <p className="text-sm text-white leading-relaxed font-medium">
+                <p className="text-sm text-white leading-relaxed font-medium text-balance">
                   {b.text}
                 </p>
               </div>
@@ -331,7 +331,7 @@ function BenefitsSticky() {
                   <BenefitNum num={b.num} isActive={activeIndex === i} />
                 </div>
                 <div className="relative z-10 p-8 md:p-20 min-h-[50vh] flex flex-col justify-center">
-                  <p className="text-sm lg:text-2xl text-white leading-relaxed max-w-xl font-medium mb-8">
+                  <p className="text-sm lg:text-2xl text-white leading-relaxed max-w-xl font-medium mb-8 text-balance">
                     {b.text}
                   </p>
                   
@@ -369,12 +369,12 @@ export default function Section1WhyFFTM() {
           </motion.span>
           <motion.h2
             variants={fadeInUp}
-            className="font-sans font-bold uppercase text-white leading-none"
+            className="font-sans font-bold uppercase text-white leading-none text-balance max-w-[1000px] mx-auto"
             style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', letterSpacing: '-0.01em' }}
           >
             {WHY_FFTM.h2Line1}<br />{WHY_FFTM.h2Line2}
           </motion.h2>
-          <motion.p variants={fadeInUp} className="text-white max-w-xl mx-auto mt-5 text-sm font-medium">
+          <motion.p variants={fadeInUp} className="text-white max-w-xl mx-auto mt-5 text-sm font-medium text-balance">
             {WHY_FFTM.body}
           </motion.p>
         </motion.div>

@@ -17,7 +17,7 @@ function StaggeredH1({ line1, line2 }: { line1: string; line2: string }) {
       variants={staggerContainer}
       initial="hidden"
       animate="visible"
-      className="font-sans font-black uppercase text-white leading-none"
+      className="font-sans font-black uppercase text-white leading-none max-w-[1000px] text-balance"
       style={{ fontSize: 'clamp(1.9rem, 6.5vw, 2.8125rem)', letterSpacing: '-0.03em' }}
       aria-label={`${line1} ${line2}`}
     >
@@ -107,7 +107,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.9 }}
-          className=" max-w-xl text-sm leading-relaxed mt-8 font-medium"
+          className=" max-w-xl text-sm leading-relaxed mt-8 font-medium text-balance"
         >
           {HERO.subtitle}
         </motion.p>

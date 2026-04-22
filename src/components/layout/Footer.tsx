@@ -26,7 +26,7 @@ export default function Footer() {
               quality={100}
             />
          
-            <p className="text-sm text-white/50 max-w-xs leading-relaxed">
+            <p className="text-sm text-white/50 max-w-xs leading-relaxed text-balance">
               Spin-off dell&apos;Università di Messina. Fast Fatigue Testing Technology.
             </p>
             <p className="text-xs text-white/25 mt-6">

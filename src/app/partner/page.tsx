@@ -8,8 +8,8 @@ import AnimatedBackground from '@/components/ui/AnimatedBackground'
 
 // ─── Lista loghi partner ─────────────────────────────────────────────────────
 const PARTNERS = [
-  { src: '/partners/sicindustria.webp', alt: 'Sicindustria' },
   { src: '/partners/confindustria.webp', alt: 'Confindustria' },
+  { src: '/partners/sicindustria.webp', alt: 'Sicindustria' },
   { src: '/partners/uni_messina.webp', alt: 'Università di Messina' },
   { src: '/partners/ansys.png', alt: 'Ansis' },
   { src: '/partners/Italsigma.webp', alt: 'Italsigma' },
@@ -56,7 +56,7 @@ function PartnerHero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.25 }}
-          className="text-white/45 text-sm leading-relaxed font-medium mx-auto"
+          className="text-white/45 text-sm leading-relaxed font-medium mx-auto text-balance"
           style={{ maxWidth: '36rem' }}
         >
           Istituzioni, aziende e centri di ricerca con cui collaboriamo
@@ -72,7 +72,7 @@ function PartnerGrid() {
   return (
     <section className="px-6 md:px-16 lg:px-24 pb-32">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8">
           {PARTNERS.map((partner) => (
             <motion.div
               key={partner.alt}

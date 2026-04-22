@@ -101,8 +101,8 @@ export default function CTAFinal() {
         {submitted ? (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-24">
             {/* <div className="text-5xl mb-6 text-[#E9704D]">✓</div> */}
-            <h2 className="font-sans font-bold uppercase text-white text-2xl mb-3">Messaggio inviato</h2>
-            <p className="text-white/50 text-sm font-medium">Il team ti contatterà entro 24 ore.</p>
+            <h2 className="font-sans font-bold uppercase text-white text-2xl mb-3 text-balance">Messaggio inviato</h2>
+            <p className="text-white/50 text-sm font-medium text-balance">Il team ti contatterà entro 24 ore.</p>
             <button
               onClick={() => { setSubmitted(false); setForm({ nome: '', email: '', azienda: '', messaggio: '' }) }}
               className="mt-10 text-micro text-[#E9704D] hover:text-white transition-colors"
@@ -127,7 +127,7 @@ export default function CTAFinal() {
                 >
                   {CTA.h2}
                 </motion.h2>
-                <motion.p variants={fadeInUp} className="text-white/45 text-sm leading-relaxed font-medium mb-10 max-w-lg">
+                <motion.p variants={fadeInUp} className="text-white/45 text-sm leading-relaxed font-medium mb-10 max-w-lg text-balance">
                   {CTA.body}
                 </motion.p>
 

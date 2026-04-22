@@ -13,8 +13,8 @@ export async function POST(req: Request) {
     }
 
     const { error } = await resend.emails.send({
-      from: 'Knowow Contact Form <info@knowow.tech>', 
-      to: 'info@knowow.tech',
+      from: 'Knowow Contact Form <onboarding@resend.dev>',
+      to: 'grazia.baiamonte.adduma@gmail.com',
       replyTo: email,
       subject: `Nuovo contatto da ${nome} — ${azienda}`,
       html: `

@@ -72,12 +72,12 @@ export default function Section2HowToUse() {
                         {card.mode}
                       </span> */}
                       <h3
-                        className="font-sans font-bold uppercase text-white text-lg leading-tight mb-4"
+                        className="font-sans font-bold uppercase text-white text-lg leading-tight mb-4 text-balance"
                         style={{ letterSpacing: '-0.01em' }}
                       >
                         {card.title}
                       </h3>
-                      <p className="text-sm text-white/50 leading-relaxed font-medium">
+                      <p className="text-sm text-white/50 leading-relaxed font-medium text-balance">
                         {card.text}
                       </p>
                     </div>

@@ -36,7 +36,7 @@ export default function Section5About() {
               <br />
               {ABOUT.h2line2}
             </motion.h2>
-            <motion.p variants={fadeInUp} className="text-white text-sm md:text-base leading-relaxed">
+            <motion.p variants={fadeInUp} className="text-white text-sm md:text-base leading-relaxed text-balance">
               {ABOUT.body}
             </motion.p>
             {/* <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-8 mt-8">

@@ -228,7 +228,7 @@ function ContentCard({ item }: { item: Item }) {
           <p className="text-micro mb-6" style={{ color: item.accent }}>
             {item.subtitle}
           </p>
-          <p className="text-sm text-white/75 leading-relaxed">{item.body}</p>
+          <p className="text-sm text-white/75 leading-relaxed text-balance">{item.body}</p>
         </div>
       </GlowCard>
     </motion.div>

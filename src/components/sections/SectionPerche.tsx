@@ -206,7 +206,7 @@ export default function SectionPerche() {
                     <p className="text-[10px] uppercase tracking-[0.25em] font-bold mb-1.5" style={{ color: '#3B61AB' }}>
                       ASTM E739
                     </p>
-                    <p className="text-sm text-white/55 leading-relaxed font-medium">
+                    <p className="text-sm text-white/55 leading-relaxed font-medium text-balance">
                     Lo standard ASTM E739 raccomanda un minimo di <Hi>12–24 provini</Hi> provini per campagne con finalità statistiche. Sotto quella soglia si può parlare di caratterizzazione orientativa, non di affidabilità di progetto. Il range di ASTM E739 è ampio per restituire un intervallo di minore e maggiore affidabilità del dato. La letteratura scientifica sulla caratterizzazione a fatica e diversi decenni di applicazioni industriali indicano 20 provini come soglia pratica sotto la quale la stima delle curve di sopravvivenza diventa troppo incerta per supportare decisioni di progetto affidabili. Non si tratta di una regola normativa, ma una soglia ingegneristica ben fondata.
                     </p>
                   </div>

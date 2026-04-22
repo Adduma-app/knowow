@@ -115,7 +115,7 @@ function AmbitiPopup({ onClose }: { onClose: () => void }) {
               <span className="text-micro text-[#E9704D] block mb-3">
                 {item.title}
               </span>
-              <p className="text-sm text-white/60 leading-relaxed font-medium">
+              <p className="text-sm text-white/60 leading-relaxed font-medium text-balance">
                 {item.text}
               </p>
             </div>
@@ -275,7 +275,7 @@ export default function Section4Ecosystem() {
             <span className="text-[#E9704D]">{ECOSYSTEM.h2accent}</span>
             <span className="text-white">{ECOSYSTEM.h2line2b}</span>
           </h2>
-          <p className="text-sm leading-relaxed mt-6 max-w-2xl font-medium">
+          <p className="text-sm leading-relaxed mt-6 max-w-2xl font-medium text-balance">
             {ECOSYSTEM.body}
           </p>
         </div>
@@ -357,7 +357,7 @@ export default function Section4Ecosystem() {
                     {service.title}
                   </h3>
                   <p className="tracking-widest uppercase text-xs text-[#E9704D]">{service.subtitle}</p>
-                  <p className="text-sm text-white leading-relaxed font-medium">{service.text}</p>
+                  <p className="text-sm text-white leading-relaxed font-medium text-balance">{service.text}</p>
                   {i === 0 && (
                     <button
                       onClick={() => setLightboxImg('/media/1_controllo_qualit.jpeg')}
