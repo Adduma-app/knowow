@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   try {
     const { nome, email, azienda, messaggio } = await req.json()
 
-    // Validazione server-side
     if (!nome?.trim() || !email?.trim() || !azienda?.trim()) {
       return NextResponse.json({ error: 'Campi obbligatori mancanti' }, { status: 400 })
     }
