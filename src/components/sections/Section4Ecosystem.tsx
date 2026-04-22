@@ -28,7 +28,7 @@ const AMBITI = [
     button: 'Simulazioni Ottiche',
     title: 'Simulazioni Ottiche',
     img: '/simulazioni_new/knowow_light.webp',
-    text: 'Previsione e ottimizzazione del comportamento della luce attraverso materiali e superfici persistemi ottici e di illuminazione.',
+    text: 'Previsione e ottimizzazione del comportamento della luce attraverso materiali e superfici per sistemi ottici e di illuminazione.',
   },
 ]
 
