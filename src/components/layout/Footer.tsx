@@ -27,8 +27,12 @@ export default function Footer() {
             />
          
             <p className="text-sm text-white/50 max-w-xs leading-relaxed text-balance">
-              Spin-off dell&apos;Università di Messina. Fast Fatigue Testing Technology.
+              Spin-off dell&apos;Università di Messina
             </p>
+            <p className="text-sm text-white/50 max-w-xs leading-relaxed text-balance">
+            Fast Fatigue Testing Technology
+            </p>
+            
             <p className="text-xs text-white/25 mt-6">
               © 2026 Knowow s.r.l. — P.IVA 03698560830
             </p>
@@ -69,9 +73,7 @@ export default function Footer() {
                   info@knowow.tech
                 </a>
               </li>
-              <li className="text-sm text-white/60">
-                Università di Messina — Spin-off accademico
-              </li>
+             
               <li className="text-xs text-white/25 mt-2">
                 Associato Confindustria tramite Sicindustria
               </li>
