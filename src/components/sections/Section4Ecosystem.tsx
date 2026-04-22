@@ -21,7 +21,7 @@ const AMBITI = [
   {
     button: 'Multibody Dynamics',
     title: 'Multibody Dynamics',
-    img: '/simulazioni_numeriche/multibody.png',
+    img: '/simulazioni_new/multibody.webp',
     text: 'Modellazione cinematica e dinamica di sistemi meccanici complessi con componenti interagenti.',
   },
   {
