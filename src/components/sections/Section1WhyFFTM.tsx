@@ -369,7 +369,7 @@ export default function Section1WhyFFTM() {
           </motion.span>
           <motion.h2
             variants={fadeInUp}
-            className="font-sans font-bold uppercase text-white leading-none text-balance max-w-[1000px] mx-auto"
+            className="font-sans font-bold uppercase text-white leading-none text-balance "
             style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', letterSpacing: '-0.01em' }}
           >
             {WHY_FFTM.h2Line1}<br />{WHY_FFTM.h2Line2}

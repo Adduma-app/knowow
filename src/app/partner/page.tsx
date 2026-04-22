@@ -8,11 +8,11 @@ import AnimatedBackground from '@/components/ui/AnimatedBackground'
 
 // ─── Lista loghi partner ─────────────────────────────────────────────────────
 const PARTNERS = [
-  { src: '/partners/confindustria.webp', alt: 'Confindustria' },
-  { src: '/partners/sicindustria.webp', alt: 'Sicindustria' },
-  { src: '/partners/uni_messina.webp', alt: 'Università di Messina' },
-  { src: '/partners/ansys.png', alt: 'Ansis' },
-  { src: '/partners/Italsigma.webp', alt: 'Italsigma' },
+  { src: '/partners_new/confindustria.webp', alt: 'Confindustria' },
+  { src: '/partners_new/sicindustria.webp', alt: 'Sicindustria' },
+  { src: '/partners_new/università di messina.webp', alt: 'Università di Messina' },
+  { src: '/partners_new/ansys.webp', alt: 'Ansis' },
+  { src: '/partners_new/italsigma.webp', alt: 'Italsigma' },
 ]
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
@@ -72,7 +72,7 @@ function PartnerGrid() {
   return (
     <section className="px-6 md:px-16 lg:px-24 pb-32">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+        <div className="flex flex-wrap justify-center item-center gap-6">
           {PARTNERS.map((partner) => (
             <motion.div
               key={partner.alt}
@@ -80,7 +80,7 @@ function PartnerGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6 }}
-              className="relative aspect-square max-w-[300px] w-full mx-auto border border-white/[0.06] rounded-sm overflow-hidden"
+              className="relative aspect-square w-70 flex-none border border-white/6 rounded-sm overflow-hidden"
               style={{ background: '#0F1120' }}
             >
               {/* Logo */}

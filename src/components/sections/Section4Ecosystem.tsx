@@ -9,13 +9,13 @@ const AMBITI = [
   {
     button: 'Fem',
     title: 'FEM – Analisi agli Elementi Finiti',
-    img: '/simulazioni_numeriche/fem_01.jpeg',
+    img: '/simulazioni_new/sospensione.webp',
     text: 'Simulazioni strutturali per valutare tensioni, deformazioni e meccanismi di cedimento in condizioni di carico reali o realistiche.',
   },
   {
     button: 'Cfd',
     title: 'Fluidodinamica Computazionale',
-    img: '/simulazioni_numeriche/cfd_01.jpeg',
+    img: '/simulazioni_new/car.webp',
     text: 'Analisi di flussi interni ed esterni, scambio termico e interazioni fluido-struttura.',
   },
   {
@@ -27,7 +27,7 @@ const AMBITI = [
   {
     button: 'Simulazioni Ottiche',
     title: 'Simulazioni Ottiche',
-    img: '/simulazioni_numeriche/ottica.png',
+    img: '/simulazioni_new/knowow_light.webp',
     text: 'Previsione e ottimizzazione del comportamento della luce attraverso materiali e superfici persistemi ottici e di illuminazione.',
   },
 ]
