@@ -358,7 +358,7 @@ export default function Section4Ecosystem() {
                   </h3>
                   <p className="tracking-widest uppercase text-xs text-[#E9704D]">{service.subtitle}</p>
                   <p className="text-sm text-white leading-relaxed font-medium text-balance">{service.text}</p>
-                  {i === 0 && (
+                  {/* {i === 0 && (
                     <button
                       onClick={() => setLightboxImg('/media/1_controllo_qualit.jpeg')}
                       className="mt-4 px-5 py-2.5 text-xs uppercase tracking-widest font-bold transition-all self-start"
@@ -370,8 +370,8 @@ export default function Section4Ecosystem() {
                     >
                       Visualizza 
                     </button>
-                  )}
-                  {i === 1 && (
+                  )} */}
+                  {/* {i === 1 && (
                     <button
                       onClick={() => setLightboxImg('/media/2_performance_driven-design.jpeg')}
                       className="mt-4 px-5 py-2.5 text-xs uppercase tracking-widest font-bold transition-all self-start"
@@ -383,7 +383,7 @@ export default function Section4Ecosystem() {
                     >
                       Visualizza 
                     </button>
-                  )}
+                  )} */}
                   {i === 2 && (
                     <button
                       onClick={() => setShowAmbiti(true)}

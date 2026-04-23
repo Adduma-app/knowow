@@ -49,7 +49,7 @@ export default function Navbar() {
             alt="Knowow"
             width={120}
             height={32}
-            className="h-9 md:h-11"
+            className="h-6 xl:h-10"
             style={{ width: 'auto' }}
             quality={90}
             priority
@@ -57,14 +57,15 @@ export default function Navbar() {
         </a>
 
         {/* Desktop nav */}
-        <div className="hidden lg:flex items-center gap-8" role="list">
+        <div className="hidden lg:flex items-center gap-6 2xl:gap-12" role="list">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
               href={link.href}
               role="listitem"
-              className="text-xs uppercase tracking-widest text-white/65 hover:text-white transition-colors"
+              className="text-[10px] 2xl:text-xs uppercase tracking-widest text-center text-white/65 hover:text-white transition-colors w-auto"
               aria-label={`Vai alla sezione ${link.label}`}
+              style={{ width: 'min-content' }}
             >
               {link.label}
             </a>
