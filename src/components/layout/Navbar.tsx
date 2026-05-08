@@ -2,10 +2,18 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { NAV_LINKS } from '@/constants/content'
 import { SiteButton } from '@/components/ui/Button'
+import type { Dictionary } from '@/i18n/it'
 
-export default function Navbar() {
+interface NavbarProps {
+  dict: Dictionary['navbar']
+  navLinks: Dictionary['navLinks']
+  homeHref: string
+  switchHref: string
+  ctaHref: string
+}
+
+export default function Navbar({ dict, navLinks, homeHref, switchHref, ctaHref }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -15,15 +23,16 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close on route change (anchor click)
   const handleNavClick = (href: string) => {
     setIsOpen(false)
-    // Focus trick solo per hash puri sulla pagina corrente
-    if (href.startsWith('#')) {
-      const target = document.querySelector(href) as HTMLElement | null
-      if (target) {
-        target.setAttribute('tabindex', '-1')
-        target.focus({ preventScroll: false })
+    if (href.includes('#') && !href.startsWith('http')) {
+      const hash = href.split('#')[1]
+      if (hash) {
+        const target = document.querySelector('#' + hash) as HTMLElement | null
+        if (target) {
+          target.setAttribute('tabindex', '-1')
+          target.focus({ preventScroll: false })
+        }
       }
     }
   }
@@ -31,7 +40,7 @@ export default function Navbar() {
   return (
     <nav
       role="navigation"
-      aria-label="Navigazione principale"
+      aria-label={dict.ariaNavigation}
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
         scrolled
           ? 'bg-[#17192D]/95 backdrop-blur-md border-b border-white/[0.05]'
@@ -43,7 +52,7 @@ export default function Navbar() {
         style={{ paddingLeft: 'max(1.5rem, env(safe-area-inset-left))', paddingRight: 'max(1.5rem, env(safe-area-inset-right))' }}
       >
         {/* Logo */}
-        <a href="/" aria-label="Knowow — torna all'inizio della pagina" className="flex items-center">
+        <a href={homeHref} aria-label={dict.ariaLogoHome} className="flex items-center">
           <Image
             src="/images/logo_footer_knowowcompleto.svg"
             alt="Knowow"
@@ -58,13 +67,13 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <div className="hidden lg:flex items-center gap-6 2xl:gap-12" role="list">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
               role="listitem"
               className="text-[10px] 2xl:text-xs uppercase tracking-widest text-center text-white/65 hover:text-white transition-colors w-auto"
-              aria-label={`Vai alla sezione ${link.label}`}
+              aria-label={dict.ariaSection.replace('{name}', link.label)}
               style={{ width: 'min-content' }}
             >
               {link.label}
@@ -72,12 +81,19 @@ export default function Navbar() {
           ))}
         </div>
 
-          {/* CTA */}
-          <span className="hidden lg:inline-block">
-            <SiteButton href="/#contatti" variant="primary" clip="bl" aria-label="Richiedi una demo di FFTT">
-              Richiedi un pilota di FFTT
-            </SiteButton>
-          </span>
+        {/* Right cluster: CTA + language switcher */}
+        <div className="hidden lg:flex items-center gap-4">
+          <SiteButton href={ctaHref} variant="primary" clip="bl" aria-label={dict.ariaCta}>
+            {dict.cta}
+          </SiteButton>
+          <a
+            href={switchHref}
+            aria-label={dict.ariaSwitchToOther}
+            className="text-[10px] 2xl:text-xs uppercase tracking-widest text-white/65 hover:text-white transition-colors border border-white/15 px-2 py-1"
+          >
+            {dict.switchToOther}
+          </a>
+        </div>
 
         {/* Mobile hamburger */}
         <button
@@ -85,7 +101,7 @@ export default function Navbar() {
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
-          aria-label={isOpen ? 'Chiudi menu' : 'Apri menu'}
+          aria-label={isOpen ? dict.closeMenu : dict.openMenu}
         >
           <span
             className={`block w-6 h-px bg-white transition-all duration-300 origin-center ${
@@ -119,24 +135,31 @@ export default function Navbar() {
         aria-hidden={!isOpen}
       >
         <div className="flex flex-col px-6 py-6 gap-6">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
               className="text-sm uppercase tracking-widest text-white/65 hover:text-white transition-colors"
               onClick={() => handleNavClick(link.href)}
-              aria-label={`Vai alla sezione ${link.label}`}
+              aria-label={dict.ariaSection.replace('{name}', link.label)}
             >
               {link.label}
             </a>
           ))}
           <a
-            href="/#contatti"
+            href={ctaHref}
             className="border border-[#E9704D] text-[#E9704D] text-xs uppercase tracking-widest px-5 py-3 text-center hover:bg-[#E9704D] hover:text-white transition-all mt-2"
             onClick={() => setIsOpen(false)}
-            aria-label="Richiedi una demo di FFTT"
+            aria-label={dict.ariaCta}
           >
-            Richiedi un pilota di FFTT
+            {dict.cta}
+          </a>
+          <a
+            href={switchHref}
+            aria-label={dict.ariaSwitchToOther}
+            className="text-xs uppercase tracking-widest text-white/50 text-center border border-white/15 px-3 py-2"
+          >
+            {dict.switchToOther}
           </a>
         </div>
       </div>

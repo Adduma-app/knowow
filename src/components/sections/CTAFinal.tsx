@@ -3,16 +3,16 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
-import { CTA } from '@/constants/content'
 import { staggerContainer, fadeInUp } from '@/lib/animations'
 import { SiteButton } from '@/components/ui/Button'
+import type { Dictionary } from '@/i18n/it'
 
 interface FormState {
   nome: string; email: string; azienda: string; messaggio: string
 }
 
 // ─── CTA Section ──────────────────────────────────────────────────────────────
-export default function CTAFinal() {
+export default function CTAFinal({ dict }: { dict: Dictionary['cta'] }) {
   const sectionRef = useRef<HTMLElement>(null)
   const isVisible  = useInView(sectionRef, { once: true, amount: 0.15 })
   const [form, setForm]           = useState<FormState>({ nome: '', email: '', azienda: '', messaggio: '' })
@@ -23,10 +23,10 @@ export default function CTAFinal() {
 
   const validate = (): boolean => {
     const e: Partial<FormState> = {}
-    if (!form.nome.trim())     e.nome   = 'Campo obbligatorio'
+    if (!form.nome.trim())     e.nome   = dict.form.requiredError
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-      e.email = 'Email non valida'
-    if (!form.azienda.trim())  e.azienda = 'Campo obbligatorio'
+      e.email = dict.form.invalidEmailError
+    if (!form.azienda.trim())  e.azienda = dict.form.requiredError
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -45,10 +45,10 @@ export default function CTAFinal() {
         body: JSON.stringify(form),
       })
 
-      if (!res.ok) throw new Error('Errore invio')
+      if (!res.ok) throw new Error('Send error')
       setSubmitted(true)
     } catch {
-      setSendError('Qualcosa è andato storto. Riprova o scrivici direttamente.')
+      setSendError(dict.form.sendError)
     } finally {
       setLoading(false)
     }
@@ -101,13 +101,13 @@ export default function CTAFinal() {
         {submitted ? (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-24">
             {/* <div className="text-5xl mb-6 text-[#E9704D]">✓</div> */}
-            <h2 className="font-sans font-bold uppercase text-white text-2xl mb-3 text-balance">Messaggio inviato</h2>
-            <p className="text-white/50 text-sm font-medium text-balance">Il team ti contatterà entro 24 ore.</p>
+            <h2 className="font-sans font-bold uppercase text-white text-2xl mb-3 text-balance">{dict.form.submittedH2}</h2>
+            <p className="text-white/50 text-sm font-medium text-balance">{dict.form.submittedBody}</p>
             <button
               onClick={() => { setSubmitted(false); setForm({ nome: '', email: '', azienda: '', messaggio: '' }) }}
               className="mt-10 text-micro text-[#E9704D] hover:text-white transition-colors"
             >
-              Invia un altro messaggio
+              {dict.form.sendAnother}
             </button>
           </motion.div>
         ) : (
@@ -125,10 +125,10 @@ export default function CTAFinal() {
                   className="font-sans font-bold uppercase text-white leading-tight mb-3"
                   style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', letterSpacing: '-0.01em' }}
                 >
-                  {CTA.h2}
+                  {dict.h2}
                 </motion.h2>
                 <motion.p variants={fadeInUp} className="text-white/45 text-sm leading-relaxed font-medium mb-10 max-w-lg text-balance">
-                  {CTA.body}
+                  {dict.body}
                 </motion.p>
 
                 {/* Form */}
@@ -139,23 +139,23 @@ export default function CTAFinal() {
                   noValidate
                 >
                   <div>
-                    <input type="text"    name="nome"    placeholder="Nome *"    value={form.nome}    onChange={handleChange} className={inputCls('nome')}    aria-label="Nome"    aria-required="true" />
+                    <input type="text"    name="nome"    placeholder={dict.form.namePlaceholder}    value={form.nome}    onChange={handleChange} className={inputCls('nome')}    aria-label={dict.form.nameAria}    aria-required="true" />
                     {errors.nome    && <p className="text-red-400/70 text-xs mt-1">{errors.nome}</p>}
                   </div>
                   <div>
-                    <input type="email"   name="email"   placeholder="Email *"   value={form.email}   onChange={handleChange} className={inputCls('email')}   aria-label="Email"   aria-required="true" />
+                    <input type="email"   name="email"   placeholder={dict.form.emailPlaceholder}   value={form.email}   onChange={handleChange} className={inputCls('email')}   aria-label={dict.form.emailAria}   aria-required="true" />
                     {errors.email   && <p className="text-red-400/70 text-xs mt-1">{errors.email}</p>}
                   </div>
                   <div className="md:col-span-2">
-                    <input type="text"    name="azienda" placeholder="Azienda *" value={form.azienda} onChange={handleChange} className={inputCls('azienda')} aria-label="Azienda" aria-required="true" />
+                    <input type="text"    name="azienda" placeholder={dict.form.companyPlaceholder} value={form.azienda} onChange={handleChange} className={inputCls('azienda')} aria-label={dict.form.companyAria} aria-required="true" />
                     {errors.azienda && <p className="text-red-400/70 text-xs mt-1">{errors.azienda}</p>}
                   </div>
                   <div className="md:col-span-2">
                     <textarea
-                      name="messaggio" placeholder="Messaggio (opzionale)" rows={4}
+                      name="messaggio" placeholder={dict.form.messagePlaceholder} rows={4}
                       value={form.messaggio} onChange={handleChange}
                       className="bg-transparent border-b border-white/10 text-white placeholder:text-white/20 px-0 py-3 w-full focus:outline-none focus:border-[#E9704D] transition-colors text-sm resize-none font-medium tracking-wide"
-                      aria-label="Messaggio"
+                      aria-label={dict.form.messageAria}
                     />
                   </div>
 
@@ -164,7 +164,7 @@ export default function CTAFinal() {
                       <p className="w-full text-red-400/80 text-xs mb-2">{sendError}</p>
                     )}
                     <SiteButton type="submit" variant="primary" clip="tr" disabled={loading}>
-                      {loading ? 'Invio in corso…' : CTA.ctaPrimary}
+                      {loading ? dict.form.submitting : dict.ctaPrimary}
                     </SiteButton>
                    
                   </div>

@@ -2,10 +2,10 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { ABOUT } from '@/constants/content'
 import { fadeInUp, slideInRight, staggerContainer } from '@/lib/animations'
+import type { Dictionary } from '@/i18n/it'
 
-export default function Section5About() {
+export default function Section5About({ dict }: { dict: Dictionary['about'] }) {
   const sectionRef = useRef<HTMLElement>(null)
   const isVisible  = useInView(sectionRef, { once: true, amount: 0.2 })
 
@@ -25,19 +25,19 @@ export default function Section5About() {
             animate={isVisible ? 'visible' : 'hidden'}
           >
             <motion.span variants={fadeInUp} className="text-xs uppercase tracking-widest text-[#E9704D] block mb-4">
-              {ABOUT.label}
+              {dict.label}
             </motion.span>
             <motion.h2
               variants={fadeInUp}
               className="font-display font-black uppercase text-white leading-tight mb-6"
               style={{ fontSize: 'clamp(2rem, 4vw, 2.5rem)', letterSpacing: '-0.02em' }}
             >
-              {ABOUT.h2line1}
+              {dict.h2line1}
               <br />
-              {ABOUT.h2line2}
+              {dict.h2line2}
             </motion.h2>
             <motion.p variants={fadeInUp} className="text-white text-sm md:text-base leading-relaxed text-balance">
-              {ABOUT.body}
+              {dict.body}
             </motion.p>
             {/* <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-8 mt-8">
               <a
@@ -45,14 +45,14 @@ export default function Section5About() {
                 className="text-xs uppercase tracking-widest text-[#E9704D] hover:text-white transition-colors "
                 aria-label="Scopri chi siamo"
               >
-                {ABOUT.linkAbout}
+                {dict.linkAbout}
               </a>
               <a
                 href="#"
                 className="text-xs uppercase tracking-widest text-white hover:text-white transition-colors"
                 aria-label="Leggi le pubblicazioni scientifiche e brevetti"
               >
-                {ABOUT.linkPubs}
+                {dict.linkPubs}
               </a>
             </motion.div> */}
           </motion.div>
@@ -84,10 +84,10 @@ export default function Section5About() {
 
             {/* Label below */}
             <p className="text-xs uppercase tracking-[0.3em] text-white mt-4">
-              Anni di ricerca scientifica
+              {dict.yearsLabel}
             </p>
             <p className="text-[10px] uppercase tracking-widest text-white mt-2">
-              Università di Messina — Spin-off accademico
+              {dict.spinoffLabel}
             </p>
           </motion.div>
 

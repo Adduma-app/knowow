@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { GlowCard } from '@/components/ui/GlowCard'
 import Image from 'next/image'
+import type { Dictionary } from '@/i18n/it'
 
 // ─── Table data ───────────────────────────────────────────────────────────────
 
@@ -13,6 +14,13 @@ const TABLE_ROWS = [
   { serie: '3', provini: '14', r2: '79.79%', giorni: '29', warning: false },
   { serie: '4', provini: '18', r2: '81.63%', giorni: '37', warning: false },
   { serie: '5', provini: '22', r2: '79.92%', giorni: '45', warning: false },
+]
+
+// Layout/style data for case study 2 cards (not translatable)
+const CASE2_CARD_IMAGES = [
+  '/casi_studio/card_1_casostudio2.0.png',
+  '/casi_studio/card_2_casostudio2.png',
+  '/casi_studio/card_3_casostudio2.png',
 ]
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -60,36 +68,18 @@ function Hi({ children }: { children: React.ReactNode }) {
 
 // ─── Visual comparison card ───────────────────────────────────────────────────
 
-function CompareCard() {
+function CompareCard({ col1, col2 }: { col1: Dictionary['perche']['compareCol1']; col2: Dictionary['perche']['compareCol2'] }) {
   const cols = [
     {
-      label: 'PRASSI INDUSTRIALE',
-      badge: '⚠ Insufficiente',
-      num: '5',
-      unit: 'provini',
+      ...col1,
       accent: '#E9704D',
       glowRGB: '233,112,77',
-      items: [
-        '~11 giorni di macchina',
-        'R² apparentemente ottimo',
-        'Distribuzione non stimabile',
-        'Curva S-N inaffidabile',
-      ],
       textDim: true,
     },
     {
-      label: 'Standard statistico',
-      badge: '✓ Affidabile',
-      num: '20+',
-      unit: 'provini',
+      ...col2,
       accent: '#3B61AB',
       glowRGB: '59,97,171',
-      items: [
-        '~45 giorni di macchina',
-        'Curva P-S-N completa',
-        'Bande di sopravvivenza 5/50/95%',
-        'Base per decisioni di progetto',
-      ],
       textDim: false,
     },
   ]
@@ -167,7 +157,7 @@ function CompareCard() {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function SectionPerche() {
+export default function SectionPerche({ dict }: { dict: Dictionary['perche'] }) {
   return (
     <section className="px-6 md:px-16 lg:px-24 py-2 md:pt-36 md:-mb-[5%]">
       <div>
@@ -180,21 +170,19 @@ export default function SectionPerche() {
               {/* ── Left column: narrative ── */}
               <div>
                 <span className="text-micro text-[#E9704D] block mb-5">
-                  caso di studio 1
+                  {dict.case1Tag}
                 </span>
                 <h2
                   className="font-sans font-bold uppercase text-white/35 leading-tight mb-8"
                   style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', letterSpacing: '-0.02em' }}
                 >
-                 POCHI DATI GENERANO UN’ILLUSIONE DI PRECISIONE.
-                 
+                  {dict.case1H2Line1}
                   <br />
-                  <span className="text-white">MOLTI DATI GARANTISCONO VERA AFFIDABILITA’.</span>
+                  <span className="text-white">{dict.case1H2Line2}</span>
                 </h2>
 
                 <Body className="mb-8">
-                   La Serie 1 ha il
-                  miglior R² — ed è la meno affidabile.
+                  {dict.case1Body}
                 </Body>
 
                 {/* ASTM callout */}
@@ -204,10 +192,10 @@ export default function SectionPerche() {
                 >
                   <div>
                     <p className="text-[10px] uppercase tracking-[0.25em] font-bold mb-1.5" style={{ color: '#3B61AB' }}>
-                      ASTM E739
+                      {dict.astmTag}
                     </p>
                     <p className="text-sm text-white/55 leading-relaxed font-medium text-balance">
-                    Lo standard ASTM E739 raccomanda un minimo di <Hi>12–24 provini</Hi> provini per campagne con finalità statistiche. Sotto quella soglia si può parlare di caratterizzazione orientativa, non di affidabilità di progetto. Il range di ASTM E739 è ampio per restituire un intervallo di minore e maggiore affidabilità del dato. La letteratura scientifica sulla caratterizzazione a fatica e diversi decenni di applicazioni industriali indicano 20 provini come soglia pratica sotto la quale la stima delle curve di sopravvivenza diventa troppo incerta per supportare decisioni di progetto affidabili. Non si tratta di una regola normativa, ma una soglia ingegneristica ben fondata.
+                      {dict.astmBodyPart1}<Hi>{dict.astmHi}</Hi>{dict.astmBodyPart2}
                     </p>
                   </div>
                 </div>
@@ -227,7 +215,7 @@ export default function SectionPerche() {
                       className="grid grid-cols-4 px-5 md:px-7 pt-6 pb-4"
                       style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}
                     >
-                      {['Serie', 'Provini', 'R²', 'Giorni'].map((h) => (
+                      {dict.tableHeaders.map((h) => (
                         <span
                           key={h}
                           className="font-sans font-bold uppercase text-white/30"
@@ -260,7 +248,7 @@ export default function SectionPerche() {
                               className="text-[8px] uppercase tracking-[0.15em] font-bold px-1.5 py-0.5 self-start"
                               style={{ color: '#E9704D', border: '1px solid rgba(233,112,77,0.35)', borderRadius: 2 }}
                             >
-                              R² alto <span className='text-[12px]'>≠</span> migliore
+                              {dict.tableWarningBadge} <span className='text-[12px]'>{dict.tableWarningSep}</span> {dict.tableWarningText}
                             </span>
                           )}
                         </div>
@@ -296,15 +284,15 @@ export default function SectionPerche() {
         {/* ── Header ── */}
         <FadeBlock>
           <span className="text-micro mt-[5%] text-[#E9704D] block mb-5">
-          L’IMPORTANZA DI UNA CAMPAGNA BEN FATTA
+            {dict.sectionLabel}
           </span>
           <h2
             className="font-sans font-bold uppercase text-white leading-tight mb-16"
             style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', letterSpacing: '-0.02em' }}
           >
-            La fatica dei materiali:
+            {dict.sectionH2Line1}
             <br />
-            <span className="text-white/35">una materia verticale e poco conosciuta.</span>
+            <span className="text-white/35">{dict.sectionH2Line2}</span>
           </h2>
         </FadeBlock>
 
@@ -312,15 +300,11 @@ export default function SectionPerche() {
         <FadeBlock>
           <div className="mb-16 pb-16">
             <BlockHeading accent="#E9704D">
-              Il problema più comune: 5 provini non sono abbastanza
+              {dict.block1Heading}
             </BlockHeading>
 
             <Body>
-              Uno degli errori più diffusi è lavorare con curve di Wöhler derivate da appena
-              5 provini. <Hi>La differenza rispetto a 20+ provini non è quantitativa, è qualitativa.</Hi>{' '}
-              Con 5 provini non si stima una distribuzione, si fitta una curva su un campione
-              troppo piccolo: come stimare le precipitazioni annuali di una città misurando
-              solo 5 giorni d&apos;estate.
+              {dict.block1BodyPart1}<Hi>{dict.block1BodyHi}</Hi>{dict.block1BodyPart2}
             </Body>
 
             {/* ── Wöhler chart video — full-bleed ── */}
@@ -345,20 +329,18 @@ export default function SectionPerche() {
                   className="text-micro block mb-1"
                   style={{ color: '#E9704D' }}
                 >
-                  Metodo tradizionale
+                  {dict.chartLabel}
                 </span>
                 <span className="text-micro text-white/40 block">
-                  Costruzione curva di Wöhler — standard statistico
+                  {dict.chartSubtitle}
                 </span>
               </div>
             </div>
 
-            <CompareCard />
+            <CompareCard col1={dict.compareCol1} col2={dict.compareCol2} />
 
             <Body>
-              Con i metodi tradizionali utilizzando 20+ provini è possibile costruire una <Hi>curva P-S-N</Hi>{' '}
-              (Probability-Stress-Number of Cycles): la famiglia di curve isoaffidabilità al
-              5%, 50%, 95% su cui si fondano le decisioni di progetto robuste. Con FFTT si raggiunge lo stesso risultato con pochi provini e in meno di 48 ore.
+              {dict.block1AfterPart1}<Hi>{dict.block1AfterHi}</Hi>{dict.block1AfterPart2}
             </Body>
           </div>
         </FadeBlock>
@@ -371,38 +353,33 @@ export default function SectionPerche() {
               {/* ── Testo ── */}
               <div className="mb-10">
                 <span className="text-micro text-[#E9704D] block mb-5">
-                  caso di studio 2
+                  {dict.case2Tag}
                 </span>
                 <h2
                   className="font-sans font-bold uppercase text-white/35 leading-tight mb-8"
                   style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', letterSpacing: '-0.02em' }}
                 >
-                 Valutazione della fatica di un
-
+                  {dict.case2H2Line1}
                   <br />
-                  <span className="text-white">acciaio strutturale navale.</span>
+                  <span className="text-white">{dict.case2H2Line2}</span>
                 </h2>
 
                 <Body className="mb-0">
-                Confronto tra il metodo tradizionale e la nostra soluzione.
+                  {dict.case2Body}
                 </Body>
               </div>
 
               {/* ── card casi studio ── */}
               <div className="clip-card-footer bg-[#18192D] p-6 md:p-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {[
-                    { img: '/casi_studio/card_1_casostudio2.0.png', title: 'Titolo caso studio 1', body: 'Curva S-N con banda di dispersione ottenuta tramite metodi di fatica tradizionali. Tempo di prova: circa 500 ore' },
-                    { img: '/casi_studio/card_2_casostudio2.png', title: 'Titolo caso studio 2', body: 'Valutazione del limite di fatica mediante il metodo termografico.Tempo di prova: circa 8 ore' },
-                    { img: '/casi_studio/card_3_casostudio2.png', title: 'Titolo caso studio 3', body: 'Confronto tra il valore S-N ottenuto con prove a gradini mediante metodo termografico e la banda di dispersione delle prove di fatica tradizionali' },
-                  ].map((card) => (
+                  {dict.case2Cards.map((card, i) => (
                     <div
-                      key={card.img}
+                      key={CASE2_CARD_IMAGES[i]}
                       className=" rounded-sm overflow-hidden bg-transparent flex flex-col"
                     >
                       <div className="relative w-full aspect-[4/3]">
                         <Image
-                          src={card.img}
+                          src={CASE2_CARD_IMAGES[i]}
                           alt={card.title}
                           fill
                           className="object-contain"

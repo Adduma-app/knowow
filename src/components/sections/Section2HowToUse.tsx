@@ -2,21 +2,21 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { HOW_TO_USE } from '@/constants/content'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { staggerContainer } from '@/lib/animations'
+import type { Dictionary } from '@/i18n/it'
 
 const CARD_W   = 380  // px
 const CARD_GAP = 20   // px
 
 
 
-export default function Section2HowToUse() {
+export default function Section2HowToUse({ dict }: { dict: Dictionary['howToUse'] }) {
   const sectionRef = useRef<HTMLElement>(null)
   const isVisible  = useInView(sectionRef, { once: true, amount: 0.15 })
 
-  const cards = HOW_TO_USE.cards
+  const cards = dict.cards
 
   return (
     <section
@@ -32,9 +32,9 @@ export default function Section2HowToUse() {
         className="px-6 md:px-16 lg:px-24 mb-14"
       >
         <SectionHeading
-          label={HOW_TO_USE.label}
-          h2={HOW_TO_USE.h2}
-          body={HOW_TO_USE.body}
+          label={dict.label}
+          h2={dict.h2}
+          body={dict.body}
           center={false}
           animate={false}
         />

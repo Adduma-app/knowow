@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
-import { HERO } from '@/constants/content'
 import { staggerContainer, wordReveal } from '@/lib/animations'
 import { SiteButton } from '@/components/ui/Button'
+import type { Dictionary } from '@/i18n/it'
 
 // ─── Staggered H1 ─────────────────────────────────────────────────────────────
 function StaggeredH1({ line1, line2 }: { line1: string; line2: string }) {
@@ -45,7 +45,7 @@ function StaggeredH1({ line1, line2 }: { line1: string; line2: string }) {
 }
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
-export default function Hero() {
+export default function Hero({ dict }: { dict: Dictionary['hero'] }) {
   const thermalRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
 
@@ -65,7 +65,7 @@ export default function Hero() {
   return (
     <section
       className="relative min-h-screen flex flex-col overflow-hidden"
-      aria-label="Hero — Fast Fatigue Testing Technology"
+      aria-label={dict.ariaSection}
     >
       {/* Layer background — video + overlay + sfumatura in basso.
           La maskImage è applicata SOLO a questo div, non al contenuto. */}
@@ -98,10 +98,10 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="flex items-center gap-3 mb-8"
         >
-          <span className="text-micro text-[#E9704D]">{HERO.tag}</span>
+          <span className="text-micro text-[#E9704D]">{dict.tag}</span>
         </motion.div>
 
-        {mounted && <StaggeredH1 line1={HERO.h1Line1} line2={HERO.h1Line2} />}
+        {mounted && <StaggeredH1 line1={dict.h1Line1} line2={dict.h1Line2} />}
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -109,7 +109,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.9 }}
           className=" max-w-xl text-sm leading-relaxed mt-8 font-medium text-balance"
         >
-          {HERO.subtitle}
+          {dict.subtitle}
         </motion.p>
 
         {/* CTA buttons — alternating clip-path: btn1=TR, btn2=BL */}
@@ -119,8 +119,8 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 1.1 }}
           className="flex flex-wrap justify-center gap-4 mt-10"
         >
-          <SiteButton href="#fftm"     variant="primary" clip="bl" aria-label="Scopri la tecnologia FFTT">
-            {HERO.ctaPrimary}
+          <SiteButton href="#fftm"     variant="primary" clip="bl" aria-label={dict.ariaCtaPrimary}>
+            {dict.ctaPrimary}
           </SiteButton>
        
         </motion.div>
