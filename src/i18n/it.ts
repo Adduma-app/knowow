@@ -2,7 +2,7 @@
 // Per aggiungere un nuovo testo: aggiungilo qui E in en.ts con la stessa chiave.
 
 export const dict = {
-  locale: 'it' as const,
+  locale: 'it' as 'it' | 'en',
   htmlLang: 'it',
 
   meta: {

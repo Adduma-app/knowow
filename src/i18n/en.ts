@@ -2,7 +2,7 @@
 // To add a new string: add it both here and in it.ts under the same key.
 
 export const dict = {
-  locale: 'en' as const,
+  locale: 'en' as 'it' | 'en',
   htmlLang: 'en',
 
   meta: {
