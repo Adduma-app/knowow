@@ -37,6 +37,14 @@ export default function Navbar({ dict, navLinks, homeHref, switchHref, ctaHref }
     }
   }
 
+  // Quando l'utente clicca il selettore IT/EN, memorizziamo la scelta in un
+  // cookie così le visite future rispettano la sua preferenza (vince sulla
+  // geolocalizzazione IP del proxy).
+  const handleLanguageSwitch = () => {
+    const lang = switchHref.startsWith('/en') ? 'en' : 'it'
+    document.cookie = `knowow_lang=${lang}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`
+  }
+
   return (
     <nav
       role="navigation"
@@ -88,6 +96,7 @@ export default function Navbar({ dict, navLinks, homeHref, switchHref, ctaHref }
           </SiteButton>
           <a
             href={switchHref}
+            onClick={handleLanguageSwitch}
             aria-label={dict.ariaSwitchToOther}
             className="text-[10px] 2xl:text-xs uppercase tracking-widest text-white/65 hover:text-white transition-colors border border-white/15 px-2 py-1"
           >
@@ -156,6 +165,7 @@ export default function Navbar({ dict, navLinks, homeHref, switchHref, ctaHref }
           </a>
           <a
             href={switchHref}
+            onClick={handleLanguageSwitch}
             aria-label={dict.ariaSwitchToOther}
             className="text-xs uppercase tracking-widest text-white/50 text-center border border-white/15 px-3 py-2"
           >
