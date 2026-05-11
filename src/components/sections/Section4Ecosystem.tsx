@@ -1,39 +1,14 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { ECOSYSTEM } from '@/constants/content'
 import Image from 'next/image'
+import type { Dictionary } from '@/i18n/it'
 
-// ─── Popup data ──────────────────────────────────────────────────────────────
-const AMBITI = [
-  {
-    button: 'Fem',
-    title: 'FEM – Analisi agli Elementi Finiti',
-    img: '/simulazioni_new/sospensione.webp',
-    text: 'Simulazioni strutturali per valutare tensioni, deformazioni e meccanismi di cedimento in condizioni di carico reali o realistiche.',
-  },
-  {
-    button: 'Cfd',
-    title: 'Fluidodinamica Computazionale',
-    img: '/simulazioni_new/car.webp',
-    text: 'Analisi di flussi interni ed esterni, scambio termico e interazioni fluido-struttura.',
-  },
-  {
-    button: 'Multibody Dynamics',
-    title: 'Multibody Dynamics',
-    img: '/simulazioni_new/multibody.webp',
-    text: 'Modellazione cinematica e dinamica di sistemi meccanici complessi con componenti interagenti.',
-  },
-  {
-    button: 'Simulazioni Ottiche',
-    title: 'Simulazioni Ottiche',
-    img: '/simulazioni_new/knowow_light.webp',
-    text: 'Previsione e ottimizzazione del comportamento della luce attraverso materiali e superfici per sistemi ottici e di illuminazione.',
-  },
-]
+type EcoDict = Dictionary['ecosystem']
+type EcoExtras = Dictionary['ecosystemExtras']
 
 // ─── Image Lightbox ─────────────────────────────────────────────────────────
-function ImageLightbox({ src, onClose }: { src: string; onClose: () => void }) {
+function ImageLightbox({ src, onClose, closeAria }: { src: string; onClose: () => void; closeAria: string }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
@@ -48,7 +23,7 @@ function ImageLightbox({ src, onClose }: { src: string; onClose: () => void }) {
       <button
         onClick={onClose}
         className="absolute top-6 right-6 z-10 text-white/40 hover:text-white transition-colors text-2xl leading-none"
-        aria-label="Chiudi"
+        aria-label={closeAria}
       >
         ×
       </button>
@@ -68,9 +43,9 @@ function ImageLightbox({ src, onClose }: { src: string; onClose: () => void }) {
 }
 
 // ─── Ambiti Popup ────────────────────────────────────────────────────────────
-function AmbitiPopup({ onClose }: { onClose: () => void }) {
+function AmbitiPopup({ onClose, ambiti, closeAria, note }: { onClose: () => void; ambiti: EcoExtras['ambiti']; closeAria: string; note: string }) {
   const [active, setActive] = useState(0)
-  const item = AMBITI[active]
+  const item = ambiti[active]
 
   // Blocca scroll del body quando il popup è aperto
   useEffect(() => {
@@ -92,7 +67,7 @@ function AmbitiPopup({ onClose }: { onClose: () => void }) {
         <button
           onClick={onClose}
           className="absolute top-4 right-5 z-10 text-white/40 hover:text-white transition-colors text-2xl leading-none"
-          aria-label="Chiudi"
+          aria-label={closeAria}
         >
           ×
         </button>
@@ -123,7 +98,7 @@ function AmbitiPopup({ onClose }: { onClose: () => void }) {
 
           {/* Pulsanti tab in basso al centro */}
           <div className="flex flex-wrap justify-center gap-3">
-            {AMBITI.map((a, i) => (
+            {ambiti.map((a, i) => (
               <button
                 key={a.button}
                 onClick={() => setActive(i)}
@@ -142,7 +117,7 @@ function AmbitiPopup({ onClose }: { onClose: () => void }) {
           </div>
 
           <p className="text-xs text-white/30 text-center mt-8 max-w-xl mx-auto leading-relaxed font-medium">
-            Ogni simulazione è condotta in funzione dell&apos;applicazione specifica e in coerenza con i requisiti di progetto e i dati sperimentali.
+            {note}
           </p>
         </div>
       </div>
@@ -150,7 +125,7 @@ function AmbitiPopup({ onClose }: { onClose: () => void }) {
   )
 }
 
-export default function Section4Ecosystem() {
+export default function Section4Ecosystem({ dict, extras }: { dict: EcoDict; extras: EcoExtras }) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const slidesRef  = useRef<HTMLDivElement>(null)
   const shapeRef   = useRef<HTMLDivElement>(null)
@@ -167,7 +142,7 @@ export default function Section4Ecosystem() {
       gsap.registerPlugin(ScrollTrigger)
 
       ctx = gsap.context(() => {
-        const panelCount  = ECOSYSTEM.services.length
+        const panelCount  = dict.services.length
         const panelHeight = window.innerHeight * 0.6
         const totalScroll = (panelCount - 1) * panelHeight
 
@@ -266,17 +241,17 @@ export default function Section4Ecosystem() {
         className="pt-24 md:pt-32 pb-16 px-6 md:px-16 lg:px-24"
       >
         <div className="max-w-6xl mx-auto">
-          <span className="text-micro text-[#E9704D] block mb-4">{ECOSYSTEM.h2line1}</span>
+          <span className="text-micro text-[#E9704D] block mb-4">{dict.h2line1}</span>
           <h2
             className="font-sans font-bold uppercase leading-none"
             style={{ fontSize: 'clamp(2rem, 6vw, 2.5rem)', letterSpacing: '-0.02em' }}
           >
-            <span className="text-white">{ECOSYSTEM.h2line2a}</span>
-            <span className="text-[#E9704D]">{ECOSYSTEM.h2accent}</span>
-            <span className="text-white">{ECOSYSTEM.h2line2b}</span>
+            <span className="text-white">{dict.h2line2a}</span>
+            <span className="text-[#E9704D]">{dict.h2accent}</span>
+            <span className="text-white">{dict.h2line2b}</span>
           </h2>
           <p className="text-sm leading-relaxed mt-6 max-w-2xl font-medium text-balance">
-            {ECOSYSTEM.body}
+            {dict.body}
           </p>
         </div>
       </div>
@@ -335,7 +310,7 @@ export default function Section4Ecosystem() {
           className="absolute inset-0 z-10"
           style={{ willChange: 'transform' }}
         >
-          {ECOSYSTEM.services.map((service, i) => {
+          {dict.services.map((service, i) => {
             const isEven = i % 2 === 0
 
             return (
@@ -394,7 +369,7 @@ export default function Section4Ecosystem() {
                         background: 'rgba(233,112,77,0.06)',
                       }}
                     >
-                      Scopri gli ambiti
+                      {extras.discoverAreasButton}
                     </button>
                   )}
                 </div>
@@ -423,8 +398,21 @@ export default function Section4Ecosystem() {
         </div>
       </div>
 
-      {showAmbiti && <AmbitiPopup onClose={() => setShowAmbiti(false)} />}
-      {lightboxImg && <ImageLightbox src={lightboxImg} onClose={() => setLightboxImg(null)} />}
+      {showAmbiti && (
+        <AmbitiPopup
+          onClose={() => setShowAmbiti(false)}
+          ambiti={extras.ambiti}
+          closeAria={extras.closeAria}
+          note={extras.ambitiNote}
+        />
+      )}
+      {lightboxImg && (
+        <ImageLightbox
+          src={lightboxImg}
+          onClose={() => setLightboxImg(null)}
+          closeAria={extras.closeAria}
+        />
+      )}
     </>
   )
 }

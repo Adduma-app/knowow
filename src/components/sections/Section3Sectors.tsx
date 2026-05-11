@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { SECTORS } from '@/constants/content'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import ElementiSettori from '../ui/ElementiSettori'
+import type { Dictionary } from '@/i18n/it'
 
-export default function Section3Sectors() {
+export default function Section3Sectors({ dict }: { dict: Dictionary['sectors'] }) {
   const sectionRef = useRef<HTMLElement>(null)
   const itemRefs   = useRef<(HTMLDivElement | null)[]>([])
 
@@ -17,7 +17,7 @@ export default function Section3Sectors() {
       const { ScrollTrigger } = await import('gsap/ScrollTrigger')
       gsap.registerPlugin(ScrollTrigger)
 
-      const total = SECTORS.items.length
+      const total = dict.items.length
       const half  = Math.ceil(total / 2)
 
       ctx = gsap.context(() => {
@@ -85,7 +85,7 @@ export default function Section3Sectors() {
     return () => ctx?.revert()
   }, [])
 
-  const total = SECTORS.items.length
+  const total = dict.items.length
   const half  = Math.ceil(total / 2)
 
   return (
@@ -99,9 +99,9 @@ export default function Section3Sectors() {
       {/* ── Contenuto in primo piano ── */}
       <div className="relative z-10 mx-auto pointer-events-none">
         <SectionHeading
-          label={SECTORS.label}
-          h2={SECTORS.h2}
-          body={SECTORS.body}
+          label={dict.label}
+          h2={dict.h2}
+          body={dict.body}
           className="mb-16"
         />
 
@@ -112,7 +112,7 @@ export default function Section3Sectors() {
               <ElementiSettori />
             </div>
             
-          {SECTORS.items.map((sector, i) => {
+          {dict.items.map((sector, i) => {
             const isFirstHalf = i < half
 
             return (
