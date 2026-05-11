@@ -389,6 +389,11 @@ export default function SectionPerche({ dict }: { dict: Dictionary['perche'] }) 
                         <p className="text-xs text-white/90 leading-relaxed font-medium">
                           {card.body}
                         </p>
+                        {card.testTime && (
+                          <p className="text-xs font-bold leading-relaxed mt-2" style={{ color: '#E9704D' }}>
+                            {card.testTime}
+                          </p>
+                        )}
                       </div>
                     </div>
                   ))}

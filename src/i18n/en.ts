@@ -77,7 +77,7 @@ export const dict = {
 
   whyFftm: {
     label: 'Why FFTT',
-    h2Line1: 'Fatigue characterization with traditional methods takes a long time',
+    h2Line1: 'Fatigue characterization with traditional methods is time-consuming',
     h2Line2: 'and slows R&D down. FFTT does NOT.',
     body: 'Standard testing protocols require hundreds of hours and dozens of specimens to derive a Wöhler (S‑N) curve and obtain the fatigue limit. FFTT drastically reduces both the number of specimens and the test duration, while delivering data reliability equal to or better than traditional protocols.',
     traditional: {
@@ -121,13 +121,13 @@ export const dict = {
   howToUse: {
     label: 'serving business needs',
     h2: 'FAST FATIGUE TESTING TECHNOLOGY AT THE SERVICE OF YOUR COMPANY',
-    body: 'FFTT is available as pilot projects, as service bundles within an ongoing partnership, and as a licensed technology transferred directly to your laboratories. ',
+    body: 'FFTT is available for a pilot project, as a service bundle, and as a licensed technology transferred directly to your laboratories.',
     cards: [
       {
         mode: 'MODE 01',
         num: '01',
         title: 'Pilot project',
-        text: 'The pilot project takes place either at the Knowow laboratories or at your facilities. We deliver the Wöhler (S‑N) curve, the fatigue limit and a complete technical report. The pilot serves as a showcase of our technical capabilities, designed to make the first engagement easier. The next step in the partnership is the activation of a service bundle.',
+        text: "The pilot project takes place either at the Knowow laboratories or at the client's. We deliver the Wöhler (S‑N) curve, the fatigue limit and a complete technical report. The pilot serves as a showcase of our technical capabilities, designed to make the first engagement easier. The next step in the partnership is the activation of a service bundle.",
         cta: 'Request a quote →',
         borderColor: 'border-[#E9704D]',
       },
@@ -135,7 +135,7 @@ export const dict = {
         mode: 'MODE 02',
         num: '02',
         title: 'Service bundles',
-        text: 'We favor structured, ongoing relationships over one-off engagements, in order to deliver the highest value to our selected partners. Our service bundles let us align with your roadmap, guaranteeing fast response times and dedicated technical capacity. ',
+        text: 'In order to deliver the highest value to our partners, we favor structured and continuous relationships over one-off engagements. Our service bundles enable us to align with your roadmap, guaranteeing fast response times and ensure dedicated technical capacity.',
         cta: 'Discover our bundles →',
         borderColor: 'border-[#3B61AB]',
       },
@@ -143,7 +143,7 @@ export const dict = {
         mode: 'MODE 03',
         num: '03',
         title: 'Bring FFTT into your lab',
-        text: 'When the need is frequent or comes from multiple R&D teams, you can license the technology and integrate it directly into your laboratories. We provide custom test rigs or a retrofit for your existing benches. Knowow supports installation and calibration, trains your staff and provides remote assistance.',
+        text: "When the need is frequent or comes from multiple R&D teams, our technology can be licensed and integrated directly into your laboratories. Based on the client's needs, we can provide custom test benches as well as a retrofit kit for existing test benches. Knowow supports installation and calibration, trains your staff and provides remote assistance.",
         cta: 'Ask about licensing →',
         borderColor: 'border-white/20',
       },
@@ -151,7 +151,7 @@ export const dict = {
   },
 
   sectors: {
-    label: 'Application sectors',
+    label: 'Application domains',
     h2: 'FFTT in your industry',
     body: 'FFTT applies across several industrial sectors and to a wide range of materials, including metals, composites, polymers, technical fabrics and high-performance fibers.',
     items: [
@@ -211,7 +211,7 @@ export const dict = {
   about: {
     label: 'Behind FFTT',
     h2line1: 'Over 35 years of research.',
-    h2line2: 'A technology without equal.',
+    h2line2: 'An unrivalled technology.',
     body: 'Knowow was founded as an academic spin-off of the University of Messina. The team that developed and industrialized FFTT brings over 35 years of pioneering research in materials fatigue and thermography — the foundation of the methods behind FFTT: the Risitano Thermographic Method and the Static Thermographic Method.',
     linkAbout: 'About us →',
     linkPubs: 'Publications & patents →',
@@ -254,7 +254,7 @@ export const dict = {
 
   cta: {
     h2: 'Get in touch',
-    body: 'Reach out to our team. We have a solution for every need your company has.',
+    body: 'Reach out to our team.',
     ctaPrimary: 'Send',
     ctaSecondary: 'Contact us',
     form: {
@@ -297,7 +297,7 @@ export const dict = {
     h1Line1: 'Fast Fatigue',
     h1Line2: 'TESTING TECHNOLOGY',
     body:
-      'FFTT is built on the Risitano Thermographic Method and the Static Thermographic Method, equipped with thermographic (IR) sensors and digital image correlation (DIC). It delivers the Wöhler curve and the fatigue limit in under 48 hours.',
+      'FFTT is built on the Risitano Thermographic Method and the Static Thermographic Method, and it is equipped with thermographic (IR) sensors and digital image correlation (DIC). It delivers the Wöhler curve and the fatigue limit in under 48 hours.',
     integratedHeader:
       'FFTT combines thermographic (IR) sensors, Digital Image Correlation (DIC), thermographic methods and proprietary algorithms for data analysis in a single process.',
     integratedH2: 'An integrated technology',
@@ -342,7 +342,7 @@ export const dict = {
     astmBodyPart1: 'The ASTM E739 standard recommends a minimum of ',
     astmHi: '12–24 specimens',
     astmBodyPart2:
-      ' for statistically meaningful campaigns. Below that threshold the result can only be called an indicative characterization, not design-grade reliability. The ASTM E739 range is wide because it spans low and high reliability bands. Scientific literature on fatigue characterization, together with several decades of industrial application, points to 20 specimens as the practical threshold below which survival-curve estimates become too uncertain to support reliable design decisions. It is not a regulatory rule, but a well-grounded engineering threshold.',
+      ' for statistically meaningful campaigns. Below that threshold the result can only be regarded as indicative characterization, not design-grade reliability. The ASTM E 739 range is purposely wide to reflect a low-high reliability band. Scientific literature on fatigue characterization, together with several decades of industrial application, points to 20 specimens as the practical threshold below which survival-curve estimates become too uncertain to support reliable design decisions. It is not a regulatory rule, but a well-grounded engineering threshold.',
     tableHeaders: ['Series', 'Specimens', 'R²', 'Days'],
     tableWarningBadge: 'High R²',
     tableWarningSep: '≠',
@@ -355,7 +355,7 @@ export const dict = {
       'One of the most widespread mistakes is working with Wöhler curves derived from just 5 specimens. ',
     block1BodyHi: 'The difference compared to 20+ specimens is not quantitative — it is qualitative.',
     block1BodyPart2:
-      ' With 5 specimens you do not estimate a distribution, you fit a curve to a sample that is too small: like estimating a city’s annual rainfall by measuring only 5 summer days.',
+      ' 5 specimens are insufficient to estimate a distribution, they only allow curve fitting on a sample that is just too small: it is comparable to estimating a city’s annual rainfall by measuring only 5 summer days.',
     chartLabel: 'Traditional method',
     chartSubtitle: 'Wöhler curve construction — statistical standard',
     compareCol1: {
@@ -385,7 +385,7 @@ export const dict = {
     block1AfterPart1: 'With traditional methods, 20+ specimens make it possible to build a ',
     block1AfterHi: 'P-S-N curve',
     block1AfterPart2:
-      ' (Probability-Stress-Number of Cycles): the family of iso-reliability curves at 5%, 50%, 95% on which robust design decisions are built. With FFTT you reach the same result with a handful of specimens, in under 48 hours.',
+      ' (Probability-Stress-Number of Cycles): the family of iso-reliability curves at 5%, 50%, 95% on which robust design decisions are built. FFTT enables to reach the same result with a handful of specimens, in under 48 hours.',
     case2Tag: 'case study 2',
     case2H2Line1: 'Fatigue evaluation of a',
     case2H2Line2: 'naval structural steel.',
@@ -393,15 +393,18 @@ export const dict = {
     case2Cards: [
       {
         title: 'Case study image 1',
-        body: 'S-N curve with scatter band obtained through traditional fatigue methods. Test time: about 500 hours.',
+        body: 'S-N curve with scatter band obtained through traditional fatigue methods.',
+        testTime: 'Test time: about 500 hours',
       },
       {
         title: 'Case study image 2',
-        body: 'Fatigue limit evaluation via the thermographic method. Test time: about 8 hours.',
+        body: 'Fatigue limit evaluation via the thermographic method.',
+        testTime: 'Test time: about 8 hours',
       },
       {
         title: 'Case study image 3',
         body: 'Comparison between the S-N value obtained from stepwise testing via the thermographic method and the scatter band of traditional fatigue tests.',
+        testTime: '',
       },
     ],
   },

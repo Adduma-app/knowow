@@ -393,15 +393,18 @@ export const dict = {
     case2Cards: [
       {
         title: 'Titolo caso studio 1',
-        body: 'Curva S-N con banda di dispersione ottenuta tramite metodi di fatica tradizionali. Tempo di prova: circa 500 ore',
+        body: 'Curva S-N con banda di dispersione ottenuta tramite metodi di fatica tradizionali.',
+        testTime: 'Tempo di prova: circa 500 ore',
       },
       {
         title: 'Titolo caso studio 2',
-        body: 'Valutazione del limite di fatica mediante il metodo termografico.Tempo di prova: circa 8 ore',
+        body: 'Valutazione del limite di fatica mediante il metodo termografico.',
+        testTime: 'Tempo di prova: circa 8 ore',
       },
       {
         title: 'Titolo caso studio 3',
         body: 'Confronto tra il valore S-N ottenuto con prove a gradini mediante metodo termografico e la banda di dispersione delle prove di fatica tradizionali',
+        testTime: '',
       },
     ],
   },
