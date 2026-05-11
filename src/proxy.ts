@@ -56,7 +56,13 @@ export function proxy(req: NextRequest) {
   // 2. Nessuna scelta esplicita → leggi paese da header Vercel
   // Su ambiente locale (npm run dev) l'header non esiste, quindi country è null
   // → in dev e per gli IP italiani, restiamo in italiano
-  const country = req.headers.get('x-vercel-ip-country')
+  // Solo su preview Vercel: permettiamo l'override con ?_geo=XX per testare
+  // dal browser senza VPN. In produzione l'override è disattivato.
+  let country = req.headers.get('x-vercel-ip-country')
+  if (process.env.VERCEL_ENV === 'preview') {
+    const geoOverride = req.nextUrl.searchParams.get('_geo')
+    if (geoOverride) country = geoOverride.toUpperCase()
+  }
 
   if (!country || country === 'IT') {
     return NextResponse.next()
