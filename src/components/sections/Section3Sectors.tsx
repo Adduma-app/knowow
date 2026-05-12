@@ -92,7 +92,7 @@ export default function Section3Sectors({ dict }: { dict: Dictionary['sectors'] 
     <section
       id="settori"
       ref={sectionRef}
-      className="relative pt-24 md:pt-32 pb-32 md:pb-48 px-4 md:px-16 lg:px-24 overflow-hidden"
+      className="relative pt-24 md:pt-32 pb-40 md:pb-64 px-4 md:px-16 lg:px-24 overflow-hidden"
     >
      
 
