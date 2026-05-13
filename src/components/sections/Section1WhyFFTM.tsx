@@ -287,9 +287,9 @@ function BenefitsSticky({ dict, ctaLabel, technologyHref }: { dict: WhyDict; cta
           <span className="text-micro text-[#E9704D] block mb-3">{dict.label}</span>
           <motion.h3
             key={activeIndex}
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.45 }}
             className="font-sans font-bold uppercase text-white leading-tight mb-4"
             style={{ fontSize: 'clamp(1.5rem, 2.5vw, 1.875rem)', letterSpacing: '-0.01em' }}
           >
@@ -299,9 +299,9 @@ function BenefitsSticky({ dict, ctaLabel, technologyHref }: { dict: WhyDict; cta
           {activeIndex === 2 && (
             <motion.div
               key="cta-link"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.45, delay: 0.15 }}
             >
               <SiteButton variant="primary" href={technologyHref}>
                 {ctaLabel}
