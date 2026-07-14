@@ -283,6 +283,10 @@ export const dict = {
     contactsLabel: 'Contact',
     associationLabel: 'Member of Confindustria via Sicindustria',
     rightsReserved: 'Knowow s.r.l. — All rights reserved',
+    legalLabel: 'Legal',
+    privacyLabel: 'Privacy Policy',
+    cookieLabel: 'Cookie Policy',
+    manageCookies: 'Manage cookies',
   },
 
   partner: {
@@ -407,6 +411,122 @@ export const dict = {
         testTime: '',
       },
     ],
+  },
+
+  cookie: {
+    ariaLabel: 'Cookie notice',
+    title: 'We respect your privacy',
+    body: 'We use technical cookies required for the site to work and, with your consent, analytics cookies (Google Analytics) to understand how it is used. You can accept, reject or choose.',
+    readMore: 'Cookie Policy',
+    acceptAll: 'Accept all',
+    reject: 'Reject',
+    customize: 'Customise',
+    save: 'Save preferences',
+    necessaryTitle: 'Necessary cookies',
+    necessaryDesc: 'Essential for the site to work (e.g. language preference). No consent required.',
+    alwaysOn: 'Always on',
+    analyticsTitle: 'Analytics cookies',
+    analyticsDesc: 'Google Analytics 4, for anonymous, aggregated usage statistics.',
+  },
+
+  legal: {
+    privacy: {
+      title: 'Privacy Policy',
+      lastUpdated: 'Last updated: July 2026',
+      intro:
+        'This policy describes how personal data of users browsing knowow.tech and using the contact form is processed, pursuant to Articles 13 and 14 of Regulation (EU) 2016/679 (GDPR).',
+      sections: [
+        {
+          heading: 'Data controller',
+          paragraphs: [
+            'The data controller is Knowow s.r.l., VAT 03698560830, an academic spin-off of the University of Messina.',
+            'Registered office: Dipartimento di Ingegneria – Contrada Di Dio snc, 98166 Messina (ME), Italy. For any request regarding personal data you can write to: info@knowow.tech.',
+          ],
+        },
+        {
+          heading: 'Data processed and purposes',
+          paragraphs: [
+            'We process the personal data you voluntarily provide through the contact form on the site: name, email address, company and any message.',
+            'This data is used solely to reply to your requests, manage the business enquiry and provide the information you requested about our services.',
+            'With your consent, we also collect aggregated, anonymous navigation data through analytics cookies (see Cookie Policy).',
+          ],
+        },
+        {
+          heading: 'Legal basis',
+          list: [
+            'Contact form: performance of pre-contractual measures taken at your request and legitimate interest in replying (Art. 6.1.b and 6.1.f GDPR).',
+            'Analytics cookies: consent of the data subject (Art. 6.1.a GDPR).',
+          ],
+        },
+        {
+          heading: 'Processing methods and recipients',
+          paragraphs: [
+            'Data is processed with electronic tools, adopting appropriate security measures. Messages sent through the contact form are delivered to info@knowow.tech via the Resend service (Resend, Inc.), acting as data processor.',
+            'The Google Analytics 4 service is provided by Google Ireland Ltd. Some providers may involve the transfer of data to third countries (e.g. USA): such transfers take place under the safeguards provided by the GDPR (standard contractual clauses and/or Data Privacy Framework).',
+          ],
+        },
+        {
+          heading: 'Retention period',
+          paragraphs: [
+            'Data collected through the contact form is retained for as long as necessary to handle the request and any subsequent obligations, and in any case no longer than 24 months from the last contact, unless otherwise required by law.',
+            'Statistical data collected via analytics cookies is retained according to the terms set out in the Cookie Policy.',
+          ],
+        },
+        {
+          heading: 'Rights of the data subject',
+          paragraphs: [
+            'At any time you may exercise the rights set out in Articles 15-22 GDPR: access, rectification, erasure, restriction, objection and data portability, as well as withdrawal of consent given.',
+            'To exercise these rights, write to info@knowow.tech. You also have the right to lodge a complaint with the Italian Data Protection Authority (www.garanteprivacy.it).',
+          ],
+        },
+      ],
+    },
+    cookiePolicy: {
+      title: 'Cookie Policy',
+      lastUpdated: 'Last updated: July 2026',
+      intro:
+        'This Cookie Policy explains what cookies are, which cookies knowow.tech uses and how you can manage your preferences, in line with the Italian Data Protection Authority guidelines and the ePrivacy Directive.',
+      sections: [
+        {
+          heading: 'What cookies are',
+          paragraphs: [
+            'Cookies are small text files that visited sites send to the user’s device, where they are stored to be sent back to the same sites on the next visit. They can be first-party (set by this site) or third-party (set by external services).',
+          ],
+        },
+        {
+          heading: 'Technical cookies (necessary)',
+          paragraphs: [
+            'These are essential for the site to work correctly and do not require the user’s consent. They are installed automatically.',
+          ],
+          table: {
+            headers: ['Cookie', 'Purpose', 'Duration', 'Party'],
+            rows: [
+              ['knowow_lang', 'Stores the chosen language (IT/EN)', '12 months', 'First party'],
+              ['knowow_consent', 'Stores your cookie preferences', '6 months', 'First party'],
+            ],
+          },
+        },
+        {
+          heading: 'Analytics cookies (statistics)',
+          paragraphs: [
+            'These are installed only with your consent and are used to collect aggregated information about site usage. We use Google Analytics 4 with anonymised IP and in Consent Mode: no analytics cookie is installed until you give consent.',
+          ],
+          table: {
+            headers: ['Cookie', 'Purpose', 'Duration', 'Party'],
+            rows: [
+              ['_ga', 'Distinguishes users (statistics)', '24 months', 'Google Analytics'],
+              ['_ga_*', 'Maintains session state', '24 months', 'Google Analytics'],
+            ],
+          },
+        },
+        {
+          heading: 'Managing your preferences',
+          paragraphs: [
+            'You can change or withdraw your choices at any time by clicking "Manage cookies" in the site footer. You can also block or delete cookies through your browser settings; disabling technical cookies may make some site features unavailable.',
+          ],
+        },
+      ],
+    },
   },
 
   jsonLd: {
