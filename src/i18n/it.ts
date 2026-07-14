@@ -283,6 +283,10 @@ export const dict = {
     contactsLabel: 'Contatti',
     associationLabel: 'Associato Confindustria tramite Sicindustria',
     rightsReserved: 'Knowow s.r.l. — Tutti i diritti riservati',
+    legalLabel: 'Note legali',
+    privacyLabel: 'Privacy Policy',
+    cookieLabel: 'Cookie Policy',
+    manageCookies: 'Gestisci cookie',
   },
 
   partner: {
@@ -407,6 +411,122 @@ export const dict = {
         testTime: '',
       },
     ],
+  },
+
+  cookie: {
+    ariaLabel: 'Informativa sui cookie',
+    title: 'Rispettiamo la tua privacy',
+    body: 'Usiamo cookie tecnici necessari al funzionamento del sito e, previo tuo consenso, cookie di analisi (Google Analytics) per capire come viene utilizzato. Puoi accettare, rifiutare o scegliere.',
+    readMore: 'Cookie Policy',
+    acceptAll: 'Accetta tutti',
+    reject: 'Rifiuta',
+    customize: 'Personalizza',
+    save: 'Salva preferenze',
+    necessaryTitle: 'Cookie necessari',
+    necessaryDesc: 'Indispensabili al funzionamento del sito (es. preferenza di lingua). Non richiedono consenso.',
+    alwaysOn: 'Sempre attivi',
+    analyticsTitle: 'Cookie di analisi',
+    analyticsDesc: 'Google Analytics 4, per statistiche anonime e aggregate sull’utilizzo del sito.',
+  },
+
+  legal: {
+    privacy: {
+      title: 'Privacy Policy',
+      lastUpdated: 'Ultimo aggiornamento: luglio 2026',
+      intro:
+        'La presente informativa descrive le modalità di trattamento dei dati personali degli utenti che consultano il sito knowow.tech e che utilizzano il modulo di contatto, ai sensi degli artt. 13 e 14 del Regolamento (UE) 2016/679 (GDPR).',
+      sections: [
+        {
+          heading: 'Titolare del trattamento',
+          paragraphs: [
+            'Il Titolare del trattamento è Knowow s.r.l., P.IVA 03698560830, spin-off dell’Università di Messina.',
+            'Sede legale: Dipartimento di Ingegneria – Contrada Di Dio snc, 98166 Messina (ME). Per qualsiasi richiesta relativa ai dati personali è possibile scrivere a: info@knowow.tech.',
+          ],
+        },
+        {
+          heading: 'Dati trattati e finalità',
+          paragraphs: [
+            'Trattiamo i dati personali che ci fornisci volontariamente tramite il modulo di contatto presente sul sito: nome, indirizzo email, azienda ed eventuale messaggio.',
+            'Tali dati sono utilizzati esclusivamente per rispondere alle tue richieste, gestire il contatto commerciale e fornirti le informazioni richieste sui nostri servizi.',
+            'Raccogliamo inoltre, previo consenso, dati di navigazione in forma aggregata e anonima tramite cookie di analisi (vedi Cookie Policy).',
+          ],
+        },
+        {
+          heading: 'Base giuridica',
+          list: [
+            'Modulo di contatto: esecuzione di misure precontrattuali adottate su tua richiesta e legittimo interesse a rispondere (art. 6.1.b e 6.1.f GDPR).',
+            'Cookie di analisi: consenso dell’interessato (art. 6.1.a GDPR).',
+          ],
+        },
+        {
+          heading: 'Modalità del trattamento e destinatari',
+          paragraphs: [
+            'I dati sono trattati con strumenti elettronici, adottando misure di sicurezza adeguate. I messaggi inviati tramite il modulo di contatto vengono recapitati alla casella info@knowow.tech tramite il servizio Resend (Resend, Inc.), che agisce come responsabile del trattamento.',
+            'Il servizio di analisi Google Analytics 4 è fornito da Google Ireland Ltd. Alcuni fornitori possono comportare il trasferimento di dati verso Paesi terzi (es. USA): tali trasferimenti avvengono sulla base delle garanzie previste dal GDPR (clausole contrattuali standard e/o Data Privacy Framework).',
+          ],
+        },
+        {
+          heading: 'Periodo di conservazione',
+          paragraphs: [
+            'I dati raccolti tramite il modulo di contatto sono conservati per il tempo necessario a gestire la richiesta e per gli eventuali adempimenti successivi, e comunque non oltre 24 mesi dall’ultimo contatto, salvo diversi obblighi di legge.',
+            'I dati statistici raccolti tramite cookie di analisi sono conservati secondo i termini indicati nella Cookie Policy.',
+          ],
+        },
+        {
+          heading: 'Diritti dell’interessato',
+          paragraphs: [
+            'In qualsiasi momento puoi esercitare i diritti previsti dagli artt. 15-22 GDPR: accesso, rettifica, cancellazione, limitazione, opposizione e portabilità dei dati, oltre alla revoca del consenso prestato.',
+            'Per esercitare tali diritti scrivi a info@knowow.tech. Hai inoltre il diritto di proporre reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).',
+          ],
+        },
+      ],
+    },
+    cookiePolicy: {
+      title: 'Cookie Policy',
+      lastUpdated: 'Ultimo aggiornamento: luglio 2026',
+      intro:
+        'Questa Cookie Policy spiega cosa sono i cookie, quali cookie utilizza il sito knowow.tech e come puoi gestire le tue preferenze, in conformità alle Linee guida del Garante Privacy e alla Direttiva ePrivacy.',
+      sections: [
+        {
+          heading: 'Cosa sono i cookie',
+          paragraphs: [
+            'I cookie sono piccoli file di testo che i siti visitati inviano al dispositivo dell’utente, dove vengono memorizzati per essere ritrasmessi agli stessi siti alla visita successiva. Possono essere di prima parte (impostati da questo sito) o di terza parte (impostati da servizi esterni).',
+          ],
+        },
+        {
+          heading: 'Cookie tecnici (necessari)',
+          paragraphs: [
+            'Sono indispensabili per il corretto funzionamento del sito e non richiedono il consenso dell’utente. Vengono installati automaticamente.',
+          ],
+          table: {
+            headers: ['Cookie', 'Finalità', 'Durata', 'Titolare'],
+            rows: [
+              ['knowow_lang', 'Memorizza la lingua scelta (IT/EN)', '12 mesi', 'Prima parte'],
+              ['knowow_consent', 'Memorizza le preferenze sui cookie', '6 mesi', 'Prima parte'],
+            ],
+          },
+        },
+        {
+          heading: 'Cookie di analisi (statistici)',
+          paragraphs: [
+            'Vengono installati solo previo tuo consenso e servono a raccogliere informazioni in forma aggregata sull’utilizzo del sito. Utilizziamo Google Analytics 4 con IP anonimizzato e in modalità Consent Mode: nessun cookie di analisi viene installato finché non presti il consenso.',
+          ],
+          table: {
+            headers: ['Cookie', 'Finalità', 'Durata', 'Titolare'],
+            rows: [
+              ['_ga', 'Distingue gli utenti (statistiche)', '24 mesi', 'Google Analytics'],
+              ['_ga_*', 'Mantiene lo stato della sessione', '24 mesi', 'Google Analytics'],
+            ],
+          },
+        },
+        {
+          heading: 'Gestione delle preferenze',
+          paragraphs: [
+            'Puoi modificare o revocare in qualsiasi momento le tue scelte cliccando su "Gestisci cookie" nel footer del sito. Puoi inoltre bloccare o eliminare i cookie tramite le impostazioni del tuo browser; disabilitando i cookie tecnici alcune funzionalità del sito potrebbero non essere disponibili.',
+          ],
+        },
+      ],
+    },
   },
 
   jsonLd: {

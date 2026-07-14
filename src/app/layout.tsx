@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 import SmoothScroll from '@/components/ui/SmoothScroll'
 import CustomCursor from '@/components/ui/CustomCursor'
+import ConsentInit from '@/components/analytics/ConsentInit'
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
+import CookieBanner from '@/components/cookie/CookieBanner'
 import { dict as itDict } from '@/i18n/it'
 
 export const metadata: Metadata = {
@@ -75,6 +78,7 @@ export default function RootLayout({
   return (
     <html lang={itDict.htmlLang} className="h-full" suppressHydrationWarning>
       <head>
+        <ConsentInit />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -85,6 +89,8 @@ export default function RootLayout({
         <SmoothScroll>
           {children}
         </SmoothScroll>
+        <CookieBanner />
+        <GoogleAnalytics />
       </body>
     </html>
   )

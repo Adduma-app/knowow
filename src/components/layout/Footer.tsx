@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import type { Dictionary } from '@/i18n/it'
+import FooterLegal from '@/components/layout/FooterLegal'
 
 export default function Footer({ dict }: { dict: Dictionary['footer'] }) {
   return (
@@ -59,6 +60,7 @@ export default function Footer({ dict }: { dict: Dictionary['footer'] }) {
         {/* Bottom bar */}
         <div className="border-t border-white/[0.05] mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-white/25">
           <span>{dict.rightsReserved}</span>
+          <FooterLegal />
         </div>
       </div>
     </footer>

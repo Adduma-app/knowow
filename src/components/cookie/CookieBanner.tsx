@@ -1,0 +1,136 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { dict as itDict } from '@/i18n/it'
+import { dict as enDict } from '@/i18n/en'
+import { readConsent, writeConsent, OPEN_PREFS_EVENT } from '@/lib/consent'
+
+// ─── Banner cookie + pannello preferenze ─────────────────────────────────────
+// - Appare al primo accesso (nessun cookie `knowow_consent`).
+// - "Accetta tutti" / "Rifiuta" registrano la scelta e chiudono.
+// - "Personalizza" apre i toggle per categoria.
+// - Riapribile in ogni momento dal link "Gestisci cookie" nel footer
+//   (evento window `knowow:open-cookie-prefs`).
+export default function CookieBanner() {
+  const pathname = usePathname()
+  const t = (pathname?.startsWith('/en') ? enDict : itDict).cookie
+
+  const [open, setOpen] = useState(false)
+  const [customizing, setCustomizing] = useState(false)
+  const [analytics, setAnalytics] = useState(false)
+
+  // Al mount decidiamo se mostrare il banner (solo se non c'è già una scelta).
+  useEffect(() => {
+    const existing = readConsent()
+    if (!existing) {
+      setOpen(true)
+    } else {
+      setAnalytics(existing.analytics)
+    }
+    const reopen = () => {
+      const cur = readConsent()
+      setAnalytics(cur?.analytics ?? false)
+      setCustomizing(true)
+      setOpen(true)
+    }
+    window.addEventListener(OPEN_PREFS_EVENT, reopen)
+    return () => window.removeEventListener(OPEN_PREFS_EVENT, reopen)
+  }, [])
+
+  if (!open) return null
+
+  const close = () => {
+    setOpen(false)
+    setCustomizing(false)
+  }
+
+  const acceptAll = () => {
+    writeConsent(true)
+    close()
+  }
+  const rejectAll = () => {
+    writeConsent(false)
+    close()
+  }
+  const saveChoice = () => {
+    writeConsent(analytics)
+    close()
+  }
+
+  const policyHref = pathname?.startsWith('/en') ? '/en/cookie-policy' : '/cookie-policy'
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={t.ariaLabel}
+      className="fixed inset-x-0 bottom-0 z-[200] p-4 sm:p-6"
+    >
+      <div className="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-[#0F1120]/95 backdrop-blur-md shadow-2xl p-6 md:p-8">
+        <h2 className="text-white text-lg font-medium mb-2">{t.title}</h2>
+        <p className="text-sm text-white/60 leading-relaxed">
+          {t.body}{' '}
+          <a href={policyHref} className="text-[#E9704D] hover:underline">
+            {t.readMore}
+          </a>
+        </p>
+
+        {customizing && (
+          <div className="mt-5 flex flex-col gap-3">
+            <div className="flex items-start justify-between gap-4 rounded-xl bg-white/[0.03] p-4">
+              <div>
+                <p className="text-sm text-white/80">{t.necessaryTitle}</p>
+                <p className="text-xs text-white/40 mt-0.5">{t.necessaryDesc}</p>
+              </div>
+              <span className="text-xs text-white/40 shrink-0 mt-0.5">{t.alwaysOn}</span>
+            </div>
+            <label className="flex items-start justify-between gap-4 rounded-xl bg-white/[0.03] p-4 cursor-pointer">
+              <div>
+                <p className="text-sm text-white/80">{t.analyticsTitle}</p>
+                <p className="text-xs text-white/40 mt-0.5">{t.analyticsDesc}</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={analytics}
+                onChange={(e) => setAnalytics(e.target.checked)}
+                className="mt-1 h-4 w-4 shrink-0 accent-[#E9704D]"
+                aria-label={t.analyticsTitle}
+              />
+            </label>
+          </div>
+        )}
+
+        <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:justify-end">
+          {!customizing ? (
+            <button
+              onClick={() => setCustomizing(true)}
+              className="text-sm text-white/60 hover:text-white transition-colors px-4 py-2.5"
+            >
+              {t.customize}
+            </button>
+          ) : (
+            <button
+              onClick={saveChoice}
+              className="text-sm text-white/80 hover:text-white transition-colors px-4 py-2.5 rounded-full border border-white/15"
+            >
+              {t.save}
+            </button>
+          )}
+          <button
+            onClick={rejectAll}
+            className="text-sm text-white/80 hover:text-white transition-colors px-5 py-2.5 rounded-full border border-white/15"
+          >
+            {t.reject}
+          </button>
+          <button
+            onClick={acceptAll}
+            className="text-sm font-medium text-white px-5 py-2.5 rounded-full bg-[#E9704D] hover:bg-[#E9704D]/90 transition-colors"
+          >
+            {t.acceptAll}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
