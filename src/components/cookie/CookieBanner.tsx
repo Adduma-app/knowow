@@ -68,7 +68,10 @@ export default function CookieBanner() {
       aria-label={t.ariaLabel}
       className="fixed inset-x-0 bottom-0 z-[200] p-4 sm:p-6"
     >
-      <div className="mx-auto max-w-2xl clip-card-footer bg-[#0F1120] shadow-2xl p-7 md:p-10">
+      <div
+        className="mx-auto max-w-2xl bg-[#0F1120] shadow-2xl p-6 md:p-8"
+        style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px))' }}
+      >
         <h2 className="text-white text-lg font-medium mb-2">{t.title}</h2>
         <p className="text-sm text-white/60 leading-relaxed">
           {t.body}{' '}
@@ -104,18 +107,18 @@ export default function CookieBanner() {
 
         <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:justify-end sm:items-center">
           {!customizing ? (
-            <SiteButton variant="ghost" clip="tr" onClick={() => setCustomizing(true)}>
+            <SiteButton variant="ghost" clip="bl" onClick={() => setCustomizing(true)}>
               {t.customize}
             </SiteButton>
           ) : (
-            <SiteButton variant="ghost" clip="tr" onClick={saveChoice}>
+            <SiteButton variant="ghost" clip="bl" onClick={saveChoice}>
               {t.save}
             </SiteButton>
           )}
-          <SiteButton variant="ghost" clip="tr" onClick={rejectAll}>
+          <SiteButton variant="ghost" clip="bl" onClick={rejectAll}>
             {t.reject}
           </SiteButton>
-          <SiteButton variant="primary" clip="tr" onClick={acceptAll}>
+          <SiteButton variant="primary" clip="bl" onClick={acceptAll}>
             {t.acceptAll}
           </SiteButton>
         </div>
