@@ -318,6 +318,29 @@ export default function Section4Ecosystem({ dict, extras }: { dict: EcoDict; ext
                 key={service.num}
                 className="eco-panel relative flex items-center justify-center h-[60vh]"
               >
+                {service.image && (
+                  <div
+                    className="absolute inset-0 z-0 pointer-events-none opacity-40 lg:opacity-100"
+                    aria-hidden="true"
+                    style={{
+                      maskImage:
+                        'linear-gradient(to right, #000 50%, transparent 92%), linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent)',
+                      maskComposite: 'intersect',
+                      WebkitMaskImage:
+                        'linear-gradient(to right, #000 50%, transparent 92%), linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent)',
+                      WebkitMaskComposite: 'source-in',
+                    }}
+                  >
+                    <Image
+                      src={service.image}
+                      alt=""
+                      fill
+                      sizes="100vw"
+                      quality={90}
+                      className="object-cover object-left"
+                    />
+                  </div>
+                )}
                 <div
                   className={`eco-text absolute z-20 max-w-xs ${
                     isEven

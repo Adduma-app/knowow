@@ -209,6 +209,7 @@ export const dict = {
         num: '05.',
         title: 'Intelligence-Driven Software',
         keyword: 'AI',
+        image: '/media/intelligence-driven-software.webp',
         subtitle: 'AI-Powered Software',
         text: 'Knowow sviluppa soluzioni software basate su modelli di intelligenza artificiale per aziende, enti di ricerca e istituzioni che lavorano con dati complessi. Dalla progettazione del modello all’integrazione in produzione, affianchiamo i nostri clienti in ogni fase del processo, con un approccio orientato alla tracciabilità, alla riproducibilità e alla concreta utilità dei risultati.',
         icon: '/favicon.webp',
