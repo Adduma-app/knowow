@@ -205,6 +205,14 @@ export const dict = {
         text: 'Custom design and development of innovative engineering solutions. ',
         icon: '/favicon.webp',
       },
+      {
+        num: '05.',
+        title: 'Intelligence-Driven Software',
+        keyword: 'AI',
+        subtitle: 'AI-Powered Software',
+        text: 'Knowow develops AI-powered software solutions for companies, research institutions and organisations working with complex data. From model design to production deployment, we support our clients at every stage of the process, with a focus on traceability, reproducibility and the practical value of results.',
+        icon: '/favicon.webp',
+      },
     ],
   },
 
